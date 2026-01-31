@@ -34,7 +34,7 @@ Terraform v1.14.4
 on linux_amd64
 ```
 
-Para maiores informações, consulte: <a href="https://developer.hashicorp.com/terraform/install" target="_blank" rel="noopener noreferrer">Hashicorp - Install Terraform</a>
+- Para maiores informações, consulte: <a href="https://developer.hashicorp.com/terraform/install" target="_blank" rel="noopener noreferrer">Hashicorp - Install Terraform</a>
 
 ## 4. Entrar no diretório Terraform
 
@@ -86,7 +86,7 @@ Esse usuário precisa ter permissões suficientes para criar e gerenciar recurso
 
 OCID do compartimento raiz onde os recursos serão provisionados.
 
-Para maiores informações, consulte: <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devguidesetupprereq.htm" target="_blank" rel="noopener noreferrer">OCI - Setup and Prerequisites</a>
+- Para maiores informações, consulte: <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devguidesetupprereq.htm" target="_blank" rel="noopener noreferrer">OCI - Setup and Prerequisites</a>
 
 ## 7. Inicializar Terraform
 
