@@ -3,7 +3,6 @@
 ## ```vcn-appl-1```
 
 - Descrição................: VCN para hospedagem de aplicações #1.
-<br>
 - IPv4 CIDR Prefixes.: 10.50.0.0/16
 - IPv6 CIDR Prefixes.: fd91:ab42:1200::/48
 
@@ -16,7 +15,6 @@
 ## ```vcn-appl-2```
 
 - Descrição................: VCN para hospedagem de aplicações #2.
-<br>
 - IPv4 CIDR Prefixes.: 10.60.0.0/16
 - IPv6 CIDR Prefixes.: fd55:77cc:8d00::/48
 
@@ -29,7 +27,6 @@
 ## ```vcn-db```
 
 - Descrição................: VCN pública utilizada para tráfego de saída para a Internet.
-<br>
 - IPv4 CIDR Prefixes.: 10.100.0.0/16
 - IPv6 CIDR Prefixes.: fd3f:9012:aa00::/48
 
@@ -42,7 +39,6 @@
 ## ```vcn-publica```
 
 - Descrição................: VCN pública utilizada para tráfego de saída para a Internet.
-<br>
 - IPv4 CIDR Prefixes.: 10.90.0.0/16
 - IPv6 CIDR Prefixes.: ** OCI GUA **
 
@@ -55,7 +51,6 @@
 ## ```vcn-fw-interno```
 
 - Descrição................: VCN que abriga as VNICs do firewall e do Network Load Balancer interno, responsável pela inspeção do tráfego entre as VCNs de aplicação e o tráfego de saída para a Internet.
-<br>
 - IPv4 CIDR Prefixes.: 10.70.0.0/16
 - IPv6 CIDR Prefixes.: fd82:44ee:f000::/48
 
