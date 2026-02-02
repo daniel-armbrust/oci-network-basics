@@ -42,12 +42,12 @@ variable "vcn_ipv6_cidr" {
     type = string
 }
 
-variable "subnprv-appl_cidr" {
+variable "subnprv-1_cidr" {
     description = "Prefixo IPv4 da Sub-rede Privada"
     type = string
 }
 
-variable "subnprv-appl_ipv6_cidr" {
+variable "subnprv-1_ipv6_cidr" {
     description = "Prefixo IPv6 da Sub-rede Privada"
     type = string
 }

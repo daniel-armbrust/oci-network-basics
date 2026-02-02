@@ -2,7 +2,7 @@
 # vcn-fw-externo/securitylist.tf
 #
 
-resource "oci_core_security_list" "secl-1_subnprv-externo_vcn-fw-externo" {
+resource "oci_core_security_list" "secl-1_subnprv-1" {
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-fw-externo.id
     display_name = "secl-1_subnprv-1"

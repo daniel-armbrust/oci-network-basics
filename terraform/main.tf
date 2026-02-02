@@ -52,6 +52,19 @@ module "vcn-appl-2" {
     sgw_all_oci_services = local.gru_all_oci_services  
 }
 
+# VCN Publica (vcn-publica)
+module "vcn-publica" {
+    source = "./vcn-publica"
+    root_compartment = var.root_compartment
+
+    # IPv4
+    vcn_cidr = local.vcn-publica_cidr
+    subnpub-1_cidr = local.vcn-publica_subnpub-1_cidr
+
+    # Meu endereço IP Publico.
+    meu_ip-publico = local.meu_ip-publico 
+}
+
 # VCN do Banco de Dados (vcn-db)
 module "vcn-db" {
     source = "./vcn-db"
@@ -80,11 +93,11 @@ module "vcn-fw-interno" {
 
     # IPv4
     vcn_cidr = local.vcn-fw-interno_cidr
-    subnprv-appl_cidr = local.vcn-fw-interno_subnprv-appl_cidr
+    subnprv-1_cidr = local.vcn-fw-interno_subnprv-1_cidr
 
     # IPv6
     vcn_ipv6_cidr = local.vcn-fw-interno_ipv6_cidr
-    subnprv-appl_ipv6_cidr = local.vcn-fw-interno_subnprv-appl_ipv6_cidr
+    subnprv-1_ipv6_cidr = local.vcn-fw-interno_subnprv-1_ipv6_cidr
     
     # DRG, Attachments
     vcn-appl-1_drg-attch_id = module.vcn-appl-1.drg-attch_id
@@ -105,13 +118,13 @@ module "vcn-fw-externo" {
 
     # IPv4
     vcn_cidr = local.vcn-fw-externo_cidr
-    subnprv-externo_cidr = local.vcn-fw-externo_subnprv_cidr
+    subnprv-1_cidr = local.vcn-fw-externo_subnprv-1_cidr
     vcn-appl-1_cidr = local.vcn-appl-1_cidr
     vcn-appl-2_cidr = local.vcn-appl-2_cidr
     
     # IPv6
     vcn_ipv6_cidr = local.vcn-fw-externo_ipv6_cidr
-    subnprv-externo_ipv6_cidr = local.vcn-fw-externo_subnprv_ipv6_cidr
+    subnprv-1_ipv6_cidr = local.vcn-fw-externo_subnprv-1_ipv6_cidr
     vcn-appl-1_ipv6_cidr = local.vcn-appl-1_ipv6_cidr
     vcn-appl-2_ipv6_cidr = local.vcn-appl-2_ipv6_cidr
 
@@ -123,17 +136,24 @@ module "vcn-fw-externo" {
     nlb_fw-externo_ip_id = module.nlb.nlb_fw-externo_private-ip_id   
 }
 
-# VCN Publica (vcn-publica)
-module "vcn-publica" {
-    source = "./vcn-publica"
+# Network Load Balancers
+module "nlb" {
+    source = "./nlb"
     root_compartment = var.root_compartment
 
-    # IPv4
-    vcn_cidr = local.vcn-publica_cidr
-    subnpub-internet_cidr = local.vcn-publica_subnpub-internet_cidr
+    nlb_fw-interno_ip = local.nlb_fw-interno_ip
+    nlb_fw-externo_ip = local.nlb_fw-externo_ip
 
-    # Meu endereço IP Publico.
-    meu_ip-publico = local.meu_ip-publico 
+    fw-interno_subnet_id = module.vcn-fw-interno.subnprv-1_id
+    fw-externo_subnet_id = module.vcn-fw-externo.subnprv-1_id
+       
+    # Firewall #1
+    firewall-1_appl-ip = local.firewall-1_appl-ip 
+    firewall-1_externo-ip = local.firewall-1_externo-ip
+
+    # Firewall #2
+    firewall-2_appl-ip = local.firewall-2_appl-ip
+    firewall-2_externo-ip = local.firewall-2_externo-ip
 }
 
 module "vm-firewall" {
@@ -152,15 +172,15 @@ module "vm-firewall" {
 
     # IPv4
     vcn-fw-interno_cidr = local.vcn-fw-interno_cidr
-    vcn-fw-interno_subnprv-appl_ip-gw = local.vcn-fw-interno_subnprv-appl_ip-gw
+    vcn-fw-interno_subnprv-1_ip-gw = local.vcn-fw-interno_subnprv-1_ip-gw
 
     # IPv6
     vcn-fw-interno_ipv6_cidr = local.vcn-fw-interno_ipv6_cidr
-    vcn-fw-interno_subnprv-appl_ipv6_cidr = local.vcn-fw-interno_subnprv-appl_ipv6_cidr
-    vcn-fw-interno_subnprv-appl_ipv6-gw = local.vcn-fw-interno_subnprv-appl_ipv6-gw
+    vcn-fw-interno_subnprv-1_ipv6_cidr = local.vcn-fw-interno_subnprv-1_ipv6_cidr
+    vcn-fw-interno_subnprv-1_ipv6-gw = local.vcn-fw-interno_subnprv-1_ipv6-gw
     
     # OCID da Sub-rede privada da VCN-FIREWALL-INTERNO
-    vcn-fw-interno_subnprv-appl_id = module.vcn-fw-interno.subnprv-appl_id
+    vcn-fw-interno_subnprv-1_id = module.vcn-fw-interno.subnprv-1_id
 
     #----------------#
     # VCN-FW-EXTERNO #
@@ -168,23 +188,23 @@ module "vm-firewall" {
     
     # IPv4
     vcn-fw-externo_cidr = local.vcn-fw-externo_cidr
-    vcn-fw-externo_subnprv_ip-gw = local.vcn-fw-externo_subnprv_ip-gw
+    vcn-fw-externo_subnprv-1_ip-gw = local.vcn-fw-externo_subnprv-1_ip-gw
     
     # IPv6
     vcn-fw-externo_ipv6_cidr = local.vcn-fw-externo_ipv6_cidr
-    vcn-fw-externo_subnprv_ipv6_cidr = local.vcn-fw-externo_subnprv_ipv6_cidr
-    vcn-fw-externo_subnprv_ipv6-gw = local.vcn-fw-externo_subnprv_ipv6-gw
+    vcn-fw-externo_subnprv-1_ipv6_cidr = local.vcn-fw-externo_subnprv-1_ipv6_cidr
+    vcn-fw-externo_subnprv-1_ipv6-gw = local.vcn-fw-externo_subnprv-1_ipv6-gw
 
     # OCID da Sub-rede privada da VCN-FIREWALL-EXTERNO
-    vcn-fw-externo_subnprv_id = module.vcn-fw-externo.subnprv_id
+    vcn-fw-externo_subnprv-1_id = module.vcn-fw-externo.subnprv-1_id
 
     #-------------#
     # VCN-PUBLICA #
     #-------------#
 
     # IPv4
-    vcn-publica_subnpub-internet_ip-gw = local.vcn-publica_subnpub-internet_ip-gw
-    vcn-publica_subnpub-internet_id = module.vcn-publica.subnpub-internet_id
+    vcn-publica_subnpub-1_ip-gw = local.vcn-publica_subnpub-1_ip-gw
+    vcn-publica_subnpub-1_id = module.vcn-publica.subnpub-1_id
         
     #------------#
     # VCN-APPL-1 #
@@ -236,12 +256,6 @@ module "vm-firewall" {
     onpremises_internet_cidr = local.vcn-onpremises_internet-cidr
     onpremises_rede-app_cidr = local.vcn-onpremises_rede-app-cidr
     onpremises_rede-backup_cidr = local.vcn-onpremises_rede-backup-cidr
-
-    # depends_on = [
-    #     module.vcn-publica,
-    #     module.vcn-fw-interno,
-    #     module.vcn-fw-externo
-    # ]  
 }
 
 module "vm-appl" {
@@ -257,26 +271,6 @@ module "vm-appl" {
     # Endereço IP e Sub-rede ID da VM de Aplicação APPL-2
     appl-2_ip = local.appl-2_ip
     appl-2_subnprv_id = module.vcn-appl-2.subnprv-1_id
-}
-
-# Network Load Balancers
-module "nlb" {
-    source = "./nlb"
-    root_compartment = var.root_compartment
-
-    nlb_fw-interno_ip = local.nlb_fw-interno_ip
-    nlb_fw-externo_ip = local.nlb_fw-externo_ip
-
-    fw-interno_subnet_id = module.vcn-fw-interno.subnprv-appl_id
-    fw-externo_subnet_id = module.vcn-fw-externo.subnprv-externo_id
-       
-    # Firewall #1
-    firewall-1_appl-ip = local.firewall-1_appl-ip 
-    firewall-1_externo-ip = local.firewall-1_externo-ip
-
-    # Firewall #2
-    firewall-2_appl-ip = local.firewall-2_appl-ip
-    firewall-2_externo-ip = local.firewall-2_externo-ip
 }
 
 # Reserva da Endereço IP Publico

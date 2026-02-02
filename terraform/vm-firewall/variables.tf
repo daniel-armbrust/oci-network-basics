@@ -26,7 +26,7 @@ variable "vcn-fw-interno_cidr" {
     type = string 
 }
 
-variable "vcn-fw-interno_subnprv-appl_ip-gw" {
+variable "vcn-fw-interno_subnprv-1_ip-gw" {
     description = "Endereço IPv4 do Gateway da Sub-rede privada"
     type = string
 }
@@ -36,17 +36,17 @@ variable "vcn-fw-interno_ipv6_cidr" {
     type = string 
 }
 
-variable "vcn-fw-interno_subnprv-appl_ipv6_cidr" {
+variable "vcn-fw-interno_subnprv-1_ipv6_cidr" {
     description = "Prefixo IPv6 da Sub-rede privada VCN-FIREWALL-INTERNO"
     type = string
 }
 
-variable "vcn-fw-interno_subnprv-appl_ipv6-gw" {
+variable "vcn-fw-interno_subnprv-1_ipv6-gw" {
     description = "Endereço IPv6 do Gateway da Sub-rede privada VCN-FIREWALL-INTERNO"
     type = string
 }
 
-variable "vcn-fw-interno_subnprv-appl_id" {
+variable "vcn-fw-interno_subnprv-1_id" {
     description = "OCID da Sub-rede privada VCN-FIREWALL-INTERNO"
     type = string
 }
@@ -60,7 +60,7 @@ variable "vcn-fw-externo_cidr" {
     type = string 
 }
 
-variable "vcn-fw-externo_subnprv_ip-gw" {
+variable "vcn-fw-externo_subnprv-1_ip-gw" {
     description = "Endereço IPv4 do Gateway da Sub-rede privada"
     type = string
 }
@@ -70,17 +70,17 @@ variable "vcn-fw-externo_ipv6_cidr" {
     type = string 
 }
 
-variable "vcn-fw-externo_subnprv_ipv6_cidr" {
+variable "vcn-fw-externo_subnprv-1_ipv6_cidr" {
     description = "Prefixo IPv6 da Sub-rede privada VCN-FIREWALL-EXTERNO"
     type = string
 }
 
-variable "vcn-fw-externo_subnprv_ipv6-gw" {
+variable "vcn-fw-externo_subnprv-1_ipv6-gw" {
     description = "Endereço IPv6 do Gateway da Sub-rede privada VCN-FIREWALL-EXTERNO"
     type = string
 }
 
-variable "vcn-fw-externo_subnprv_id" {
+variable "vcn-fw-externo_subnprv-1_id" {
     description = "OCID da Sub-rede privada VCN-FIREWALL-EXTERNO"
     type = string
 }
@@ -117,12 +117,12 @@ variable "vcn-appl-2_ipv6_cidr" {
 # VCN-PUBLICA #
 #-------------#
 
-variable "vcn-publica_subnpub-internet_ip-gw" {
+variable "vcn-publica_subnpub-1_ip-gw" {
     description = "Endereço IPv4 do Gateway da Sub-rede pública"
     type = string
 }
 
-variable "vcn-publica_subnpub-internet_id" {
+variable "vcn-publica_subnpub-1_id" {
     description = "OCID da Sub-rede privada VCN-FIREWALL-INTERNO"
     type = string
 }

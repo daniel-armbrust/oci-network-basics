@@ -3,10 +3,10 @@
 #
 
 # Route Table - Sub-rede Publica #1 (subnpub-1)
-resource "oci_core_route_table" "rt_subnpub-internet_vcn-publica" {   
+resource "oci_core_route_table" "rt_subnpub-1" {   
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-publica.id
-    display_name = "rt_subnpub-internet"   
+    display_name = "rt_subnpub-1"   
 
     # Internet Gateway IPv4
     route_rules {

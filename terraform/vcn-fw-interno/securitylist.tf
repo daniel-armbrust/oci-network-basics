@@ -3,7 +3,7 @@
 #
 
 # Security List #1 - Sub-rede Privada Appl
-resource "oci_core_security_list" "secl-1_subnprv-appl_vcn-fw-interno" {
+resource "oci_core_security_list" "secl-1_subnprv-1" {
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-fw-interno.id
     display_name = "secl-1_subnprv-appl"

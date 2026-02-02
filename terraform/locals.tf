@@ -32,24 +32,24 @@ locals {
 
    # VCN-FW-INTERNO
    vcn-fw-interno_cidr = "10.70.0.0/16"
-   vcn-fw-interno_subnprv-appl_cidr = "10.70.10.0/24"
-   vcn-fw-interno_subnprv-appl_ip-gw = "10.70.10.1"
+   vcn-fw-interno_subnprv-1_cidr = "10.70.10.0/24"
+   vcn-fw-interno_subnprv-1_ip-gw = "10.70.10.1"
    vcn-fw-interno_ipv6_cidr = "fd82:44ee:f000::/48"
-   vcn-fw-interno_subnprv-appl_ipv6_cidr = "fd82:44ee:f000:10::/64"
-   vcn-fw-interno_subnprv-appl_ipv6-gw = "fd82:44ee:f000:10::1"
+   vcn-fw-interno_subnprv-1_ipv6_cidr = "fd82:44ee:f000:10::/64"
+   vcn-fw-interno_subnprv-1_ipv6-gw = "fd82:44ee:f000:10::1"
    
    # VCN-FW-EXTERNO
    vcn-fw-externo_cidr = "10.80.0.0/16"
-   vcn-fw-externo_subnprv_cidr = "10.80.30.0/24"
-   vcn-fw-externo_subnprv_ip-gw = "10.80.30.1"
+   vcn-fw-externo_subnprv-1_cidr = "10.80.30.0/24"
+   vcn-fw-externo_subnprv-1_ip-gw = "10.80.30.1"
    vcn-fw-externo_ipv6_cidr = "fd60:1a2b:9900::/48"
-   vcn-fw-externo_subnprv_ipv6_cidr = "fd60:1a2b:9900:10::/64"
-   vcn-fw-externo_subnprv_ipv6-gw = "fd60:1a2b:9900:10::1"
+   vcn-fw-externo_subnprv-1_ipv6_cidr = "fd60:1a2b:9900:10::/64"
+   vcn-fw-externo_subnprv-1_ipv6-gw = "fd60:1a2b:9900:10::1"
 
    # VCN-PUBLICA
    vcn-publica_cidr = "10.90.0.0/16"
-   vcn-publica_subnpub-internet_cidr = "10.90.20.0/24"
-   vcn-publica_subnpub-internet_ip-gw = "10.90.20.1"
+   vcn-publica_subnpub-1_cidr = "10.90.20.0/24"
+   vcn-publica_subnpub-1_ip-gw = "10.90.20.1"
 
    # Firewall #1 IPs
    firewall-1_appl-ip = "10.70.10.20"

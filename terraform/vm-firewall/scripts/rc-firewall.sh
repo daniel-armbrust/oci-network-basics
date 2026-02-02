@@ -13,24 +13,24 @@ if [ -z "`grep externo /etc/iproute2/rt_tables`" ]; then
    echo '600 externo' >> /etc/iproute2/rt_tables
 fi
 
-# VNIC APPL 
+# VNIC - VCN-FIREWALL-INTERNO
+vcn_fw_interno_cidr="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-fw-interno-cidr`"
 vnic_appl_ip="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vnic-appl-ip`"
-vnic_appl_ip_gw="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vnic-appl-ip-gw`"
+vnic_appl_ip_gw="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-fw-interno-subnprv1-ip-gw`"
 vnic_appl_iface="`ip -o -f inet addr show | grep "$vnic_appl_ip" | awk '{print $2}'`"
 
-# VNIC INTERNET
-vnic_internet_ip="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vnic-internet-ip`"
-vnic_internet_ip_gw="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vnic-internet-ip-gw`"
-vnic_internet_iface="`ip -o -f inet addr show | grep "$vnic_internet_ip" | awk '{print $2}'`"
-
-# VNIC EXTERNO
+# VNIC - VCN-FIREWALL-EXTERNO
+vcn_fw_externo_cidr="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-fw-externo-cidr`"
 vnic_externo_ip="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vnic-externo-ip`"
-vnic_externo_ip_gw="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vnic-externo-ip-gw`"
+vnic_externo_ip_gw="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-fw-externo-subnprv1-ip-gw`"
 vnic_externo_iface="`ip -o -f inet addr show | grep "$vnic_externo_ip" | awk '{print $2}'`"
 
-# VCNs CIDRs
-vcn_fw_interno_cidr="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-fw-interno-cidr`"
-vcn_fw_externo_cidr="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-fw-externo-cidr`"
+# VNIC - VCN-PUBLICA
+vnic_internet_ip="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vnic-internet-ip`"
+vnic_internet_ip_gw="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-publica-subnpub1-ip-gw`"
+vnic_internet_iface="`ip -o -f inet addr show | grep "$vnic_internet_ip" | awk '{print $2}'`"
+
+# VCN-APPL-1, VCN-APPL-2
 vcn_appl_1_cidr="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-appl-1-cidr`"
 vcn_appl_2_cidr="`curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/vcn-appl-2-cidr`"
 

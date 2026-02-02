@@ -3,10 +3,10 @@
 #
 
 # Route Table - Sub-rede Privada LAN
-resource "oci_core_route_table" "rt_subnprv-appl_vcn-fw-interno" {   
+resource "oci_core_route_table" "rt_subnprv-1" {   
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-fw-interno.id
-    display_name = "rt_subnprv-appl"   
+    display_name = "rt_subnprv-1"   
 
     # Service Gateway
     route_rules {

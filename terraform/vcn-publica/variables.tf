@@ -12,7 +12,7 @@ variable "vcn_cidr" {
     type = string
 }
 
-variable "subnpub-internet_cidr" {
+variable "subnpub-1_cidr" {
     description = "Prefixo IPv4 da Sub-rede Pública"
     type = string
 }

@@ -37,15 +37,22 @@ resource "oci_core_instance" "firewall-1" {
     }
 
     extended_metadata = {       
+       # Firewall #1 IPs
+       "vnic-externo-ip" = "${var.firewall-1_externo-ip}"       
+       "vnic-externo-ipv6" = "${var.firewall-1_externo-ipv6}"
+       "vnic-appl-ip" = "${var.firewall-1_appl-ip}"
+       "vnic-appl-ipv6" = "${var.firewall-1_appl-ipv6}"
+       "vnic-internet-ip" = "${var.firewall-1_internet-ip}" 
+       
        # VCN-FIREWALL-INTERNO 
        "vcn-fw-interno-cidr" = "${var.vcn-fw-interno_cidr}"
-       "vcn-fw-interno-subnprv-ip-gw" = "${var.vcn-fw-interno_subnprv-appl_ip-gw}"
-       "vcn-fw-interno-subnprv-ipv6-gw" = "${var.vcn-fw-interno_subnprv-appl_ipv6-gw}"
+       "vcn-fw-interno-subnprv1-ip-gw" = "${var.vcn-fw-interno_subnprv-1_ip-gw}"
+       "vcn-fw-interno-subnprv1-ipv6-gw" = "${var.vcn-fw-interno_subnprv-1_ipv6-gw}"
              
        # VCN-FIREWALL-EXTERNO
        "vcn-fw-externo-cidr" = "${var.vcn-fw-externo_cidr}"
-       "vcn-fw-externo-subnprv-ip-gw" = "${var.vcn-fw-externo_subnprv_ip-gw}"
-       "vcn-fw-externo-subnprv-ipv6-gw" = "${var.vcn-fw-externo_subnprv_ipv6-gw}"
+       "vcn-fw-externo-subnprv1-ip-gw" = "${var.vcn-fw-externo_subnprv-1_ip-gw}"
+       "vcn-fw-externo-subnprv1-ipv6-gw" = "${var.vcn-fw-externo_subnprv-1_ipv6-gw}"
        
        # VCN-APPL-1
        "vcn-appl-1-cidr" = "${var.vcn-appl-1_cidr}"
@@ -56,19 +63,12 @@ resource "oci_core_instance" "firewall-1" {
        "vcn-appl-2-ipv6-cidr" = "${var.vcn-appl-2_ipv6_cidr}"
 
        # VCN-PUBLICA
-       "vcn-publica-subnpub-ip-gw" = "${var.vcn-publica_subnpub-internet_ip-gw}"
+       "vcn-publica-subnpub1-ip-gw" = "${var.vcn-publica_subnpub-1_ip-gw}"
 
        # On-Premises
        "onpremises-internet-cidr" = "${var.onpremises_internet_cidr}"
        "onpremises-rede-app-cidr" = "${var.onpremises_rede-app_cidr}"
-       "onpremises-rede-backup-cidr" = "${var.onpremises_rede-backup_cidr}"
-
-       # Firewall #1 IPs
-       "vnic-externo-ip" = "${var.firewall-1_externo-ip}"       
-       "vnic-externo-ipv6" = "${var.firewall-1_externo-ipv6}"
-       "vnic-appl-ip" = "${var.firewall-1_appl-ip}"
-       "vnic-appl-ipv6" = "${var.firewall-1_appl-ipv6}"
-       "vnic-internet-ip" = "${var.firewall-1_internet-ip}"             
+       "onpremises-rede-backup-cidr" = "${var.onpremises_rede-backup_cidr}"            
     }
 
     # VNIC LAN
@@ -76,14 +76,14 @@ resource "oci_core_instance" "firewall-1" {
         display_name = "vnic-appl"
         hostname_label = "fw1"
         private_ip = "${var.firewall-1_appl-ip}"        
-        subnet_id = "${var.vcn-fw-interno.subnprv-appl_id}"
+        subnet_id = "${var.vcn-fw-interno_subnprv-1_id}"
         skip_source_dest_check = true
         assign_public_ip = false
 
-        # ipv6address_ipv6subnet_cidr_pair_details {
-        #    ipv6subnet_cidr = "${var.vcn-fw-interno_subnprv-appl_ipv6_cidr}"
-        #    ipv6address = "${var.firewall-1_appl-ipv6}"
-        # }        
+        ipv6address_ipv6subnet_cidr_pair_details {
+           ipv6subnet_cidr = "${var.vcn-fw-interno_subnprv-1_ipv6_cidr}"
+           ipv6address = "${var.firewall-1_appl-ipv6}"
+        }        
     }
 }
 
@@ -96,14 +96,14 @@ resource "oci_core_vnic_attachment" "firewall-1_vnic-externo" {
         display_name = "vnic-externo"    
         hostname_label = "fw1ext"
         private_ip = "${var.firewall-1_externo-ip}"   
-        subnet_id = "${var.vcn-fw-externo_subnprv_id}"
+        subnet_id = "${var.vcn-fw-externo_subnprv-1_id}"
         skip_source_dest_check = true
         assign_public_ip = false
 
-        # ipv6address_ipv6subnet_cidr_pair_details {
-        #    ipv6_subnet_cidr = "${var.vcn-fw-externo_subnprv_ipv6_cidr}"
-        #    ipv6_address = "${var.firewall-1_externo-ipv6}"
-        # }
+        ipv6address_ipv6subnet_cidr_pair_details {
+           ipv6_subnet_cidr = "${var.vcn-fw-externo_subnprv-1_ipv6_cidr}"
+           ipv6_address = "${var.firewall-1_externo-ipv6}"
+        }
     }       
 
     depends_on = [
@@ -120,7 +120,7 @@ resource "oci_core_vnic_attachment" "firewall-1_vnic-internet" {
         display_name = "vnic-internet"    
         hostname_label = "fw1int"
         private_ip = "${var.firewall-1_internet-ip}"              
-        subnet_id = "${var.vcn-publica_subnpub-internet_id}"
+        subnet_id = "${var.vcn-publica_subnpub-1_id}"
         skip_source_dest_check = true
         assign_public_ip = true
         assign_ipv6ip = true
