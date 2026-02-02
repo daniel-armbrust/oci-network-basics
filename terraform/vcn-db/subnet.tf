@@ -3,7 +3,7 @@
 #
 
 # Sub-rede Privada #1 (subnprv-1)
-resource "oci_core_subnet" "subnprv-1_vcn-db" {
+resource "oci_core_subnet" "subnprv-1" {
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-db.id
     dhcp_options_id = oci_core_dhcp_options.dhcp-options_vcn-db.id

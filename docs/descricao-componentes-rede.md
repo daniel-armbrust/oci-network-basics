@@ -50,7 +50,7 @@
 
 ## ```vcn-db```
 
-- Descrição: VCN pública utilizada para tráfego de saída para a Internet.
+- Descrição: VCN para hospedagem hospedagem dos Bancos de Dados.
 - Prefixo(s) CIDR IPv4: 10.100.0.0/16
 - Prefixo(s) CIDR IPv6: fd3f:9012:aa00::/48
 
@@ -60,9 +60,21 @@
     - Prefixo(s) CIDR IPv4: 10.90.20.0/24
     - Prefixo(s) CIDR IPv6: fd3f:9012:aa00:10::/64
 
+    ### ```rt_subnprv-1```
+
+    - Descrição: Tabela de Roteamento da Sub-rede privada #1.
+
+    ### ```secl-1_subnprv-1```
+
+    - Descrição: Security List #1 da Sub-rede privada #1.
+
+    ### ```dhcp-options```
+
+    - Descrição: DHCP Options da VCN para hospedagem dos Bancos de Dados.
+
 ## ```vcn-publica```
 
-- Descrição: VCN pública utilizada para tráfego de saída para a Internet.
+- Descrição: VCN utilizada para tráfego de saída para a Internet.
 - Prefixo(s) CIDR IPv4: 10.90.0.0/16
 - Prefixo(s) CIDR IPv6: ** OCI GUA **
 
@@ -71,6 +83,18 @@
     - Descrição: Sub-rede pública #1.
     - Prefixo(s) CIDR IPv4: 10.90.20.0/24
     - Prefixo(s) CIDR IPv6: ** OCI GUA **
+
+    ### ```rt_subnprv-1```
+
+    - Descrição: Tabela de Roteamento da Sub-rede privada #1.
+
+    ### ```secl-1_subnprv-1```
+
+    - Descrição: Security List #1 da Sub-rede privada #1.
+
+    ### ```dhcp-options```
+
+    - Descrição: DHCP Options da VCN para hospedagem dos Bancos de Dados.
 
 ## ```vcn-fw-interno```
 

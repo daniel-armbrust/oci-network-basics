@@ -3,7 +3,7 @@
 #
 
 # Service Gateway
-resource "oci_core_service_gateway" "sgw_vcn-db" {
+resource "oci_core_service_gateway" "sgw" {
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-db.id
     display_name = "sgw"

@@ -3,7 +3,7 @@
 #
 
 # Service Gateway
-resource "oci_core_service_gateway" "sgw_vcn-fw-externo" {
+resource "oci_core_service_gateway" "sgw" {
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-fw-externo.id
     display_name = "sgw"

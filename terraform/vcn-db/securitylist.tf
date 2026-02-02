@@ -3,7 +3,7 @@
 #
 
 # Security List - Sub-rede Privada #1 (subnprv-1)
-resource "oci_core_security_list" "secl-1_subnprv-1_vcn-db" {
+resource "oci_core_security_list" "secl-1_subnprv-1" {
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-db.id
     display_name = "secl-1_subnprv-1"
