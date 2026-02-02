@@ -84,18 +84,18 @@
     - Prefixo(s) CIDR IPv4: 10.90.20.0/24
     - Prefixo(s) CIDR IPv6: ** OCI GUA **
 
-    ### ```rt_subnprv-1```
+    ### ```rt_subnpub-1```
 
-    - Descrição: Tabela de Roteamento da Sub-rede privada #1.
+    - Descrição: Tabela de Roteamento da Sub-rede pública #1.
 
-    ### ```secl-1_subnprv-1```
+    ### ```secl-1_subnpub-1```
 
-    - Descrição: Security List #1 da Sub-rede privada #1.
+    - Descrição: Security List #1 da Sub-rede pública #1.
 
     ### ```dhcp-options```
 
-    - Descrição: DHCP Options da VCN para hospedagem dos Bancos de Dados.
-
+    - Descrição: DHCP Options da VCN para tráfego de saída para a Internet.
+    
 ## ```vcn-fw-interno```
 
 - Descrição: VCN que hospeda as VNICs do firewall e do Network Load Balancer interno, responsável pela inspeção do tráfego entre as VCNs de aplicação e o tráfego de saída para a Internet.
