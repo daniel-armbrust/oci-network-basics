@@ -50,7 +50,7 @@
 
 ## ```vcn-fw-interno```
 
-- Descrição: VCN que abriga as VNICs do firewall e do Network Load Balancer interno, responsável pela inspeção do tráfego entre as VCNs de aplicação e o tráfego de saída para a Internet.
+- Descrição: VCN que hospeda as VNICs do firewall e do Network Load Balancer interno, responsável pela inspeção do tráfego entre as VCNs de aplicação e o tráfego de saída para a Internet.
 - IPv4 CIDR Prefixes: 10.70.0.0/16
 - IPv6 CIDR Prefixes: fd82:44ee:f000::/48
 
@@ -59,3 +59,15 @@
     - Descrição: Sub-rede privada #1.
     - IPv4 CIDR Prefixes: 10.70.10.0/24
     - IPv6 CIDR Prefixes: fd82:44ee:f000:10::/64
+
+## ```vcn-fw-externo```
+
+- Descrição: VCN que hospeda as VNICs do firewall e do Network Load Balancer externo, responsável pela inspeção do tráfego que vem do on-premises com destino as redes do OCI.
+- IPv4 CIDR Prefixes: 10.80.0.0/16
+- IPv6 CIDR Prefixes: fd60:1a2b:9900::/48
+
+    ### ```subnprv-1```
+
+    - Descrição: Sub-rede privada #1.
+    - IPv4 CIDR Prefixes: 10.80.30.0/24
+    - IPv6 CIDR Prefixes: fd60:1a2b:9900:10::/64
