@@ -12,7 +12,7 @@ resource "oci_core_route_table" "rt_subnprv-1" {
     route_rules {
         destination = "all-gru-services-in-oracle-services-network"
         destination_type = "SERVICE_CIDR_BLOCK"        
-        network_entity_id = oci_core_service_gateway.sgw_vcn-fw-interno.id        
+        network_entity_id = oci_core_service_gateway.sgw.id        
     }
 
     # DRG IPv4

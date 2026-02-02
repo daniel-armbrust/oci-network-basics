@@ -12,13 +12,13 @@ resource "oci_core_route_table" "rt_subnpub-1" {
     route_rules {
         destination = "0.0.0.0/0"
         destination_type = "CIDR_BLOCK"        
-        network_entity_id = oci_core_internet_gateway.igw_vcn-publica.id        
+        network_entity_id = oci_core_internet_gateway.igw.id        
     }
 
     # Internet Gateway IPv6
     route_rules {
         destination = "::/0"
         destination_type = "CIDR_BLOCK"        
-        network_entity_id = oci_core_internet_gateway.igw_vcn-publica.id
+        network_entity_id = oci_core_internet_gateway.igw.id
     }
 }
