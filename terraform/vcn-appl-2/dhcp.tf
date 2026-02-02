@@ -3,10 +3,10 @@
 #
 
 # Dhcp Options
-resource "oci_core_dhcp_options" "dhcp-options_vcn-appl-2" {
+resource "oci_core_dhcp_options" "dhcp-options" {
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-appl-2.id
-    display_name = "dhcp-options_vcn-appl-2"
+    display_name = "dhcp-options"
 
     options {
         type = "DomainNameServer"

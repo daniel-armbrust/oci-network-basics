@@ -3,7 +3,7 @@
 #
 
 # Route Table - Sub-rede Privada #1 (subnprv-1)
-resource "oci_core_route_table" "rt_subnprv-1_vcn-appl-1" {   
+resource "oci_core_route_table" "rt_subnprv-1" {   
     compartment_id = var.root_compartment
     vcn_id = oci_core_vcn.vcn-appl-1.id
     display_name = "rt_subnprv-1"   

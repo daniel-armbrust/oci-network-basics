@@ -12,17 +12,17 @@
     - Prefixo(s) CIDR IPv4: 10.50.10.0/24
     - Prefixo(s) CIDR IPv6: fd91:ab42:1200:10::/64
 
-        ### ```rt_subnprv-1```
+    ### ```rt_subnprv-1```
 
-        - Descrição: Tabela de Roteamento da Sub-rede privada #1.
+    - Descrição: Tabela de Roteamento da Sub-rede privada #1.
 
-        ### ```secl-1_subnprv-1```
+    ### ```secl-1_subnprv-1```
 
-        - Descrição: Security List #1 da Sub-rede privada #1.
+    - Descrição: Security List #1 da Sub-rede privada #1.
 
-        ### ```dhcp-options```
+    ### ```dhcp-options```
 
-        - Descrição: DHCP Options da VCN para hospedagem de aplicações #1.
+    - Descrição: DHCP Options da VCN para hospedagem de aplicações #1.
     
 ## ```vcn-appl-2```
 
@@ -35,6 +35,18 @@
     - Descrição: Sub-rede privada #1.
     - Prefixo(s) CIDR IPv4: 10.60.10.0/24
     - Prefixo(s) CIDR IPv6: fd55:77cc:8d00:10::/64
+
+    ### ```rt_subnprv-1```
+
+    - Descrição: Tabela de Roteamento da Sub-rede privada #1.
+
+    ### ```secl-1_subnprv-1```
+
+    - Descrição: Security List #1 da Sub-rede privada #1.
+
+    ### ```dhcp-options```
+
+    - Descrição: DHCP Options da VCN para hospedagem de aplicações #2.
 
 ## ```vcn-db```
 
