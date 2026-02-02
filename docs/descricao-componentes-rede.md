@@ -3,71 +3,95 @@
 ## ```vcn-appl-1```
 
 - Descrição: VCN para hospedagem de aplicações #1.
-- IPv4 CIDR Prefixes: 10.50.0.0/16
-- IPv6 CIDR Prefixes: fd91:ab42:1200::/48
+- Prefixo CIDR IPv4: 10.50.0.0/16
+- Prefixo CIDR IPv6: fd91:ab42:1200::/48
 
     ### ```subnprv-1```
 
     - Descrição: Sub-rede privada #1.
-    - IPv4 CIDR Prefixes: 10.50.10.0/24
-    - IPv6 CIDR Prefixes: fd91:ab42:1200:10::/64
+    - Prefixo CIDR IPv4: 10.50.10.0/24
+    - Prefixo CIDR IPv6: fd91:ab42:1200:10::/64
 
 ## ```vcn-appl-2```
 
 - Descrição: VCN para hospedagem de aplicações #2.
-- IPv4 CIDR Prefixes: 10.60.0.0/16
-- IPv6 CIDR Prefixes: fd55:77cc:8d00::/48
+- Prefixo CIDR IPv4: 10.60.0.0/16
+- Prefixo CIDR IPv6: fd55:77cc:8d00::/48
 
     ### ```subnprv-1```
 
     - Descrição: Sub-rede privada #1.
-    - IPv4 CIDR Prefixes: 10.60.10.0/24
-    - IPv6 CIDR Prefixes: fd55:77cc:8d00:10::/64
+    - Prefixo CIDR IPv4: 10.60.10.0/24
+    - Prefixo CIDR IPv6: fd55:77cc:8d00:10::/64
 
 ## ```vcn-db```
 
 - Descrição: VCN pública utilizada para tráfego de saída para a Internet.
-- IPv4 CIDR Prefixes: 10.100.0.0/16
-- IPv6 CIDR Prefixes: fd3f:9012:aa00::/48
+- Prefixo CIDR IPv4: 10.100.0.0/16
+- Prefixo CIDR IPv6: fd3f:9012:aa00::/48
 
     ### ```subnprv-1```
 
     - Descrição: Sub-rede privada #1.
-    - IPv4 CIDR Prefixes: 10.90.20.0/24
-    - IPv6 CIDR Prefixes: fd3f:9012:aa00:10::/64
+    - Prefixo CIDR IPv4: 10.90.20.0/24
+    - Prefixo CIDR IPv6: fd3f:9012:aa00:10::/64
 
 ## ```vcn-publica```
 
 - Descrição: VCN pública utilizada para tráfego de saída para a Internet.
-- IPv4 CIDR Prefixes: 10.90.0.0/16
-- IPv6 CIDR Prefixes: ** OCI GUA **
+- Prefixo CIDR IPv4: 10.90.0.0/16
+- Prefixo CIDR IPv6: ** OCI GUA **
 
     ### ```subnpub-1```
 
     - Descrição: Sub-rede pública #1.
-    - IPv4 CIDR Prefixes: 10.90.20.0/24
-    - IPv6 CIDR Prefixes: ** OCI GUA **
+    - Prefixo CIDR IPv4: 10.90.20.0/24
+    - Prefixo CIDR IPv6: ** OCI GUA **
 
 ## ```vcn-fw-interno```
 
 - Descrição: VCN que hospeda as VNICs do firewall e do Network Load Balancer interno, responsável pela inspeção do tráfego entre as VCNs de aplicação e o tráfego de saída para a Internet.
-- IPv4 CIDR Prefixes: 10.70.0.0/16
-- IPv6 CIDR Prefixes: fd82:44ee:f000::/48
+- Prefixo CIDR IPv4: 10.70.0.0/16
+- Prefixo CIDR IPv6: fd82:44ee:f000::/48
 
     ### ```subnprv-1```
 
     - Descrição: Sub-rede privada #1.
-    - IPv4 CIDR Prefixes: 10.70.10.0/24
-    - IPv6 CIDR Prefixes: fd82:44ee:f000:10::/64
+    - Prefixo CIDR IPv4: 10.70.10.0/24
+    - Prefixo CIDR IPv6: fd82:44ee:f000:10::/64
 
 ## ```vcn-fw-externo```
 
 - Descrição: VCN que hospeda as VNICs do firewall e do Network Load Balancer externo, responsável pela inspeção do tráfego que vem do on-premises com destino as redes do OCI.
-- IPv4 CIDR Prefixes: 10.80.0.0/16
-- IPv6 CIDR Prefixes: fd60:1a2b:9900::/48
+- Prefixo CIDR IPv4: 10.80.0.0/16
+- Prefixo CIDR IPv6: fd60:1a2b:9900::/48
 
     ### ```subnprv-1```
 
     - Descrição: Sub-rede privada #1.
-    - IPv4 CIDR Prefixes: 10.80.30.0/24
-    - IPv6 CIDR Prefixes: fd60:1a2b:9900:10::/64
+    - Prefixo CIDR IPv4: 10.80.30.0/24
+    - Prefixo CIDR IPv6: fd60:1a2b:9900:10::/64
+
+## ```vcn-onpremises```
+
+- Descrição: VCN que simula o ambiente on-premises e se conecta ao DRG do OCI através de IPSec.
+- Prefixo CIDR IPv4: 172.16.100.0/24, 10.200.10.0/24, 192.168.100.0/24
+- Prefixo CIDR IPv6: 
+
+    ### ```subnpub-internet```
+
+    - Descrição: Sub-rede pública.
+    - Prefixo CIDR IPv4: 172.16.100.0/25
+    - Prefixo CIDR IPv6: 
+
+    ### ```subnprv-rede-app```
+
+    - Descrição: Sub-rede que hospeda as aplicações do ambiente on-premises.
+    - Prefixo CIDR IPv4: 10.200.10.128/26
+    - Prefixo CIDR IPv6: 
+
+    ### ```subnprv-rede-backup```
+
+    - Descrição: Sub-rede responsável pela execução de processos de backup a partir do ambiente on-premises.
+    - Prefixo CIDR IPv4: 192.168.100.64/26
+    - Prefixo CIDR IPv6: 
