@@ -79,11 +79,13 @@ resource "oci_core_instance" "firewall-1" {
         subnet_id = "${var.vcn-fw-interno_subnprv-1_id}"
         skip_source_dest_check = true
         assign_public_ip = false
+        
+        assign_ipv6ip = true
 
         ipv6address_ipv6subnet_cidr_pair_details {
            ipv6subnet_cidr = "${var.vcn-fw-interno_subnprv-1_ipv6_cidr}"
            ipv6address = "${var.firewall-1_appl-ipv6}"
-        }        
+        }
     }
 }
 
@@ -99,6 +101,8 @@ resource "oci_core_vnic_attachment" "firewall-1_vnic-externo" {
         subnet_id = "${var.vcn-fw-externo_subnprv-1_id}"
         skip_source_dest_check = true
         assign_public_ip = false
+        
+        assign_ipv6ip = true
 
         ipv6address_ipv6subnet_cidr_pair_details {
            ipv6_subnet_cidr = "${var.vcn-fw-externo_subnprv-1_ipv6_cidr}"
@@ -123,7 +127,6 @@ resource "oci_core_vnic_attachment" "firewall-1_vnic-internet" {
         subnet_id = "${var.vcn-publica_subnpub-1_id}"
         skip_source_dest_check = true
         assign_public_ip = true
-        assign_ipv6ip = true
     }    
 
     depends_on = [

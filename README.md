@@ -36,7 +36,7 @@ on linux_amd64
 
 - Para maiores informações, consulte: <a href="https://developer.hashicorp.com/terraform/install" target="_blank" rel="noopener noreferrer">Hashicorp - Install Terraform</a>
 
-## 4. Entrar no diretório Terraform
+## 4. Entrar no diretório terraform
 
 ```
 $ terraform/
@@ -88,13 +88,13 @@ OCID do compartimento raiz onde os recursos serão provisionados.
 
 - Para maiores informações, consulte: <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devguidesetupprereq.htm" target="_blank" rel="noopener noreferrer">OCI - Setup and Prerequisites</a>
 
-## 7. Inicializar Terraform
+## 7. Inicializar o Terraform
 
 ```
 $ terraform init
 ```
 
-## 8. Revisar o plano e Criar a infraestrutura
+## 8. Revisar o plano e criar a infraestrutura
 
 ```
 $ terraform plan
