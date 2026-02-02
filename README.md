@@ -7,6 +7,7 @@ Hands-on labs e estudos avançados sobre roteamento de rede no Oracle Cloud Infr
 ## Documentação
 
 1. [Descrição dos componentes de Rede](./docs/descricao-componentes-rede.md)
+2. [Roteamento](./docs/roteamento.md)
 
 ## Terraform Quick Setup
 
