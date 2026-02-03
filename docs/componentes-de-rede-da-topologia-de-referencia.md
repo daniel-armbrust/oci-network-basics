@@ -162,7 +162,7 @@
 
 ## ```drg-externo```
 
-- Descrição: DRG Externo cuja função é conectar a rede On-Premises ao OCI via IPSec. Este DRG direciona o tráfego com origem do on-premises para a ```vcn-appl-2``` (10.60.0.0/16, fd55:77cc:8d00::/48), onde será inspecionado pelo firewall. Além disso, este DRG se conecta ao ```drg-interno``` por meio de uma Remote Peering Connection, permitindo o acesso do on-premises à ```vcn-appl-1``` (tráfego com destino a ```vcn-appl-1``` não é inspecionado pelo firewall).
+- Descrição: DRG Externo cuja função é conectar a rede On-Premises ao OCI via IPSec. Este DRG direciona o tráfego com origem do on-premises para a ```vcn-appl-2``` (10.60.0.0/16, fd55:77cc:8d00::/48), onde será inspecionado pelo firewall. Além disso, este DRG se conecta ao ```drg-interno``` por meio de uma Remote Peering Connection (```rpc_drg-interno```), permitindo o acesso do on-premises à ```vcn-appl-1``` (tráfego com destino a ```vcn-appl-1``` não é inspecionado pelo firewall).
 
 ## ```drg-interno```
 
