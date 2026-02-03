@@ -1,25 +1,4 @@
-# Visão Geral dos Componentes de Rede do OCI
-
-- [VCN](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm)
-    - Rede privada virtual que você cria nos data centers da Oracle (software-defined network).
-
-- [Sub-rede](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm)
-    - É a subdivisão de uma VCN e pode ser pública ou privada.
-        - Uma sub-rede pública permite receber tráfego direto da Internet (origem: Internet), desde que o recurso computacional tenha um endereço IP público associado.
-
-- [Route Table](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingroutetables.htm)
-    - Uma tabela de roteamento de sub-rede é composta por regras de roteamento e é utilizada pelos recursos computacionais da sub-rede sempre que precisam enviar tráfego "para fora" dela.
-
-- [Security Lists](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securityrules.htm)
-    - Firewall Virtual para as camadas 3 e 4 do modelo OSI, com a funcionalidade de permitir o tráfego de entrada (ingress) e saída (egress) da sub-rede.
-        - Somente é permitido adicionar regras que autorizam a passagem de tráfego (ALLOW). Se não houver uma regra que permita a passagem do tráfego, este será bloqueado por padrão (DENY).
-        - As regras podem ser do tipo Stateful ou Stateless. As regras Stateless são recomendadas quando os recursos computacionais na sub-rede estiverem sujeitos a um alto volume de tráfego (high throughput).
-        - É possível ter até seis Security Lists "empilhadas" em uma sub-rede. Cada Security List será avaliada em sequência na busca por uma regra que permita a passagem do tráfego.
-
-- [DHCP Options](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingDHCP.htm)
-    - Serviço Dynamic Host Configuration Protocol (DHCP) para os recursos computacionais das sub-redes. 
-
-# Descrição dos Componentes de Rede
+# Componentes de Rede da Topologia de Referência
 
 ## ```vcn-appl-1```
 

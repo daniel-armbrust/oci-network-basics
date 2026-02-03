@@ -6,7 +6,8 @@ Hands-on labs e estudos avançados sobre roteamento de rede no Oracle Cloud Infr
 
 ## Documentação
 
-1. [Descrição dos componentes de Rede](./docs/descricao-componentes-rede.md)
+1. [Visão Geral dos Componentes de Rede do OCI](./docs/visao-geral-componentes-de-rede-do-oci.md)
+1. [Descrição dos componentes de Rede](./docs/componentes-de-rede-da-topologia-de-referencia.md)
 2. [Roteamento](./docs/roteamento.md)
 
 ## Terraform Quick Setup

@@ -1,3 +1,1 @@
 # Roteamento
-
-# Gateways de Comunicação
