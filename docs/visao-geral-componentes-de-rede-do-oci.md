@@ -37,3 +37,13 @@
 
 - [Local Peering Gateway (LPG)](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/localVCNpeering.htm)
     - Gateway que permite a conexão entre duas VCNs.
+
+## Conectividade
+
+- [FastConnect](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/fastconnect.htm)
+    - Link dedicado ou Lan-to-Lan de alta velocidade que permite a conexão do ambiente On-Premises ao OCI.
+    - Característica de Roteamento: somente protocolo BGP.
+
+- [Site-to-Site VPN](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingIPsec.htm)
+    - Site-to-Site VPN que permite a conexão via Internet através de IPSec do ambiente On-Premises ao OCI.
+    - Característica de Roteamento: Roteamento estático, BGP e Policy-based routing.

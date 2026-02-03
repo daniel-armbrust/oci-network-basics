@@ -170,7 +170,7 @@
 
 ## ```onpremises_ipsec```
 
-- Descrição: Site-To-Site VPN para a conexão com o ambiente On-Premises.
+- Descrição: Site-to-Site VPN para a conexão com o ambiente On-Premises.
 
     ### ```cpe_vm-ipsec_onpremises```
 
