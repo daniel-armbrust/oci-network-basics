@@ -162,7 +162,7 @@
 
 ## ```drg-externo```
 
-- Descrição: DRG Externo cuja função é conectar a rede On-Premises ao OCI via IPSec. Este DRG direciona o tráfego com origem do on-premises para a ```vcn-appl-2``` (10.60.0.0/16, fd55:77cc:8d00::/48), onde será inspecionado pelo firewall. Além disso, este DRG se conecta ao ```drg-interno``` por meio de uma Remote Peering Connection, permitindo o acesso do on-premises à VCN-APPL-1 (tráfego com destino a ```vcn-appl-1``` não é inspecionado pelo firewall).
+- Descrição: DRG Externo cuja função é conectar a rede On-Premises ao OCI via IPSec. Este DRG direciona o tráfego com origem do on-premises para a ```vcn-appl-2``` (10.60.0.0/16, fd55:77cc:8d00::/48), onde será inspecionado pelo firewall. Além disso, este DRG se conecta ao ```drg-interno``` por meio de uma Remote Peering Connection, permitindo o acesso do on-premises à ```vcn-appl-1``` (tráfego com destino a ```vcn-appl-1``` não é inspecionado pelo firewall).
 
 ## ```drg-interno```
 
@@ -182,7 +182,7 @@
 
 ## ```nlb_fw-interno```
 
-- Descrição: que distribui o tráfego que vem da VCN-APPL-2 com destino ao ambiente On-Premises e à Internet (outbound) para as VNICs dos firewalls (```firewall-1``` e ```firewall-2```). Este componente de rede garante a alta disponibilidade dos firewalls no ambiente OCI.
+- Descrição: que distribui o tráfego que vem da ```vcn-appl-2``` com destino ao ambiente On-Premises e à Internet (outbound) para as VNICs dos firewalls (```firewall-1``` e ```firewall-2```). Este componente de rede garante a alta disponibilidade dos firewalls no ambiente OCI.
 - Endereço IPv4 do Listener: 10.70.10.100
 - Endereço IPv6 do Listener: fd82:44ee:f000:10::100
 
