@@ -120,7 +120,7 @@ $ terraform destroy
 
 ### 10. Erros Conhecidos
 
-- Erro relacionado ao tempo de criação do Remote Peering, que não se fica disponível dentro do tempo esperado. Para resolver, basta executar novamente o comando ```terraform apply```.
+- Erro relacionado ao tempo de criação do Remote Peering Connection, que não se fica disponível dentro do tempo esperado. Para resolver, basta executar novamente o comando ```terraform apply```.
 
 ```
 Error: Invalid index
