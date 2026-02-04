@@ -2,6 +2,7 @@
 *.pub
 terraform.tfvars
 env.oci
+*Zone.Identifier*
 
 # Local .terraform directories
 .terraform/
