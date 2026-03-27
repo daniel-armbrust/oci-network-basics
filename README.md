@@ -1,14 +1,22 @@
-# OCI Network Routing
+# OCI Network Basics
 
-Hands-on labs e estudos avançados sobre roteamento de rede no Oracle Cloud Infrastructure (OCI), cobrindo VCNs, DRGs, Remote Peering, BGP, IPSec, e inspeção de tráfego com Linux Firewall. Todo o provisionamento do ambiente é realizado via Terraform a partir do diretório ```terraform/```.
+Hands-on labs e estudos sobre roteamento de rede no Oracle Cloud Infrastructure (OCI), cobrindo VCNs, DRGs, Remote Peering, BGP, IPSec, e inspeção de tráfego com Linux Firewall. Todo o provisionamento do ambiente é realizado via Terraform a partir do diretório ```terraform/```.
 
 ![Network Topology](./docs/img/oci-network-routing-1.png)
 
 ## Documentação
 
 1. [Visão Geral dos Componentes de Rede do OCI](./docs/visao-geral-componentes-de-rede-do-oci.md)
-1. [Componentes de Rede da Topologia de Referência](./docs/componentes-de-rede-da-topologia-de-referencia.md)
-2. [Roteamento](./docs/roteamento.md)
+2. [VCN e Roteamento de Sub-rede](./docs/vcn-e-roteamento-de-subrede.md)
+3. [Nota sobre VNICs](./docs/nota-sobre-vnics.md) 
+4. [OCI Firewall e Conntrack Table](./docs/oci-firewall-e-conntrack-table.md)
+5. [Roteamento Avançado](./docs/roteamento-avancado.md)
+6. [DNS](./docs/dns.md)
+X. Monitoração e Throubleshoot
+X. [Componentes de Rede da Topologia de Referência](./docs/componentes-de-rede-da-topologia-de-referencia.md)
+
+
+PS: A documentação oficial de redes do OCI pode ser consultada no link [Networking](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/landing.htm).
 
 ## Terraform Quick Setup
 
