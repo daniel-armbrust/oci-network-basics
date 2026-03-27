@@ -46,9 +46,11 @@ Algumas notas sobre VNICs, extraídas da documentação oficial _["Virtual Netwo
 
 ## VNICs em Múltiplas Sub-redes
 
-Considere o exemplo ilustrado a seguir:
+Considere o exemplo a seguir:
 
 ![VNIC #1](img/oci-vnic-1.png)
 
-Como já mencionado, é possível ter múltiplas VNICs em um compute instance, sendo esse tipo de configuração bastante comum em cenários de firewall. Um ponto importante é que a VNIC é um recurso vinculado a um Availability Domain (AD). Isso significa que todas as VNICs associadas a um compute instance devem estar no mesmo Availability Domain. Não é possível, por exemplo, que uma instância tenha uma VNIC no AD-1 e outra no AD-2, por exemplo.
+O primeiro ponto importante dessa configuração é que, como já mencionado, um compute instance pode possuir múltiplas VNICs, sendo esse tipo de arquitetura bastante comum em cenários de firewall. 
+
+Um detalhe importante é que a VNIC é um recurso vinculado a um **Availability Domain (AD)**. Isso significa que todas as VNICs associadas a um compute instance devem estar no mesmo Availability Domain. Não é possível, por exemplo, que uma instância tenha uma VNIC no AD-1 e outra no AD-2.
 
