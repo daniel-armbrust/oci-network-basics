@@ -50,7 +50,12 @@ Considere o exemplo a seguir:
 
 ![VNIC #1](img/oci-vnic-1.png)
 
-O primeiro ponto importante dessa configuração é que, como já mencionado, um compute instance pode possuir múltiplas VNICs, sendo esse tipo de arquitetura bastante comum em cenários de firewall. 
+O primeiro ponto importante dessa configuração é que, como já mencionado, um compute instance pode possuir múltiplas VNICs, sendo esse tipo de arquitetura bastante comum em cenários em que o compute é um firewall. 
 
 Um detalhe importante é que a VNIC é um recurso vinculado a um **Availability Domain (AD)**. Isso significa que todas as VNICs associadas a um compute instance devem estar no mesmo Availability Domain. Não é possível, por exemplo, que uma instância tenha uma VNIC no AD-1 e outra no AD-2.
 
+Outro detalhe - talvez o mais importante - está relacionado ao roteamento entre múltiplas VNICs, considerando que cada uma pode estar associada a uma sub-rede diferente. Como cada VNIC pertence a uma sub-rede distinta, cada sub-rede possui seu próprio gateway (primeiro IP do CIDR) e sua própria tabela de rotas associada.
+
+Do ponto de vista das sub-redes, isso não representa um problema. A atenção deve estar voltada para o host, mais especificamente para a tabela de roteamento do sistema operacional. Esse comportamento não é configurado automaticamente e requer configuração manual.
+
+![VNIC #2](img/oci-vnic-2.png)
