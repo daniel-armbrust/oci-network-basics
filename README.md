@@ -9,11 +9,12 @@ Hands-on labs e estudos sobre roteamento de rede no Oracle Cloud Infrastructure 
 1. [Visão Geral dos Componentes de Rede do OCI](./docs/visao-geral-componentes-de-rede-do-oci.md)
 2. [VCN e Roteamento de Sub-rede](./docs/vcn-e-roteamento-de-subrede.md)
 3. [Nota sobre VNICs](./docs/nota-sobre-vnics.md) 
-4. [OCI Firewall e Conntrack Table](./docs/oci-firewall-e-conntrack-table.md)
+4. [Firewall e Conntrack Table](./docs/firewall-e-conntrack-table.md)
 5. [Roteamento Avançado](./docs/roteamento-avancado.md)
 6. [DNS](./docs/dns.md)
-X. Monitoração e Throubleshoot
-X. [Componentes de Rede da Topologia de Referência](./docs/componentes-de-rede-da-topologia-de-referencia.md)
+7. Monitoração e Throubleshoot
+8. [Componentes de Rede da Topologia de Referência](./docs/componentes-de-rede-da-topologia-de-referencia.md)
+9. Documentação de referência e links úteis
 
 
 PS: A documentação oficial de redes do OCI pode ser consultada no link [Networking](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/landing.htm).

@@ -2,7 +2,7 @@
 
 VNIC (Virtual Network Interface Card), nada mais é do que uma interface de rede lógica associada a uma interface de rede (NIC). Uma VNIC reside em uma sub-rede e é responsável por permitir que uma instância computacional se comunique com a rede. Ou seja, todo recurso computacional que possui conectividade de rede está possui pelo menos uma VNIC.
 
-Algumas notas sobre VNICs, extraídas da documentação oficial _["Virtual Network Interface Cards (VNICs)"](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingVNICs.htm#overview)_ e complementadas pela minha experiência, que considero importantes, são:
+Algumas notas sobre VNICs, extraídas da documentação oficial ["Virtual Network Interface Cards (VNICs)"](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingVNICs.htm#overview) e complementadas pela minha experiência, que considero importantes, são:
 
 1. Um recurso computacional que se comunica com a rede sempre possui uma VNIC do tipo **primária**, a qual não pode ser removida ou substituída.
 
@@ -61,3 +61,5 @@ Do ponto de vista das sub-redes, isso não representa um problema. A atenção d
 ![VNIC #2](img/oci-vnic-2.png)
 
 ## Linux - Policy Routing
+
+TODO
