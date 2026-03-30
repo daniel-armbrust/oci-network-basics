@@ -2,24 +2,23 @@
 
 Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI), abordando conceitos como VCNs, DRGs, Remote Peering, BGP, IPSec e inspeção de tráfego com firewall Linux.
 
-## Topologia utilizada
+**DISCLAIMER**: Este é um guia de estudos que reflete o entendimento do autor sobre o serviço de redes do OCI. O conteúdo deste repositório não substitui a documentação oficial e não oferece garantias. O OCI é uma plataforma de nuvem dinâmica, na qual novos serviços e melhorias são introduzidos continuamente. Recomenda-se sempre consultar a [documentação oficial](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/baremetalintro.htm).
+
+## Topologia de Rede Utilizada
 
 ![Network Topology](./docs/img/oci-network-routing-1.png)
 
 ## Documentação
 
 1. [Visão Geral dos Componentes de Rede do OCI](./docs/visao-geral-componentes-de-rede-do-oci.md)
-2. [VCN e Roteamento de Sub-rede](./docs/vcn-e-roteamento-de-subrede.md)
-3. [Nota sobre VNICs](./docs/nota-sobre-vnics.md) 
-4. [Firewall e Conntrack Table](./docs/firewall-e-conntrack-table.md)
-5. [Roteamento Avançado](./docs/roteamento-avancado.md)
-6. [DNS](./docs/dns.md)
-7. Monitoração e Throubleshoot
-8. [Componentes de Rede da Topologia de Referência](./docs/componentes-de-rede-da-topologia-de-referencia.md)
+2. [Componentes de Rede da Topologia de Referência](./docs/componentes-de-rede-da-topologia-de-referencia.md)
+3. [VCN e Roteamento de Sub-rede](./docs/vcn-e-roteamento-de-subrede.md)
+4. [Nota sobre VNICs](./docs/nota-sobre-vnics.md) 
+5. [Firewall e Conntrack Table](./docs/firewall-e-conntrack-table.md)
+6. [Roteamento Avançado](./docs/roteamento-avancado.md)
+7. [DNS](./docs/dns.md)
+8. Monitoração e Throubleshoot
 9. Documentação de referência e links úteis
-
-
-PS: A documentação oficial de redes do OCI pode ser consultada no link [Networking](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/landing.htm).
 
 ## Terraform Quick Setup
 
