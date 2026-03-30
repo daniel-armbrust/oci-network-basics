@@ -79,3 +79,27 @@ Já as regras do tipo **Stateless** não há **Conntrack Table** e, portanto, n�
 A recomendação geral é: **utilize regras do tipo Stateless em sub-redes que hospedam firewalls, load balancers públicos ou qualquer sub-rede que possa ter (ou tenha) alto volume de tráfego.**
 
 ## Compute Instance Firewall
+
+Todo novo compute instance criado a partir de imagens de plataforma, como Oracle Linux ou Windows, já vem com o firewall do sistema operacional ativado por padrão. Nesse caso, apenas as portas administrativas são liberadas: 22/TCP para SSH no Linux e 3389/TCP para Remote Desktop (RDP) no Windows.
+
+```bash
+# systemctl status firewalld
+● firewalld.service - firewalld - dynamic firewall daemon
+     Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; preset: enabled)
+     Active: active (running) since Mon 2026-01-23 10:59:46 GMT; 1s ago
+       Docs: man:firewalld(1)
+    Process: 7142 ExecStartPost=/usr/bin/firewall-cmd --state (code=exited, status=0/SUCCESS)
+   Main PID: 7139 (firewalld)
+      Tasks: 2 (limit: 22760)
+     Memory: 31.1M (peak: 52.5M)
+        CPU: 646ms
+     CGroup: /system.slice/firewalld.service
+             └─7139 /usr/bin/python3 -s /usr/sbin/firewalld --nofork --nopid
+
+Jan 01 10:59:45 bastion systemd[1]: Starting firewalld - dynamic firewall daemon...
+Jan 01 10:59:46 bastion systemd[1]: Started firewalld - dynamic firewall daemon.
+```
+
+A razão disso é permitir que apenas o usuário root em instâncias Linux ou usuários do grupo Administradores em instâncias Windows realizem conexões de saída para os endpoints da rede iSCSI (169.254.0.2:3260 e 169.254.2.0/24:3260).
+
+Recomenda-se não remover esse serviço nem reconfigurar essas regras. Caso contrário, usuários sem privilégios de root ou de administrador poderão obter acesso ao boot volume da instância.

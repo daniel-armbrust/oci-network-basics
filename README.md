@@ -1,6 +1,8 @@
 # OCI Network Basics
 
-Hands-on labs e estudos sobre roteamento de rede no Oracle Cloud Infrastructure (OCI), cobrindo VCNs, DRGs, Remote Peering, BGP, IPSec, e inspeção de tráfego com Linux Firewall. Todo o provisionamento do ambiente é realizado via Terraform a partir do diretório ```terraform/```.
+Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI), abordando conceitos como VCNs, DRGs, Remote Peering, BGP, IPSec e inspeção de tráfego com firewall Linux.
+
+## Topologia utilizada
 
 ![Network Topology](./docs/img/oci-network-routing-1.png)
 
