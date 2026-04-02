@@ -83,3 +83,18 @@ Além das rotas dinâmicas que podem ser importadas por meio do **Import Route D
 
 ### Roteamento por meio do DRG
 
+Após compreender o funcionamento das tabelas de rotas no DRG, avançamos para o próximo estágio, que aborda como as decisões de roteamento são realmente tomadas a partir do momento em que o pacote sai da sub-rede e passa a entrar no DRG.
+
+O processo é simples: a decisão de roteamento ocorre quando o pacote "entra" no DRG. Em outras palavras, **a tabela de rotas do DRG é consultada assim que o pacote sai da sub-rede e entra no DRG**.
+
+Vamos ao seguinte exemplo. Suponha que o compute instance 10.100.20.5 da VCN-A queira se comunicar com o compute instance 172.16.50.100 da VCN-B. As decisões de roteamento que serão feitas origem para o destino são:
+
+1. A primeira decisão de roteamento ocorre no próprio host. Nessa etapa o host determina o endereço IP e a interface de rede que será usada para enviar o pacote. Normalmente existe uma rota default apontando para o gateway da sub‑rede (10.100.20.1).
+
+2. A segunda decisão de roteamento ocorre no gateway da sub‑rede. O gateway consulta sua própria tabela de rotas para determinar o next‑hop (tabela de rotas da sub-rede). No exemplo, todo pacote com destino a rede 172.16.0.0/16 será encaminhado para o DRG.
+
+3. A terceira etapa ocorre quando o pacote entra no DRG. Todo anexo do DRG possui sua própria tabela de rotas, que é consultada para determinar o next‑hop. Neste exemplo, todo pacote com destino à rede 172.16.0.0/16 será encaminhado para o anexo DRG‑ATTCH_VCN‑B.
+
+4. Por fim, o pacote chega ao host de destino (172.16.50.100), que processa o pacote e encaminha a resposta ao IP de origem. o caminho inverso segue as mesmas decisões de roteamento para devolver o tráfego.
+
+![DRG Fluxo #1](img/drg-rt-fluxo-1.png)
