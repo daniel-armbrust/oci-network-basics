@@ -1,4 +1,4 @@
-# Roteamento Avançado
+# Funcionamento do Roteamento no DRG
 
 ## DRG (Dynamic Routing Gateway)
 
@@ -81,13 +81,13 @@ Além das rotas dinâmicas que podem ser importadas por meio do **Import Route D
 
 ![DRG RT #3](img/oci-drg-rt-3.png)
 
-### Roteamento por meio do DRG
+### Fluxo de Roteamento no DRG
 
 Após compreender o funcionamento das tabelas de rotas no DRG, avançamos para o próximo estágio, que aborda como as decisões de roteamento são realmente tomadas a partir do momento em que o pacote sai da sub-rede e passa a entrar no DRG.
 
 O processo é simples: a decisão de roteamento ocorre quando o pacote "entra" no DRG. Em outras palavras, **a tabela de rotas do DRG é consultada assim que o pacote sai da sub-rede e entra no DRG**.
 
-Vamos ao seguinte exemplo. Suponha que o compute instance 10.100.20.5 da VCN-A queira se comunicar com o compute instance 172.16.50.100 da VCN-B. As decisões de roteamento que serão feitas origem para o destino são:
+Vamos ao seguinte exemplo. Suponha que o compute instance 10.100.20.5 da VCN-A queira se comunicar com o compute instance 172.16.50.100 da VCN-B. As decisões de roteamento que serão feitas da origem para o destino são:
 
 1. A primeira decisão de roteamento ocorre no próprio host. Nessa etapa o host determina o endereço IP e a interface de rede que será usada para enviar o pacote. Normalmente existe uma rota default apontando para o gateway da sub‑rede (10.100.20.1).
 

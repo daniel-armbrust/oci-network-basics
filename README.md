@@ -15,7 +15,8 @@ Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI),
 3. [VCN e Roteamento de Sub-rede](./docs/vcn-e-roteamento-de-subrede.md)
 4. [Nota sobre VNICs](./docs/nota-sobre-vnics.md) 
 5. [Firewall e Conntrack Table](./docs/firewall-e-conntrack-table.md)
-6. [Roteamento Avançado](./docs/roteamento-avancado.md)
+6. [Funcionamento do Roteamento no DRG](./docs/funcionamento-do-roteamento-no-drg.md)
+7. [Roteamento via Firewall central (hub & spoke)](./roteamento-via-firewall-central.md)
 7. [DNS](./docs/dns.md)
 8. Monitoração e Throubleshoot
 9. Documentação de referência e links úteis
