@@ -1,7 +1,5 @@
 # Roteamento via Firewall Central (hub & spoke)
 
-![Hub & Spoke #1](img/hub-spoke-1.png)
-
 ## Topologia Hub & Spoke
 
 A topologia do tipo **Hub & Spoke** é muito utilizada em ambientes corporativos, nos quais há, geralmente, a necessidade de um firewall mais sofisticado (VCN Hub), capaz de oferecer maior controle e proteção sobre o tráfego entre aplicações (VCNs Spoke), sejam entre VCNs ou no fluxo de dados entre o ambiente on-premises e o OCI. 
