@@ -18,7 +18,8 @@ Falando das tabelas de roteamento, temos as que seguem:
 - **DRG Route Table**
     - Há duas tabelas de roteamento do DRG que são:
         - **TO-FIREWALL**
-            - Usada para direcionar todo o tráfego ao anexo do firewall (DRG‑ATTCH_VCN‑FIREWALL). A tabela contém apenas uma rota estática e deve ser aplicada a todos os anexos cujo tráfego precise obrigatoriamente passar pelo firewall.
+            - Usada para direcionar todo o tráfego ao anexo do firewall (DRG‑ATTCH_VCN‑FIREWALL). 
+            - A tabela contém apenas uma rota estática e deve ser aplicada a todos os anexos cujo tráfego precise obrigatoriamente passar pelo firewall.
         - **FROM-FIREWALL**
             - Utilizada pelo anexo do firewall e consultada no retorno do tráfego para a rede. Ou seja, quando o firewall envia a resposta. As rotas dessa tabela são inseridas automaticamente via instrução **Match All**, pois o firewall conhece e aprende todas as redes.
 
