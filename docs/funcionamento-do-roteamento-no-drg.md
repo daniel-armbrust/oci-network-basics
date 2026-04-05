@@ -4,7 +4,7 @@
 
 O [DRG (Dynamic Routing Gateway)](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingDRGs.htm) é um componente responsável por possibilitar a conectividade e realizar o roteamento entre VCNs, seja na mesma região ou entre regiões diferentes. Além disso, ele permite a conectividade privada com ambientes on-premises, por meio do FastConnect ou do serviço de VPN Site-to-Site.
 
-Será utilizado o desenho abaixo para ilustrar o funcionamento do roteamento no DRG.
+Será utilizado o diagrama abaixo para ilustrar o funcionamento do roteamento no DRG.
 
 ![DRG #1](img/oci-drg-1.png)
 

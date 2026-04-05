@@ -22,7 +22,7 @@ Por exemplo, em uma VCN que contém duas sub-redes - uma pública e outra privad
 6. OPCIONAL: Se necessário, criar os DHCP Options de forma independente, um para cada sub-rede (pessoalmente, prefiro utilizar o DHCP Options que foi criado junto com a VCN para todas as sub-redes da VCN).
 7. Criar as sub-redes e utilizar a tabela de roteamento e a Security List criadas de forma independente para cada sub-rede.
 
-O resultado final, por exemplo, para cada VCN, será similar ao desenho abaixo:
+O resultado final, por exemplo, para cada VCN, será similar ao diagrama abaixo:
 
 ![VCN Default Route Table #2](img/oci-vcn-2.png)
 
