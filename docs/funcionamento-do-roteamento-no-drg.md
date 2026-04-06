@@ -89,9 +89,9 @@ O processo é simples: a decisão de roteamento ocorre quando o pacote "entra" n
 
 Vamos ao seguinte exemplo. Suponha que o compute instance 10.100.20.5 da VCN-A queira se comunicar com o compute instance 172.16.50.100 da VCN-B. As decisões de roteamento que serão feitas da origem para o destino são:
 
-1. A primeira decisão de roteamento ocorre no próprio host. Nessa etapa o host determina o endereço IP e a interface de rede que será usada para enviar o pacote. Normalmente existe uma rota default apontando para o gateway da sub‑rede (10.100.20.1).
+1. A primeira decisão de roteamento ocorre no próprio host (10.100.20.5). Nessa etapa o host determina o endereço IP e a interface de rede que será usada para enviar o pacote. Normalmente existe uma **rota default** apontando para o gateway da sub‑rede (10.100.20.1).
 
-2. A segunda decisão de roteamento ocorre no gateway da sub‑rede. O gateway consulta sua própria tabela de rotas para determinar o next‑hop (tabela de rotas da sub-rede). No exemplo, todo pacote com destino a rede 172.16.0.0/16 será encaminhado para o DRG.
+2. A segunda decisão de roteamento ocorre no gateway da sub‑rede (10.100.20.1). O gateway consulta sua própria tabela de rotas para determinar o next‑hop (tabela de rotas da sub-rede). No exemplo, todo pacote com destino a rede 172.16.0.0/16 será encaminhado para o DRG.
 
 3. A terceira etapa ocorre quando o pacote entra no DRG. Todo anexo do DRG possui sua própria tabela de rotas, que é consultada para determinar o next‑hop. Neste exemplo, todo pacote com destino à rede 172.16.0.0/16 será encaminhado para o anexo DRG‑ATTCH_VCN‑B.
 
