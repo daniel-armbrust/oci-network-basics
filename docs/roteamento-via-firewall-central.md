@@ -62,6 +62,17 @@ $ oci network drg create \
 > --display-name "drg"
 ```
 
+### Anexo DRG (attachment)
+
+#### VCN-FIREWALL
+
+```bash
+$ oci network drg-attachment create \
+> --drg-id "ocid1.drg.oc1.sa-saopaulo-1.aaaaaaaa" \
+> --vcn-id "ocid1.vcn.oc1.sa-saopaulo-1.amaaaaaa" \
+> --display-name "DRG-ATTCH_VCN-FIREWALL"
+```
+
 ### Import Route Distribution
 
 #### IMPRT-TO-FIREWALL
