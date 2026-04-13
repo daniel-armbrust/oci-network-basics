@@ -59,7 +59,3 @@ Outro detalhe - talvez o mais importante - está relacionado ao roteamento entre
 Do ponto de vista das sub-redes, isso não representa um problema. A atenção deve estar voltada para o host, mais especificamente para a tabela de roteamento do sistema operacional. Esse comportamento não é configurado automaticamente e requer configuração manual.
 
 ![VNIC #2](img/oci-vnic-2.png)
-
-## Linux - Policy Routing
-
-TODO

@@ -2,7 +2,7 @@
 
 Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI), abordando conceitos como VCNs, DRGs, Remote Peering, BGP, IPSec e inspeção de tráfego com firewall Linux.
 
-**DISCLAIMER**: Este é um guia de estudos que reflete o entendimento do autor sobre o serviço de redes do OCI. O conteúdo deste repositório não substitui a documentação oficial e não oferece garantias. O OCI é uma plataforma de nuvem dinâmica, na qual novos serviços e melhorias são introduzidos continuamente. Recomenda-se sempre consultar a [documentação oficial](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/baremetalintro.htm).
+**DISCLAIMER**: Este é um guia de estudos não oficial que reflete o entendimento do autor sobre os diversos componentes e serviços de redes oferecidos pelo OCI. O conteúdo deste repositório não substitui a documentação oficial e não oferece garantias. O OCI é uma plataforma de nuvem na qual novos serviços e melhorias são introduzidos continuamente. É recomendado sempre consultar a [documentação oficial](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/baremetalintro.htm) pois o conteúdo aqui, pode cair em desuso ou sofrer atualizações.
 
 ## Topologia de Rede Utilizada
 
@@ -17,9 +17,11 @@ Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI),
 5. [Firewall e Conntrack Table](./docs/firewall-e-conntrack-table.md)
 6. [Funcionamento do Roteamento no DRG](./docs/funcionamento-do-roteamento-no-drg.md)
 7. [Roteamento via Firewall Central (hub & spoke)](./docs/roteamento-via-firewall-central.md)
-7. [DNS](./docs/dns.md)
-8. Monitoração e Throubleshoot
-9. Documentação de referência e links úteis
+8. [Network Visualizer](./docs/network-visualizer.md)
+9. [Linux Advanced Routing](./docs/linux-advanced-routing.md)
+10. [DNS](./docs/dns.md)
+11. Monitoração e Throubleshoot
+12. Documentação de referência e links úteis
 
 ## Terraform Quick Setup
 

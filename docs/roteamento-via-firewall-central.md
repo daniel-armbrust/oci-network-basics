@@ -27,8 +27,8 @@ Falando das tabelas de roteamento, temos as que seguem:
             - As rotas dessa tabela são inseridas automaticamente via instrução **Match All** do **Import Route Distribution** desta tabela, pois o firewall conhece e aprende todas as redes.
 
 - **VCN Route Table**
-    - Apenas do nome fazer referência a VCN, trata‑se de uma tabela de sub‑rede configurada no anexo do firewall. 
-    - Esta tabela desempenha a função de **_ingress routing_** e é consultada assim que o tráfego entra na VCN-FIREWALL, no qual possui apenas uma regra estática cujo next‑hop aponta para o endereço IP do firewall (192.168.100.50).
+    - Apesar do nome fazer referência a VCN, trata‑se de uma tabela de sub‑rede configurada no anexo do firewall (DRG-ATTCH_VCN-FIREWALL). 
+    - A tabela TO-FIREWALL-IP desempenha a função de **_ingress routing_** e é consultada assim que o tráfego entra na VCN-FIREWALL, no qual possui apenas uma regra estática cujo next‑hop aponta para o endereço IP do firewall (192.168.100.50).
 
 ### Fluxo de Roteamento
 
@@ -162,4 +162,15 @@ $ oci network drg-attachment update \
 > --drg-route-table-id "ocid1.drgroutetable.oc1.sa-saopaulo-1.aaaaaaaa" \
 > --route-table-id "ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaa" \
 > --force 
+```
+
+### Firewall (192.168.100.50)
+
+#### Skip Source/Destination Check
+
+```bash
+$ oci network vnic update \
+> --vnic-id "ocid1.vnic.oc1.sa-saopaulo-1.aaaaaaaaa" \
+> --skip-source-dest-check "true" \
+> --force
 ```
