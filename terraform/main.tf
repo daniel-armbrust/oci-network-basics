@@ -22,8 +22,8 @@ module "vcn-appl-1" {
     vcn-appl-2_drg-attch_id = module.vcn-appl-2.drg-attch_id
     vcn-fw-interno_drg-attch_id = module.vcn-fw-interno.drg-attch_id
     drg_id = oci_core_drg.drg-interno.id
-    drg-interno_rpc_id = "${data.oci_core_drg_attachments.drg-interno_rpc-attch.drg_attachments[0].id}"
-    drg-interno-attch_vcn-fw-interno_id = "${data.oci_core_drg_attachments.drg-interno-attch_vcn-fw-interno.drg_attachments[0].id}"
+    drg-interno_rpc_id = oci_core_drg_attachment_management.drg-interno_rpc-attch.id
+    drg-interno-attch_vcn-fw-interno_id = module.vcn-fw-interno.drg-attch_id
 
     # Service Gateway (ALL SERVICES GRU)
     sgw_all_oci_services = local.gru_all_oci_services    
@@ -46,7 +46,7 @@ module "vcn-appl-2" {
     vcn-appl-1_drg-attch_id = module.vcn-appl-1.drg-attch_id
     vcn-fw-interno_drg-attch_id = module.vcn-fw-interno.drg-attch_id
     drg_id = oci_core_drg.drg-interno.id
-    drg-interno-attch_vcn-fw-interno_id = "${data.oci_core_drg_attachments.drg-interno-attch_vcn-fw-interno.drg_attachments[0].id}"
+    drg-interno-attch_vcn-fw-interno_id = module.vcn-fw-interno.drg-attch_id
 
     # Service Gateway (ALL SERVICES GRU)
     sgw_all_oci_services = local.gru_all_oci_services  

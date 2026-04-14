@@ -1,10 +1,12 @@
 # OCI Network Basics
 
-Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI), abordando conceitos como VCNs, DRGs, Remote Peering, BGP, IPSec e inspeção de tráfego com firewall Linux.
+Guia básico sobre o funcionamento da rede no **Oracle Cloud Infrastructure (OCI)**, abordando conceitos como VCNs, DRGs, Remote Peering, BGP, IPSec e inspeção de tráfego com firewall Linux.
 
-**DISCLAIMER**: _Este é um guia de estudos não oficial que reflete o entendimento do autor sobre os diversos componentes e serviços de redes oferecidos pelo OCI. O conteúdo deste repositório não substitui a documentação oficial e não oferece garantias. O OCI é uma plataforma de nuvem na qual novos serviços e melhorias são introduzidos continuamente. É recomendado sempre consultar a [documentação oficial](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/baremetalintro.htm) pois o conteúdo aqui, pode cair em desuso ou sofrer atualizações._
+**DISCLAIMER**: _Este é um guia de estudos NÃO OFICIAL que reflete o entendimento do autor sobre os diversos componentes e serviços de redes oferecidos pelo OCI. O conteúdo deste repositório NÃO SUBSTITUI a documentação oficial e NÃO OFERECE GARANTIAS. O OCI é uma plataforma de nuvem na qual novos serviços e melhorias são introduzidos continuamente. É recomendado sempre consultar a [documentação oficial](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/baremetalintro.htm) pois o conteúdo aqui, pode cair em desuso ou sofrer atualizações._
 
 ## Topologia de Rede Utilizada
+
+O objetivo deste repositório é fornecer um entendimento geral sobre o funcionamento dos componentes de rede, usando como exemplo a topologia a seguir:
 
 ![Network Topology](./docs/img/oci-network-routing-1.png)
 
@@ -17,13 +19,14 @@ Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI),
 5. [Firewall e Conntrack Table](./docs/firewall-e-conntrack-table.md)
 6. [Funcionamento do Roteamento no DRG](./docs/funcionamento-do-roteamento-no-drg.md)
 7. [Roteamento via Firewall Central (hub & spoke)](./docs/roteamento-via-firewall-central.md)
-8. [Network Visualizer](./docs/network-visualizer.md)
-9. [Linux Advanced Routing](./docs/linux-advanced-routing.md)
+8. [Roteamento Avançado](./docs/roteamento-avançado.md)
+9. [Linux Policy Routing](./docs/linux-policy-routing.md)
 10. [DNS](./docs/dns.md)
-11. Monitoração e Throubleshoot
-12. Documentação de referência e links úteis
+11. [Monitoração e Throubleshoot](./docs/monitoracao-e-throubleshoot.md)
 
 ## Terraform Quick Setup
+
+A seguir, o passo a passo para criar, no OCI via [Terraform](https://developer.hashicorp.com/terraform), os componentes de rede usados na topologia de estudo:
 
 ### 1. Pré-requisitos
 
@@ -36,20 +39,20 @@ Antes de começar, você precisa:
 
 ### 2. Clonar o repositório
 
-```
+```bash
 $ git clone git@github.com:daniel-armbrust/oci-network-basics.git
 $ cd oci-network-basics
 ```
 
 ### 3. Baixar e instalar o Terraform
 
-```
+```bash
 $ wget https://releases.hashicorp.com/terraform/1.14.4/terraform_1.14.4_linux_amd64.zip
 $ unzip terraform_1.14.4_linux_amd64.zip
 $ sudo mv terraform /usr/local/bin/
 ```
 
-```
+```bash
 $ ./terraform -version
 Terraform v1.14.4
 on linux_amd64
@@ -59,23 +62,23 @@ on linux_amd64
 
 ### 4. Entrar no diretório terraform
 
-```
+```bash
 $ terraform/
 ```
 
 ### 5. Criar o arquivo terraform.tfvars
 
-```
+```bash
 $ cp terraform.tfvars-example terraform.tfvars
 ```
 
 ### 6. Preencher as variáveis do OCI
 
-```
+```bash
 $ vi terraform.tfvars
 ```
 
-```
+```bash
 api_private_key_path  = ""
 api_fingerprint       = ""
 tenancy_id            = ""
@@ -111,37 +114,22 @@ OCID do compartimento raiz onde os recursos serão provisionados.
 
 ### 7. Inicializar o Terraform
 
-```
+```bash
 $ terraform init
 ```
 
 ### 8. Revisar o plano e criar a infraestrutura
 
-```
+```bash
 $ terraform plan
 ```
 
-```
+```bash
 $ terraform apply
 ```
 
 ### 9. Remover os recursos criados
 
-```
+```bash
 $ terraform destroy
-```
-
-### 10. Erros Conhecidos
-
-- Erro relacionado ao tempo de criação do Remote Peering Connection, que não se fica disponível dentro do tempo esperado. Para resolver, basta executar novamente o comando ```terraform apply```.
-
-```
-Error: Invalid index
-│
-│   on main.tf line 25, in module "vcn-appl-1":
-│   25:     drg-interno_rpc_id = "${data.oci_core_drg_attachments.drg-interno_rpc-attch.drg_attachments[0].id}"
-│     ├────────────────
-│     │ data.oci_core_drg_attachments.drg-interno_rpc-attch.drg_attachments is empty list of object
-│
-│ The given key does not identify an element in this collection value: the collection has no elements.
 ```

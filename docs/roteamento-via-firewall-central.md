@@ -64,7 +64,7 @@ lib/
 network.env
 ```
 
-O arquivo `network.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória.
+O arquivo `network.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
 
 Antes de executar os scripts, crie e exporte as seguintes variáveis de ambiente:
 
