@@ -2,7 +2,7 @@
 
 Guia básico sobre o funcionamento da rede no Oracle Cloud Infrastructure (OCI), abordando conceitos como VCNs, DRGs, Remote Peering, BGP, IPSec e inspeção de tráfego com firewall Linux.
 
-**DISCLAIMER**: Este é um guia de estudos não oficial que reflete o entendimento do autor sobre os diversos componentes e serviços de redes oferecidos pelo OCI. O conteúdo deste repositório não substitui a documentação oficial e não oferece garantias. O OCI é uma plataforma de nuvem na qual novos serviços e melhorias são introduzidos continuamente. É recomendado sempre consultar a [documentação oficial](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/baremetalintro.htm) pois o conteúdo aqui, pode cair em desuso ou sofrer atualizações.
+**DISCLAIMER**: _Este é um guia de estudos não oficial que reflete o entendimento do autor sobre os diversos componentes e serviços de redes oferecidos pelo OCI. O conteúdo deste repositório não substitui a documentação oficial e não oferece garantias. O OCI é uma plataforma de nuvem na qual novos serviços e melhorias são introduzidos continuamente. É recomendado sempre consultar a [documentação oficial](https://docs.oracle.com/en-us/iaas/Content/GSG/Concepts/baremetalintro.htm) pois o conteúdo aqui, pode cair em desuso ou sofrer atualizações._
 
 ## Topologia de Rede Utilizada
 
