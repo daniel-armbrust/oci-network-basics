@@ -73,7 +73,7 @@ PING 10.60.10.10 (10.60.10.10) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.687/0.739/0.792/0.052 ms
 ```
 
-#### 1. Visualizar a tabela de rotas do compute instance APPL-1 (10.50.10.10):
+#### 1. Tabela de rotas do APPL-1 (10.50.10.10)
 
 ```bash
 [opc@appl1 ~]$ ip route show
@@ -82,6 +82,28 @@ default via 10.50.10.1 dev enp0s6 proto dhcp src 10.50.10.10 metric 100
 169.254.0.0/16 dev enp0s6 proto dhcp scope link src 10.50.10.10 metric 100 
 ```
 
-O comando `ip route show` mostra uma rota default (`default`) que envia todo o tráfego para o IP `10.50.10.1`. Essa rota vale para todos os destinos, exceto `10.50.10.0/24` e `169.254.0.0/16`. Como o teste envolve o compute APPL-2
+O comando `ip route show` mostra uma rota default (`default`) que envia todo o tráfego para o IP `10.50.10.1`, que é o gateway da sub-rede. Essa rota vale para todos os destinos, exceto `10.50.10.0/24` e `169.254.0.0/16`. 
 
-É possível ver que o resultado do comando `ip route show` exibe uma rota default (`default`) no qual é usada para enviar todo o tráfego para o endereço ip `10.50.10.1`. Nota-se que esta rota é utilizado para todo o tráfego, exceto para os destinos `10.50.10.0/24` e `169.254.0.0/16`. Como o teste é para o compute instance APPL-2, que está em uma rede diferente da APPL-1, a rota default é usada.
+#### 2. Tabela de rotas da sub-rede
+
+Quando o tráfego chega ao gateway da sub-rede (`10.50.10.1`), a tabela de rotas da sub-rede (`rt_subnprv-1`) é consultada para determinar o próximo salto (next-hop).
+
+![Network Viualizer #4](/docs/img/network-visualizer-4.png)
+
+Nessa tabela há uma regra IPv4 que encaminha todo o tráfego para o DRG (`drg-interno`).
+
+#### 3. Tabela de rotas do DRG
+
+A próxima decisão de roteamento ocorre quando o pacote entra no DRG:
+
+![Network Viualizer #5](/docs/img/network-visualizer-5.png)
+
+Neste caso, consulta-se a tabela do DRG `drg-attch-rt_vcn-appl-1` para determinar o próximo salto.
+
+![Network Viualizer #6](/docs/img/network-visualizer-6.png)
+
+![Network Viualizer #7](/docs/img/network-visualizer-7.png)
+
+Redes importadas para este anexo via route distribution `import-routes_vcn-appl-1`:
+
+![Network Viualizer #8](/docs/img/network-visualizer-8.png)
