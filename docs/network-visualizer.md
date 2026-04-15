@@ -92,6 +92,6 @@ Lembre que, se o anexo tiver uma tabela de rotas de VCN associada (`VCN Route Ta
 
 ![Network Viualizer #10](/docs/img/network-visualizer-10.png)
 
-Esse tipo de configuração normalmente é usado para forçar o tráfego a passar por um firewall antes de atingir o destino. No caso da topologia que está sendo estudada, o tráfego ao entrar nas VCNs `vcn-fw-interno` ou `vcn-fw-externo`, será encaminhado para um [Network Load Balancer](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/home.htm) para então ser encaminhado para o firewall.
+Esse tipo de configuração normalmente é usado para forçar o tráfego a passar por um firewall antes de atingir o destino. No caso da topologia apresentada, o tráfego ao entrar nas VCNs `vcn-fw-interno` ou `vcn-fw-externo`, será encaminhado para um [Network Load Balancer](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/home.htm) para então ser encaminhado para o firewall.
 
 ![Network Viualizer #11](/docs/img/network-visualizer-11.png)
