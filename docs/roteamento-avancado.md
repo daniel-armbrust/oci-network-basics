@@ -60,7 +60,7 @@ Há outros símbolos usados pelo [Network Visualizer](https://docs.oracle.com/en
 
 ### Análise de Roteamento
 
-Suponha que você queira entender como um compute instance em uma sub-rede da VCN-APPL-1 se comunica com recursos da VCN-APPL-2. No exemplo, há uma instância chamada APPL-1 (10.50.10.10) na VCN-APPL-1 e outra chamada APPL-2 (10.60.10.10) na VCN-APPL-2.
+Suponha que você queira entender como um compute instance em uma sub-rede da VCN-APPL-1 se comunica com recursos da VCN-APPL-2. No exemplo, há uma instância chamada APPL-1 (`10.50.10.10`) na VCN-APPL-1 e outra chamada APPL-2 (`10.60.10.10`) na VCN-APPL-2.
 
 ```bash
 [opc@appl1 ~]$ ping -c2 10.60.10.10
@@ -94,11 +94,11 @@ Nessa tabela há uma regra IPv4 que encaminha todo o tráfego para o DRG (`drg-i
 
 #### 3. Tabela de rotas do DRG
 
-A próxima decisão de roteamento ocorre quando o pacote entra no DRG:
+A próxima decisão de roteamento ocorre quando o _PACOTE ENTRA_ no DRG:
 
 ![Network Viualizer #5](/docs/img/network-visualizer-5.png)
 
-Neste caso, consulta-se a tabela do DRG `drg-attch-rt_vcn-appl-1` para determinar o próximo salto.
+Neste caso, consulta-se a tabela do DRG `drg-attch-rt_vcn-appl-1` para determinar o próximo salto:
 
 ![Network Viualizer #6](/docs/img/network-visualizer-6.png)
 
@@ -107,3 +107,19 @@ Neste caso, consulta-se a tabela do DRG `drg-attch-rt_vcn-appl-1` para determina
 Redes importadas para este anexo via route distribution `import-routes_vcn-appl-1`:
 
 ![Network Viualizer #8](/docs/img/network-visualizer-8.png)
+
+Observa‑se que o próximo salto para alcançar o host de destino (`10.60.10.10`) é o anexo `drg-attch_vcn-appl-2`.
+
+#### 4. Saída do DRG
+
+Após a decisão de roteamento da tabela `drg-attch-rt_vcn-appl-1`, o tráfego é encaminhado diretamente para o anexo `drg-attch_vcn-appl-2`, onde se encontra o host de destino (`10.60.10.10`):
+
+![Network Viualizer #9](/docs/img/network-visualizer-9.png)
+
+Lembre que, se o anexo tiver uma tabela de rotas de VCN associada (`VCN Route Table`), haverá mais uma decisão de roteamento antes do tráfego alcançar o destino:
+
+![Network Viualizer #10](/docs/img/network-visualizer-10.png)
+
+Esse tipo de configuração é usado para forçar o tráfego a passar por um firewall. No caso da topologia que está sendo estudada, o tráfego ao entrar nas VCNs `vcn-fw-interno` ou `vcn-fw-externo`, será encaminhado para um [Network Load Balancer](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/home.htm) para então ser direcionado para o firewall.
+
+![Network Viualizer #11](/docs/img/network-visualizer-11.png)
