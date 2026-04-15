@@ -19,7 +19,7 @@ O objetivo deste repositório é fornecer um entendimento geral sobre o funciona
 5. [Firewall e Conntrack Table](./docs/firewall-e-conntrack-table.md)
 6. [Funcionamento do Roteamento no DRG](./docs/funcionamento-do-roteamento-no-drg.md)
 7. [Roteamento via Firewall Central (hub & spoke)](./docs/roteamento-via-firewall-central.md)
-8. [Roteamento Avançado](./docs/roteamento-avancado.md)
+8. [Network Visualizer](./docs/network-visualizer.md)
 9. [Linux Policy Routing](./docs/linux-policy-routing.md)
 10. [DNS](./docs/dns.md)
 11. [Monitoração e Throubleshoot](./docs/monitoracao-e-throubleshoot.md)
