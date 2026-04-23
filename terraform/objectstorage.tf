@@ -24,6 +24,20 @@ resource "oci_objectstorage_object" "objectstorage_file_vm-firewall_rc-firewal" 
     ]  
 }
 
+resource "oci_objectstorage_object" "objectstorage_file_vm-firewall_config-vnics" {
+    bucket = "scripts-storage"
+    namespace = local.objectstorage_ns    
+       
+    object = "vm-firewall_config-vnics.sh"
+    source = "./vm-firewall/scripts/config-vnics.sh"
+    content_type = "text/plain"
+
+    depends_on = [
+        oci_objectstorage_bucket.objectstorage_bucket
+    ]  
+}
+
+
 resource "oci_objectstorage_object" "objectstorage_file_onpremises_vm-ipsec_ip-public-setup" {
     bucket = "scripts-storage"
     namespace = local.objectstorage_ns    

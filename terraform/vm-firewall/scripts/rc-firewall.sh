@@ -1,15 +1,18 @@
 #!/bin/bash
 
 # Configuração das interfaces de rede
-/usr/bin/oci-network-config configure
+#/usr/bin/oci-network-config configure
+
+# Cria diretório "/etc/iproute2" se não existir
+test ! -d /etc/iproute2 && mkdir /etc/iproute2
 
 # Tabela de Rotas da Internet
-if [ -z "`grep internet /etc/iproute2/rt_tables`" ]; then
+if [ -z "`grep internet /etc/iproute2/rt_tables 2>/dev/null`" ]; then
    echo '500 internet' >> /etc/iproute2/rt_tables
 fi
 
 # Tabela de Rotas da Rede Externa
-if [ -z "`grep externo /etc/iproute2/rt_tables`" ]; then
+if [ -z "`grep externo /etc/iproute2/rt_tables 2>/dev/null`" ]; then
    echo '600 externo' >> /etc/iproute2/rt_tables
 fi
 

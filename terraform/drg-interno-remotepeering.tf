@@ -44,7 +44,7 @@ resource "oci_core_drg_route_distribution_statement" "drg-interno_rpc_imp-rt-dst
 resource "oci_core_drg_attachment_management" "drg-interno_rpc-attch" {
   compartment_id = var.root_compartment
   drg_id = oci_core_drg.drg-interno.id
-  display_name = "rpc_attch"
+  display_name = "rpc_drg-externo"
 
   attachment_type = "REMOTE_PEERING_CONNECTION"  
   network_id = oci_core_remote_peering_connection.drg-interno_rpc.id

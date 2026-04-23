@@ -20,7 +20,7 @@ resource "oci_core_security_list" "secl-1_subnpub-1" {
         source = "${var.meu_ip-publico}"
         protocol = "all"
         source_type = "CIDR_BLOCK"
-        stateless = true
+        stateless = false
     }
 
     # IPv6
@@ -28,6 +28,6 @@ resource "oci_core_security_list" "secl-1_subnpub-1" {
         destination = "::/0"
         destination_type = "CIDR_BLOCK"
         protocol = "all"
-        stateless = true
+        stateless = false
     }
 }
