@@ -29,3 +29,9 @@ Para ativar a função de encaminhamento no Linux, tornar o host um roteador, ba
 ```bash
 $ echo 1 > /proc/sys/net/ipv4/ip_forward
 ```
+
+Se o roteador também encaminha pacotes IPv6, o parâmetro do kernel é outro: 
+
+```bash
+$ echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
+```
