@@ -35,3 +35,91 @@ Se o roteador também encaminha pacotes IPv6, o parâmetro do kernel é outro:
 ```bash
 $ echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
 ```
+
+## Policy Routing
+
+**Policy Routing (ou Policy-Based Routing - PBR)** é uma técnica de roteamento em que a decisão de roteamento pode ser feita a partir de outros critérios além do endereço de destino. 
+
+Muitas vezes, o **Policy Routing** é chamado de **roteamento inteligente** pois permite tomar decisões de roteamento com base não apenas no endereço de destino, mas também em outras propriedades dos pacotes, como endereço de origem, portas TCP/UDP, marcações em pacotes, campo ToS (Type of Service), interface de entrada, dados do pacote (payload), entre outros.
+
+Normalmente, a configuração de **Policy Routing** divide‑se em duas etapas:
+
+1. Criar várias tabelas de rotas.
+2. Definir regras (policy rules) que escolhem, para cada pacote, qual tabela utilizar.
+
+### Múltiplas Tabelas de Rotas
+
+A funcionalidade de **Policy Routing**, presente no Linux desde o Kernel 2.2, permite criar e configurar múltiplas tabelas de rotas. Ao contrário do roteamento tradicional, que usa apenas a tabela de rotas principal, o **Policy Routing** possibilita ter várias tabelas de roteamento independentes, cada uma contendo as suas próprias regras de roteamento.
+
+Por padrão, o Linux vem configurado com **quatro tabelas de rotas** definidas no arquivo ```/etc/iproute2/rt_tables```:
+
+```shell
+$ cat /etc/iproute2/rt_tables
+#
+# reserved values
+#
+255     local
+254     main
+253     default
+0       unspec
+#
+# local
+#
+```
+
+As tabelas são identificadas internamente pelo kernel por IDs numéricos que vão de 0 a 255 e, opcionalmente podem ser referenciadas por um respectivo nome. Para que um nome seja associado a um ID é preciso declará‑lo no arquivo ```/etc/iproute2/rt_tables``` pois, o Kernel lê esse arquivo na inicialização para reconhecer as tabelas nomeadas.
+
+- **unspec (0)**
+    - Tabela reservada pelo sistema e não é usada como tabela de roteamento ativa. 
+    - É utilizada para operações internas e comandos para manipulação de rotas quando não é explicitamente especifidado um tabela.
+
+- **local (255)**
+    - A tabela local (ID 255) contém rotas para endereços locais do sistema (local delivery), incluindo endereços broadcast, multicast e loopback.
+    - Tem prioridade alta na decisão de roteamento onde, o Kernel consulta para determinar se um pacote é destinado ao próprio host.
+
+- **main (254)**
+    - É a tabela de roteamento padrão usada pelo Linux.
+    - Toda manipulação de rotas, quando não se aplicam critérios de **Policy Routing**, devem ser feitas nesta tabela.
+
+- **default (253)**
+    - Tabela reservada para processametno posterior quando não houver nenhuma combinação de regra presente na tabela **main**.
+
+Na prática, a tabela **main** é a única que normalmente se manipula manualmente. As demais devem ser deixadas para o Kernel gerenciar. Por exemplo, a tabela **unspec** não permite adição de rotas, é controlada apenas pelo Kernel.
+
+Por exemplo, para visualizar o conteúdo de uma tabela é possível usar seu nome ou ID numérico:
+
+```shell
+$ ip route show table main
+default via 10.90.20.254 dev eth1 proto kernel
+10.70.10.0/24 dev eth0 proto kernel scope link src 10.70.10.1
+10.90.20.0/24 dev eth1 proto kernel scope link src 10.90.20.1
+```
+
+O comando ```ip route show table main``` é equivalente ao comando ```route -n```, apenas com formato de saída diferente:
+
+```shell
+$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         10.90.20.254    0.0.0.0         UG    0      0        0 eth1
+10.70.10.0      0.0.0.0         255.255.255.0   U     0      0        0 eth0
+10.90.20.0      0.0.0.0         255.255.255.0   U     0      0        0 eth1
+```
+
+Para criar uma nova tabela, primeiro adicione seu ID e nome em ```/etc/iproute2/rt_tables```:
+
+```shell
+$ echo '100 internet' >> /etc/iproute2/rt_tables
+```
+
+Após isso, já se torna possível adicionar e manipular rotas nesta tabela:
+
+```shell
+$ ip route add 198.51.100.0/24 dev eth0 table internet
+```
+
+A ideia de ter múltiplas tabelas é justamente ter diferentes regras de roteamento (rotas) que podem ser usadas por regras definidas com comando ```ip rule```. Sem essas regras, não há critério de seleção e o kernel passa a usar apenas a tabela **main** para decisão de roteamento.
+
+No OCI, por exemplo, configurar corretamente o **Policy Routing** é obrigatório quando uma instância com função de roteador/firewall possui múltiplas VNICs em sub‑redes diferentes com gateways diferentes.
+
+## Fluxo dos Pacotes dentro da Caixa
