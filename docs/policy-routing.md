@@ -119,7 +119,7 @@ Por exemplo, a regra abaixo direciona a consulta para a tabela ```internet```, q
 $ ip rule add to 8.8.8.8 table internet prio 10
 ```
 
-Cada regra tem uma priordade de processamento onde, regras de maior prioridade (valor mais baixo) são avaliadas primeiro e seguem em ordem crescente até a última regra. Ao encontrar uma regra que dê match, sua ação é aplicada (por exemplo, consultar a tabela "internet") e as regras subsequentes não são avaliadas.
+Cada regra tem uma priordade de processamento (```prio 10```) onde, regras de maior prioridade (valor mais baixo) são avaliadas primeiro e seguem em ordem crescente até a última regra. Ao encontrar uma regra que dê match, sua ação é aplicada (por exemplo, consultar a tabela "internet") e as regras subsequentes não são avaliadas.
 
 Por padrão, há as seguintes regras que fazem uso das tabelas ```local```, ```main``` e ```default```:
 
@@ -149,7 +149,7 @@ broadcast 127.255.255.255 dev lo proto kernel scope link src 127.0.0.1
 
 Além do ```ip rule``` e ```ip route```, existem outros estágios avaliados por regras que processam os pacotes. Em conjunto com o comando ```ip```, entram também as regras do _[Netfilter](https://en.wikipedia.org/wiki/Netfilter)_.
 
-_[Netfilter](https://en.wikipedia.org/wiki/Netfilter)_ é um framework do Kernel Linux que expõe vários estágios de processamento que são consultados assim que um pacote entra pela interface de rede.
+_[Netfilter](https://en.wikipedia.org/wiki/Netfilter)_ é um framework do Kernel Linux que contém vários estágios de processamento que são consultados assim que um pacote entra pela interface de rede.
 
 Os estágios do _[Netfilter](https://en.wikipedia.org/wiki/Netfilter)_ são divididos em dois componentes principais:
 
@@ -240,7 +240,19 @@ Com essa regra, todo pacote que entra no host e tem como destino a porta 80/TCP 
 
 ## Fluxo dos Pacotes dentro da Caixa
 
+Para entender melhor a relação entre os estágios de processamento apresentados, vamos utilizar o diagrama abaixo. Ele representa as diferentes etapas percorridas por um pacote de dados a partir do momento em que ele entra pela interface de rede **eth0**:
+
 ![OCI Linux PBR #1](/docs/img/oci-linux-pbr-1.png)
+
+De acordo com o diagrama, o pacote possui dois destinos possíveis. Para cada destino, ele passa por diferentes estágios de processamento, que são:
+
+## Entrega Local (local delivery)
+
+## Encaminhamento (forward)
+
+## OCI + Linux + Policy Routing
+
+![OCI Linux PBR #2](/docs/img/oci-linux-pbr-2.png)
 
 ## Referências
 

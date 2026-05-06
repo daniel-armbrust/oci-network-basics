@@ -22,7 +22,7 @@ O objetivo deste repositório é fornecer um entendimento geral sobre o funciona
 8. [Hub & Spoke com Local Peering Gateway (LPG)](./docs/hub-spoke-com-local-peering-gateway.md)
 9. [Network Visualizer](./docs/network-visualizer.md)
 10. [Nota sobre Rotas Dinâmicas](./docs/nota-sobre-rotas-dinamicas.md)
-11. [OCI + Linux Policy Routing](./docs/oci-linux-policy-routing.md)
+11. [Policy Routing](./docs/policy-routing.md)
 12. [DNS](./docs/dns.md)
 13. [Monitoração e Throubleshoot](./docs/monitoracao-e-throubleshoot.md)
 
