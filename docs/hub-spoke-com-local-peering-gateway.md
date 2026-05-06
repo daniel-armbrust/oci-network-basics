@@ -1,0 +1,1 @@
+# Hub & Spoke com Local Peering Gateway (LPG)

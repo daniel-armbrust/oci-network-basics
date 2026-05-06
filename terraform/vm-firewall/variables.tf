@@ -117,6 +117,11 @@ variable "vcn-appl-2_ipv6_cidr" {
 # VCN-PUBLICA #
 #-------------#
 
+variable "vcn-publica_cidr" {
+    description = "Prefixo IPv4 da VCN-PUBLICA em notação CIDR"
+    type = string
+}
+
 variable "vcn-publica_subnpub-1_ip-gw" {
     description = "Endereço IPv4 do Gateway da Sub-rede pública"
     type = string
@@ -124,6 +129,20 @@ variable "vcn-publica_subnpub-1_ip-gw" {
 
 variable "vcn-publica_subnpub-1_id" {
     description = "OCID da Sub-rede privada VCN-FIREWALL-INTERNO"
+    type = string
+}
+
+#--------#
+# VCN-DB #
+#--------#
+
+variable "vcn-db_cidr" {
+    description = "Prefixo IPv4 da VCN-DB em notação CIDR"
+    type = string
+}
+
+variable "vcn-db_ipv6_cidr" {
+    description = "Prefixo IPv6 da VCN-DB em notação CIDR"
     type = string
 }
 

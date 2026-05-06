@@ -203,6 +203,7 @@ module "vm-firewall" {
     #-------------#
 
     # IPv4
+    vcn-publica_cidr = local.vcn-publica_cidr
     vcn-publica_subnpub-1_ip-gw = local.vcn-publica_subnpub-1_ip-gw
     vcn-publica_subnpub-1_id = module.vcn-publica.subnpub-1_id
         
@@ -225,6 +226,16 @@ module "vm-firewall" {
 
     # IPv6
     vcn-appl-2_ipv6_cidr = local.vcn-appl-2_ipv6_cidr
+
+    #--------#
+    # VCN-DB #
+    #--------#
+
+    # IPv4
+    vcn-db_cidr = local.vcn-db_cidr
+
+    # IPv6
+    vcn-db_ipv6_cidr = local.vcn-db_ipv6_cidr
 
     #---------------------#
     # FIREWALL INTERNO #1 #

@@ -62,7 +62,12 @@ resource "oci_core_instance" "firewall-1" {
        "vcn-appl-2-cidr" = "${var.vcn-appl-2_cidr}"
        "vcn-appl-2-ipv6-cidr" = "${var.vcn-appl-2_ipv6_cidr}"
 
+       # VCN-DB
+       "vcn-db-cidr" = "${var.vcn-db_cidr}"
+       "vcn-db-ipv6_cidr" = "${var.vcn-db_ipv6_cidr}"
+
        # VCN-PUBLICA
+       "vcn-publica-cidr" = "${var.vcn-publica_cidr}"
        "vcn-publica-subnpub1-ip-gw" = "${var.vcn-publica_subnpub-1_ip-gw}"
 
        # On-Premises
@@ -105,8 +110,8 @@ resource "oci_core_vnic_attachment" "firewall-1_vnic-externo" {
         assign_ipv6ip = true
 
         ipv6address_ipv6subnet_cidr_pair_details {
-           ipv6_subnet_cidr = "${var.vcn-fw-externo_subnprv-1_ipv6_cidr}"
-           ipv6_address = "${var.firewall-1_externo-ipv6}"
+           ipv6subnet_cidr = "${var.vcn-fw-externo_subnprv-1_ipv6_cidr}"
+           ipv6address = "${var.firewall-1_externo-ipv6}"
         }
     }       
 

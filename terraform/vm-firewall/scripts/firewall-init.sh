@@ -30,13 +30,13 @@ cat <<EOF >/etc/rc.d/rc.local
 oci --auth instance_principal os object get --bucket-name scripts-storage --name vm-firewall_config-vnics.sh --file /etc/config-vnics.sh
 
 # Execução do script de configuração das VNICs
-chmod 0500 /etc/config-vnics.sh && /etc/config-vnics.sh
+bash -x /etc/config-vnics.sh &>/var/log/config-vnics.out
 
 # Download do script de configuração do Firewall e Policy Routing
 oci --auth instance_principal os object get --bucket-name scripts-storage --name vm-firewall_rc-firewal.sh --file /etc/rc-firewall.sh
 
 # Execução do script de configuração do Firewall e Policy Routing
-chmod 0500 /etc/rc-firewall.sh && /etc/rc-firewall.sh
+bash -x /etc/rc-firewall.sh &>/var/log/rc-firewall.out
 
 # From /etc/rc.local
 touch /var/lock/subsys/local
