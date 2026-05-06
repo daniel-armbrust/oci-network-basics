@@ -58,13 +58,9 @@ $ cat /etc/iproute2/rt_tables
 #
 # reserved values
 #
-255     local
-254     main
-253     default
-0       unspec
-#
-# local
-#
+0       local
+32766   main
+32767   default
 ```
 
 As tabelas são identificadas internamente pelo Kernel por IDs numéricos e, opcionalmente podem ser referenciadas por um respectivo nome. Para que um nome seja associado a um ID é preciso declará‑lo no arquivo ```/etc/iproute2/rt_tables``` pois, o Kernel lê esse arquivo na sua inicialização para reconhecer as tabelas nomeadas.
