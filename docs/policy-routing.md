@@ -246,9 +246,9 @@ Para entender melhor a relação entre os estágios de processamento apresentado
 
 De acordo com o diagrama, o pacote possui dois destinos possíveis. Para cada destino, ele passa por diferentes estágios de processamento, que são:
 
-## Entrega Local (local delivery)
+### Entrega Local (local delivery)
 
-## Encaminhamento (forward)
+### Encaminhamento (forward)
 
 ## OCI + Linux + Policy Routing
 
