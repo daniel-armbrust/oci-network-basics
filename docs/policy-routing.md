@@ -400,7 +400,54 @@ $ iptables -t filter -A FORWARD -i eth0 -o eth1 -p icmp --icmp-type echo-request
 
 ## OCI + Linux + Policy Routing
 
+Toda essa base teórica sobre o fluxo de pacotes no Linux é essencial para implementar corretamente um firewall multi-VNIC ou multi-homed no OCI.
+
+Independentemente do fabricante do seu firewall, seja ele um pfSense, Fortinet, Palo Alto, Check Point, entre outros, a lógica geral do processamento de pacotes e decisão de roteamento dentro da caixa é similar. 
+
+De acordo com a topologia de referência que está sendo estudada, o firewall Linux possui três VNICs, cada uma conectada a uma sub-rede distinta no OCI. Cada sub-rede possui seu próprio bloco CIDR e seu respectivo gateway, o que torna necessário compreender como o Linux toma decisões de roteamento quando há múltiplas interfaces de rede disponíveis.
+
 ![OCI Linux PBR #2](/docs/img/oci-linux-pbr-2.png)
+
+### vnic-appl (enp0s6)
+
+Esta é primeira VNIC (primary) que é configurada no momento de criação da instância. Esta VNIC utiliza a tabela de rotas `main` e é utilizada para comunicação com as redes `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
+
+Quem conhece e sabe alcançar essas redes é o gateway da sub-rede `10.70.10.1`. Por isso, os pacotes que saem pela primary VNIC devem consultar a tabela de rotas `main`, onde existe uma rota padrão apontando para esse gateway.
+
+```shell
+$ ip rule add to 10.50.0.0/16 table main prio 100
+$ ip rule add to 10.60.0.0/16 table main prio 101
+$ ip rule add to 10.100.0.0/16 table main prio 102
+```
+
+A interface primária será também utilizada para comunicação com a rede de destino `169.254.0.0/16`. Essa é uma rede link-local interna da OCI, utilizada por diversos serviços da plataforma, como DNS, NTP, metadata service e conexões iSCSI. 
+
+```shell
+$ ip rule add to 169.254.0.0/16 table main prio 10
+```
+
+Observe que a regra associada a essa rede possui prioridade mais alta em relação às demais regras de roteamento.
+
+### vnic-externo (enp1s0)
+
+Esta VNIC utiliza a tabela `externo` e é utilizada para toda comunicação com destino on-premises onde existem as redes `172.16.100.0/24`, `10.200.10.0/24` e `192.168.100.0/24`. Neste caso, quem conhece as redes do on-premises é o gateway da sub-rede `10.80.30.1`.
+
+Após criar a tabela, deve-se configurar as rotas:
+
+```shell
+$ ip route add 10.80.30.0/24 dev enp1s0 table externo
+$ ip route add default via 10.80.30.1 table externo
+```
+
+Por fim, adiciona-se as regras para utilizar a tabela `externo`:
+
+```shell
+$ ip rule add to 172.16.100.0/24 table externo prio 200
+$ ip rule add to 10.200.10.0/24 table externo prio 201
+$ ip rule add to 192.168.100.0/24 table externo prio 202
+```
+
+Como há uma rota default na tabela `externo`, qualquer rede não especificada será entregue ao gateway da sub-rede `10.80.30.1`.
 
 ## Referências
 

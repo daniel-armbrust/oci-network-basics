@@ -23,8 +23,9 @@ O objetivo deste repositório é fornecer um entendimento geral sobre o funciona
 9. [Network Visualizer](./docs/network-visualizer.md)
 10. [Nota sobre Rotas Dinâmicas](./docs/nota-sobre-rotas-dinamicas.md)
 11. [Policy Routing](./docs/policy-routing.md)
-12. [DNS](./docs/dns.md)
-13. [Monitoração e Throubleshoot](./docs/monitoracao-e-throubleshoot.md)
+12. [TOS e QoS](./docs/tos-e-qos.md)
+13. [DNS](./docs/dns.md)
+14. [Monitoração e Throubleshoot](./docs/monitoracao-e-throubleshoot.md)
 
 ## Terraform Quick Setup
 
