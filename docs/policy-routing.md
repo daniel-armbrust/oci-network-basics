@@ -240,15 +240,163 @@ Com essa regra, todo pacote que entra no host e tem como destino a porta 80/TCP 
 
 ## Fluxo dos Pacotes dentro da Caixa
 
-Para entender melhor a relação entre os estágios de processamento apresentados, vamos utilizar o diagrama abaixo. Ele representa as diferentes etapas percorridas por um pacote de dados a partir do momento em que ele entra pela interface de rede **eth0**:
+Para entender melhor a relação entre os estágios de processamento apresentados, vamos utilizar o diagrama abaixo:
 
 ![OCI Linux PBR #1](/docs/img/oci-linux-pbr-1.png)
 
-De acordo com o diagrama, o pacote possui dois destinos possíveis. Para cada destino, ele passa por diferentes estágios de processamento, que são:
+De acordo com o diagrama, a partir do momento em que o pacote entra pela interface de rede **eth0**, ele pode seguir dois caminhos possíveis. Para cada caminho, diferentes estágios de processamento são utilizados, conforme descrito abaixo:
 
 ### Entrega Local (local delivery)
 
+Pacotes destinados ao próprio host, para ser entregue a um processo local em execução, percorrem os seguintes estágios em ordem:
+
+#### mangle / PREROUTING
+
+Este é o primeiro estágio percorrido pelo pacote assim que ele entra pela interface de rede, antes de qualquer decisão de roteamento ser aplicada.
+
+Nesta etapa, é possível "marcar pacotes", ou seja, classificá-los para uso posterior em regras de roteamento, políticas de QoS ou controle de tráfego. Também é possível alterar campos específicos do cabeçalho IP, como TTL e TOS.
+
+```shell
+$ iptables -t mangle -A PREROUTING -i eth0 -p tcp --dport 80 -j MARK --set-mark 10
+```
+
+#### nat / PREROUTING
+
+Primeira etapa que é possível aplicar regras para tradução de endereços (NAT). Na prática, este estágio é muito utilizada para regras de ```DNAT``` e ```REDIRECT``` no qual possibilita redirecionar pacotes para outro endereço IP ou porta antes da decisão de roteamento.
+
+```shell
+$ iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-ports 8080
+```
+
+Lembre-se de que qualquer alteração realizada no pacote durante este estágio pode influenciar a decisão de roteamento que será tomada posteriormente.
+
+#### RPDB / ip rules
+
+Esta é a primeira etapa relacionada ao **Policy Routing**, responsável por definir qual tabela de rotas será consultada com base em critérios que você específica. 
+
+Por exemplo, é possível escolher uma tabela de rotas específica para pacotes previamente marcados em ```mangle / PREROUTING``` com ```--set-mark 10``` :
+
+```shell
+$ ip rule add fwmark 10 table internet priority 100
+```
+
+#### Decisão de Roteamento de entrada
+
+Esta é a primeira decisão de roteamento do fluxo. Com base nas regras de **Policy Routing**, o Kernel define qual tabela de rotas será consultada para determinar qual será o next-hop do pacote.
+
+Nesta etapa, com base nas regras de roteamento de uma tabela de rotas, será decidido se o pacote deve ser entregue para um processo local (```nginx```) ou, se ele deve ser encaminhado para fora do host (forward).
+
+Como mencionado anteriormente, caso nenhuma regra específica de **Policy Routing** seja aplicada, a tabela ```main``` será consultada por padrão.
+
+#### mangle / INPUT
+
+Segunda etapa da tabela ```mangle```, onde também é possível "marcar pacotes", de forma semelhante ao que foi apresentado anteriormente em ```mangle / PREROUTING```.
+
+Um caso de uso prático para este estágio é contabilizar tráfego destinado a serviços locais.
+
+#### nat / INPUT
+
+Segunda etapa da tabela ```nat``` aplicada após a decisão de roteamento. Aqui é possível redirecionar pacotes para outra porta que são destinados para ser entregues para um processo local (```nginx```).
+
+#### filter / INPUT
+
+Esta é a principal etapa de filtragem para pacotes destinados ao próprio host. Nesta etapa, são aplicadas as regras de firewall responsáveis por permitir, rejeitar ou descartar o tráfego destinado a processos locais em execução.
+
+```shell
+$ iptables -t filter -A INPUT -p tcp --dport 80 -j DROP
+```
+
+#### Processo Local
+
+Processo local em execução que receberá o pacote após ele ser aceito pelas etapas anteriores. Nesse momento, o Kernel entrega o pacote ao processo correto com base nas informações de camada 4, como protocolo e porta de destino. Por exemplo, se houver um processo ````nginx``` "escutando" na porta 80/TCP, o Kernel usará essa informação para encaminhar o pacote ao socket associado a esse serviço.
+
+Depois que o processo local recebe o pacote e realiza o seu processamento, um novo pacote é gerado contendo a resposta que será enviada ao remetente.
+
+#### RPDB / ip rules
+
+As mesmas regras de **Policy Routing** definidas com ```ip rule```, apresentadas na etapa 3, também são avaliadas neste momento para determinar qual tabela de rotas será utilizada. Porém, agora o processamento ocorre sobre um novo pacote: a resposta gerada pelo processo local, como o ```nginx```, que será enviada de volta ao remetente. 
+
+#### Decisão de Roteamento de saída
+
+A partir da resposta gerada pelo processo local e da tabela de rotas selecionada pelas regras de ```ip rule```, o Kernel realiza uma nova decisão de roteamento para determinar por qual interface de rede o pacote de resposta será enviado (interface de saída).
+
+#### mangle / OUTPUT
+
+Terceira etapa da tabela ```mangle```, porém, esta etapa é processada somente para pacotes gerados localmente pelo próprio host, antes que eles sejam enviados pela interface de rede de saída.
+
+```shell
+$ iptables -t mangle -A OUTPUT -p tcp --sport 80 -j MARK --set-mark 20
+```
+
+#### nat / OUTPUT
+
+Terceira etapa da tabela ```nat```, usada para aplicar regras de tradução de endereços ou portas em pacotes gerados localmente pelo próprio host.
+
+#### filter / OUTPUT
+
+Segunda etapa de filtragem de pacotes da tabela ```filter```. Nesta etapa, podem ser criadas regras para permitir, rejeitar ou descartar tráfego. Porém, diferente da chain ```filter / INPUT```, esta etapa é avaliada somente para pacotes gerados localmente pelo próprio host (resposta ou nova conexão de dentro para fora).
+
+Por exemplo, você pode impedir que um usuário de dentro do host, abra uma conexão telnet para fora:
+
+```shell
+$ iptables -t filter -A OUTPUT -p tcp --dport 23 -j REJECT
+```
+
+#### mangle / POSTROUTING
+
+Quarta e última etapa da tabela ```mangle```. Ela é processada depois da decisão de roteamento (POSTROUTING), quando o Kernel já determinou a interface de rede de saída do pacote.
+
+Por exemplo, é nesta etapa que é possível alterar o campo TTL do pacote IP:
+
+```shell
+$ iptables -t mangle -A POSTROUTING -o eth1 -j TTL --ttl-set 128
+```
+
+#### nat / POSTROUTING
+
+Última etapa da tabela `nat`, processada após a decisão de roteamento (```POSTROUTING```) e pouco antes do pacote sair pela interface de rede.
+
+Nesta etapa, é muito comum o uso de regras do tipo ```MASQUERADE```, utilizadas para alterar o endereço IP de origem dos pacotes quando eles saem por uma interface de rede. Esse recurso é bastante usado quando máquinas de uma rede interna precisam acessar a Internet utilizando o endereço IP da interface WAN do roteador ou firewall.
+
+```shell
+$ iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+```
+
 ### Encaminhamento (forward)
+
+Pacotes que são encaminhados pelo host para outra rede, entrando por uma interface de rede e saindo por outra, quando o sistema desempenha o papel de roteador ou firewall.
+
+Como você verá, as etapas de processamento são diferentes. Neste fluxo, as chains ```INPUT``` e ```OUTPUT``` não são utilizadas, pois o pacote não é destinado ao próprio host nem foi gerado localmente por ele. Em vez disso, entra em cena a chain ```FORWARD``` , responsável por tratar pacotes que atravessam o host (entram por uma interface de rede e saem por outra).
+
+Habilitar a função de encaminhamento exige alterar um parâmetro do Kernel Linux:
+
+```bash
+$ echo 1 > /proc/sys/net/ipv4/ip_forward
+```
+
+Ou, se o roteador também encaminha pacotes IPv6: 
+
+```bash
+$ echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
+```
+
+As tabelas e chains ```mangle / PREROUTING```, ```nat / PREROUTING```, ```mangle / POSTROUTING``` e ```nat / POSTROUTING``` possuem as mesmas funções e são processadas na mesma ordem.
+
+A exceção está no processamento da RPDB / ip rules e na **decisão de roteamento de entrada**. Nesse ponto, o kernel identifica que o pacote não é destinado ao próprio host, mas sim a outra rede. Por isso, ele será encaminhado pelo host, utilizando uma interface de saída diferente daquela por onde entrou.
+
+#### mangle / FORWARD
+
+Etapa da tabela ```mangle``` aplicada à chain ```FORWARD```, utilizada para pacotes que serão encaminhados pelo host, ou seja, pacotes que entram por uma interface de rede e saem por outra.
+
+#### filter / FORWARD
+
+Chamo esta etapa de "firewall do roteador". Aqui se aplicam regras de filtragem para os pacotes que atravessam o host. Isto quer dizer que quando você quer filtrar "por dentro do firewall", você deve usar esta tabela e chain.
+
+Por exemplo, para descartar tráfego ICMP do tipo ```echo-request``` gerado pela rede interna e encaminhado para hosts na Internet, utilize a regra abaixo:
+
+```bash
+$ iptables -t filter -A FORWARD -i eth0 -o eth1 -p icmp --icmp-type echo-request -j DROP
+```
 
 ## OCI + Linux + Policy Routing
 
