@@ -412,9 +412,11 @@ De acordo com a topologia de referência que está sendo estudada, o firewall Li
 
 ### vnic-appl (enp0s6)
 
-Esta é primeira VNIC (primary) que é configurada no momento de criação da instância. Esta VNIC utiliza a tabela de rotas `main` e é utilizada para comunicação com as redes `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
+Esta é primeira VNIC (primary) que é configurada no momento de criação da instância. Esta VNIC utiliza a tabela de rotas `main`, que é consultada para comunicação com as redes `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
 
 Quem conhece e sabe alcançar essas redes é o gateway da sub-rede `10.70.10.1`. Por isso, os pacotes que saem pela primary VNIC devem consultar a tabela de rotas `main`, onde existe uma rota padrão apontando para esse gateway.
+
+As regras de `ip rule` abaixo instruem o Kernel Linux a consultar a tabela de rotas `main` sempre que o endereço de destino pertencer a uma das seguintes redes: `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
 
 ```shell
 $ ip rule add to 10.50.0.0/16 table main prio 100
@@ -428,20 +430,35 @@ A interface primária será também utilizada para comunicação com a rede de d
 $ ip rule add to 169.254.0.0/16 table main prio 10
 ```
 
-Observe que a regra associada a essa rede possui prioridade mais alta em relação às demais regras de roteamento.
+Na configuração deste firewall, essa regra possui a prioridade mais alta no processo de decisão de roteamento.
 
 ### vnic-externo (enp1s0)
 
-Esta VNIC utiliza a tabela `externo` e é utilizada para toda comunicação com destino on-premises onde existem as redes `172.16.100.0/24`, `10.200.10.0/24` e `192.168.100.0/24`. Neste caso, quem conhece as redes do on-premises é o gateway da sub-rede `10.80.30.1`.
+Esta VNIC utiliza a tabela de rotas `externo` e é responsável pela comunicação com o ambiente on-premises, onde estão localizadas as redes `172.16.100.0/24`, `10.200.10.0/24` e `192.168.100.0/24`.
 
-Após criar a tabela, deve-se configurar as rotas:
+Após definir o ID numérico e o nome da tabela `externo` no arquivo `/etc/iproute2/rt_tables`, devem ser configuradas as rotas:
 
 ```shell
-$ ip route add 10.80.30.0/24 dev enp1s0 table externo
+$ ip route add 10.80.0.0/16 dev enp1s0 table externo
 $ ip route add default via 10.80.30.1 table externo
 ```
 
-Por fim, adiciona-se as regras para utilizar a tabela `externo`:
+Para visualizar as rotas configuradas nessa tabela, utilize o comando abaixo:
+
+```shell
+$ ip route show table externo
+default via 10.80.30.1 dev enp1s0
+10.80.0.0/16 dev enp1s0 scope link
+```
+
+Após configurar a tabela de rotas, é necessário instruir o Kernel Linux a consultar a tabela `externo` sempre que a comunicação tiver origem ou destino para a rede `10.80.0.0/16` (VCN-FIREWALL-EXTERNO):
+
+```shell
+$ ip rule add to 10.80.0.0/16 table externo prio 30
+$ ip rule add from 10.80.0.0/16 table externo prio 31
+```
+
+Também é necessário consultar a mesma tabela sempre que o endereço de destino for uma das redes on-premises:
 
 ```shell
 $ ip rule add to 172.16.100.0/24 table externo prio 200
@@ -449,7 +466,74 @@ $ ip rule add to 10.200.10.0/24 table externo prio 201
 $ ip rule add to 192.168.100.0/24 table externo prio 202
 ```
 
-Como há uma rota default na tabela `externo`, qualquer rede não especificada será entregue ao gateway da sub-rede `10.80.30.1`.
+Como existe uma rota default na tabela `externo` apontando para o gateway `10.80.30.1`, não é necessário cadastrar individualmente as redes on-premises nessa tabela. 
+
+Todo tráfego direcionado ao ambiente on-premises será encaminhado para o gateway da sub-rede `10.80.30.1`. A partir daí, esse gateway saberá alcançar essas redes por meio do DRG.
+
+### vnic-internet (enp2s0)
+
+A VNIC `vnic-internet` é utilizada para toda comunicação com destino à Internet.
+
+Para que isso seja possível, além do endereço IP privado `10.90.20.60`, essa VNIC também possui um endereço IP público associado, gerenciado pela camada de rede do OCI.
+
+Isso significa que o IP público não aparece diretamente na interface de rede do Linux:
+
+```shell
+$ ip addr show dev enp2s0
+4: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 02:00:17:06:63:9b brd ff:ff:ff:ff:ff:ff
+    inet 10.90.20.60/24 scope global enp2s0
+       valid_lft forever preferred_lft forever
+```
+
+Sempre que a instância acessa a Internet, o OCI se encarrega de fazer um NAT 1:1 deste endereço privado para o seu respectivo público associado à VNIC.
+
+As rotas da tabela `internet` seguem o mesmo principio de configuração das demais, tendo sempre uma rota default que aponta para o gateway da sub-rede que agora é o endereço `10.90.20.1`:
+
+```shell
+$ ip route show table internet
+default via 10.90.20.1 dev enp2s0
+10.90.0.0/16 dev enp2s0 scope link
+```
+
+Da mesma forma como ocorre nas configurações que utilizam a tabela `externo`, o Kernel Linux também precisa ser instruído a consultar a tabela `internet` sempre que a comunicação tiver origem ou destino para a rede `10.90.0.0/16`:
+
+```shell
+$ ip rule add to 10.90.0.0/16 table internet prio 50
+$ ip rule add from 10.90.0.0/16 table internet prio 51
+```
+
+Por fim, como essa VNIC é responsável pela comunicação com a Internet, e o objetivo é permitir que os recursos das VCNs VCN-APPL-1 e VCN-APPL-2 acessem a Internet por meio do firewall, é necessário instruir o Kernel Linux a consultar a tabela `internet` sempre que o destino do tráfego não corresponder a nenhuma das redes previamente configuradas:
+
+```shell
+$ ip rule add to 0.0.0.0/0 table internet prio 200
+```
+
+Observe que essa regra possui a menor prioridade dentro de toda a cadeia de regras. Isso é proposital, pois faz com que o Kernel Linux consulte a tabela `internet` somente por último, depois de avaliar as regras mais específicas.
+
+Além das configurações realizadas com `ip rule`, há uma regra adicional necessária para que a comunicação com a Internet funcione.
+
+Essa regra não faz parte do **Policy Routing**, mas sim da configuração de **NAT**, e deve ser criada por meio do comando `iptables`:
+
+```shell
+$ iptables -t nat -A POSTROUTING -o enp2s0 -j MASQUERADE
+```
+
+Esta é uma regra de NAT com a função de **mascaramento** (`MASQUERADE`). Ela é necessária porque, dentro do OCI, o tráfego com destino à Internet deve sair pelo endereço IP `10.90.20.60`, associado à VNIC `vnic-internet`.
+
+Neste caso, por exemplo, quando a comunicação é originada por um recurso da VCN-APPL-1 com destino à Internet, o pacote chega ao firewall e é processado pela cadeia de regras de `ip rule`.
+
+Após a decisão de roteamento (`POSTROUTING`) indicar a saída pelo gateway `10.90.20.1`, o pacote precisa ter seu endereço IP de origem alterado para o endereço IP da VNIC `vnic-internet`, ou seja, `10.90.20.60`. 
+
+Essa tradução do endereço de origem é realizada pela regra de `iptables` apresentada acima.
+
+## Nota Final
+
+Todas essas configurações de **Policy Routing** da topologia de referencia podem ser encontradas no script localizado em `terraform/vm-firewall/scripts/rc-firewall.sh`. 
+
+Durante a criação da infraestrutura com o comando `terraform apply`, o script `rc-firewall.sh` é enviado ao _[Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm)_. Posteriormente, durante o processo de boot, o firewall baixa esse script e o executa automaticamente.
+
+As mesmas configurações são aplicadas aos dois firewalls da topologia de referência `firewall-1` e `firewall-2`. Ambos funcionam em modo **ativo-ativo**, por meio do _[Network Load Balance](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/home.htm)_, que distribui o tráfego de rede entre eles utilizando o _[algoritmo de balanceamento 2-Tuple Hash](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies)_.
 
 ## Referências
 

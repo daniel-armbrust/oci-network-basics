@@ -65,8 +65,8 @@ onpremises_rede_backup_cidr="`curl -s -H "Authorization: Bearer Oracle" -L http:
 #----------------------#
 # VCN-FIREWALL-INTERNO #
 #----------------------#
-ip rule add to $vcn_fw_interno_cidr table main prio 20
-ip rule add from $vcn_fw_interno_cidr table main prio 21
+# ip rule add to $vcn_fw_interno_cidr table main prio 20
+# ip rule add from $vcn_fw_interno_cidr table main prio 21
 
 #----------------------#
 # VCN-FIREWALL-EXTERNO #
