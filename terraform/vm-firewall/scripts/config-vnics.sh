@@ -17,7 +17,7 @@ jq -r '
 ]
 | map(select(length > 0))
 | join(" ")
-' | tr -s "A-Z" "a-z" > "$TMP_FILE"
+' | tr "A-Z" "a-z" > "$TMP_FILE"
 
 # O trecho do código abaixo só configura os IPs nas interfaces de rede. Não
 # há configuração de roteamento aqui.

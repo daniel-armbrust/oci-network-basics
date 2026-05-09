@@ -421,7 +421,7 @@ $ ip rule add to 10.70.0.0/16 table main prio 20
 $ ip rule add from 10.70.0.0/16 table main prio 21
 ```
 
-Além dessas, esta VNIC também utiliza a tabela de rotas `main`, que é consultada para comunicação com as redes `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
+Além dessas configurações, essa VNIC também utiliza a tabela de rotas `main`, que é consultada para comunicação com as redes `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
 
 Quem conhece e sabe alcançar essas redes é o gateway da sub-rede `10.70.10.1`. Por isso, os pacotes que saem pela primary VNIC devem consultar a tabela de rotas `main`, onde existe uma rota padrão apontando para esse gateway.
 
@@ -542,7 +542,7 @@ Todas essas configurações de **Policy Routing** da topologia de referencia pod
 
 Durante a criação da infraestrutura com o comando `terraform apply`, o script `rc-firewall.sh` é enviado ao _[Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm)_. Posteriormente, durante o processo de boot, o firewall baixa esse script e o executa automaticamente.
 
-As mesmas configurações são aplicadas aos dois firewalls da topologia de referência `firewall-1` e `firewall-2`. Ambos funcionam em modo **ativo-ativo**, por meio do _[Network Load Balance](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/home.htm)_, que distribui o tráfego de rede entre eles utilizando o _[algoritmo de balanceamento 2-Tuple Hash](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies)_.
+As mesmas configurações são aplicadas aos dois firewalls da topologia de referência, `firewall-1` e `firewall-2`. Ambos funcionam em modo **ativo-ativo**, por meio do _[Network Load Balance](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/home.htm)_, que distribui o tráfego de rede entre eles utilizando o _[algoritmo de balanceamento 2-Tuple Hash](https://docs.oracle.com/en-us/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies)_.
 
 ## Referências
 
