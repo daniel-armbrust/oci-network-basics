@@ -412,7 +412,16 @@ De acordo com a topologia de referência que está sendo estudada, o firewall Li
 
 ### vnic-appl (enp0s6)
 
-Esta é primeira VNIC (primary) que é configurada no momento de criação da instância. Esta VNIC utiliza a tabela de rotas `main`, que é consultada para comunicação com as redes `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
+Esta é primeira VNIC (primary) que é configurada no momento de criação da instância. 
+
+As primeiras regras de `ip rule`, instruem o Kernel Linux a consultar a tabela de rotas `main` para qualquer comunicação com a rede `10.70.0.0/16` (VCN-FIREWALL-INTERNO):
+
+```shell
+$ ip rule add to 10.70.0.0/16 table main prio 20
+$ ip rule add from 10.70.0.0/16 table main prio 21
+```
+
+Além dessas, esta VNIC também utiliza a tabela de rotas `main`, que é consultada para comunicação com as redes `10.50.0.0/16` (VCN-APPL-1), `10.60.0.0/16` (VCN-APPL-2) e `10.100.0.0/16` (VCN-DB).
 
 Quem conhece e sabe alcançar essas redes é o gateway da sub-rede `10.70.10.1`. Por isso, os pacotes que saem pela primary VNIC devem consultar a tabela de rotas `main`, onde existe uma rota padrão apontando para esse gateway.
 
