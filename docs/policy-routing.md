@@ -534,9 +534,9 @@ Neste caso, por exemplo, quando a comunicação é originada por um recurso da V
 
 Após a decisão de roteamento (`POSTROUTING`) indicar a saída pelo gateway `10.90.20.1`, o pacote precisa ter seu endereço IP de origem alterado para o endereço IP da VNIC `vnic-internet`, ou seja, `10.90.20.60`. 
 
-Essa tradução do endereço de origem é realizada pela regra de `iptables` apresentada acima.
-
 ![OCI Linux NAT #1](/docs/img/oci-linux-nat-1.png)
+
+Essa tradução do endereço de origem é realizada pela regra de `iptables` apresentada acima.
 
 ## Nota Final
 
