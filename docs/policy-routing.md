@@ -536,6 +536,8 @@ Após a decisão de roteamento (`POSTROUTING`) indicar a saída pelo gateway `10
 
 Essa tradução do endereço de origem é realizada pela regra de `iptables` apresentada acima.
 
+![OCI Linux NAT #1](/docs/img/oci-linux-nat-1.png)
+
 ## Nota Final
 
 Todas essas configurações de **Policy Routing** da topologia de referencia podem ser encontradas no script localizado em `terraform/vm-firewall/scripts/rc-firewall.sh`. 
