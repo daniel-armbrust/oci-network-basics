@@ -53,3 +53,41 @@ get_drg_attch_id() {
         --query "data[?\"display-name\"=='$display_name'] | [0].id" \
         --raw-output    
 }
+
+get_drg_rpc_attch_id() {
+    local drg_id="$1"
+
+    oci network drg-attachment list \
+        --compartment-id "$COMPARTMENT_ID" \
+        --all \
+        --attachment-type "REMOTE_PEERING_CONNECTION" \
+        --drg-id "$drg_id" \
+        --lifecycle-state "ATTACHED" \
+        --query "data[0].id" \
+        --raw-output
+}
+
+get_rpc_id() {
+    local display_name="$1"
+    local drg_id="$2"
+
+    oci network remote-peering-connection list \
+        --compartment-id "$COMPARTMENT_ID" \
+        --drg-id "$drg_id" \
+        --all \
+        --query "data[?\"display-name\"=='$display_name'] | [0].id" \
+        --raw-output
+}
+
+get_peer_id() {
+    local display_name="$1"
+    local drg_id="$2"
+
+    oci network remote-peering-connection list \
+        --compartment-id "$COMPARTMENT_ID" \
+        --drg-id "$drg_id" \
+        --display-name "$display_name" \
+        --all \
+        --query "data[?\"display-name\"=='$display_name'] | [0].id" \
+        --raw-output
+}
