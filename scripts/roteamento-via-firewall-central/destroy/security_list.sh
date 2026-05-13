@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/security_list.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/security_list.sh"
 
 #---------------------------------#
 # VCN-A / SUBNPRV - Security List #

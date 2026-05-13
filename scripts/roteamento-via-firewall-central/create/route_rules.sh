@@ -1,12 +1,12 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/route_table.sh"
-source "../lib/gateway.sh"
-source "../lib/drg.sh"
-source "../lib/compute.sh"
-source "../lib/subnet.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/route_table.sh"
+source "../../lib/gateway.sh"
+source "../../lib/drg.sh"
+source "../../lib/compute.sh"
+source "../../lib/subnet.sh"
 
 drg_id="$(get_drg_id "$DRG_NAME")"
 

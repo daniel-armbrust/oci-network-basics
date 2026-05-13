@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "../network.env"
+source "../data.env"
 source "../../lib/vcn.sh"
 source "../../lib/route_table.sh"
 source "../../lib/drg.sh"
@@ -147,7 +147,7 @@ oci network drg-route-table create \
 # DRG VCN Attach #
 #----------------#
 
-# DRG-1 / VCN
+# DRG-1 / VCN-A
 vcn_a_id="$(get_vcn_id "$VCN_A_NAME" "$VCN_A_CIDR")"
 drg_1_rt_vcn_id="$(get_drg_rt_id "$DRG_RT_VCN_NAME" "$drg_1_id" "$drg_1_imprt_vcn_id")"
 
@@ -158,14 +158,16 @@ oci network drg-attachment create \
     --vcn-id "$vcn_a_id" \
     --wait-for-state "ATTACHED"
 
-# DRG-2 / VCN
+# DRG-2 / VCN-HUB
 vcn_hub_id="$(get_vcn_id "$VCN_HUB_NAME" "$VCN_HUB_CIDR")"
 drg_2_rt_vcn_id="$(get_drg_rt_id "$DRG_RT_VCN_NAME" "$drg_2_id" "$drg_2_imprt_vcn_id")"
+vcn_hub_rt_id="$(get_route_table_id "$VCN_HUB_RT_DRG_NAME" "$vcn_hub_id")"
 
 oci network drg-attachment create \
     --display-name "$VCN_HUB_DRGATTCH_NAME" \
     --drg-id "$drg_2_id" \
     --drg-route-table-id "$drg_2_rt_vcn_id" \
+    --route-table-id "$vcn_hub_rt_id" \
     --vcn-id "$vcn_hub_id" \
     --wait-for-state "ATTACHED"
 
@@ -208,8 +210,33 @@ oci network drg-attachment update \
     --wait-for-state "ATTACHED"
 
 # DRG-2 / RPC ROUTE TABLE
-drg_2_rpc_attch_id="$(get_drg_rpc_attch_id "$drg_2_id")"
-drg_2_rpc_rt_id="$(get_drg_rt_id "$DRG_RT_RPC_NAME" "$drg_2_id" "$drg_2_imprt_rpc_id")"
+drg_2_rpc_attch_id=""
+
+while true; do
+    drg_2_rpc_attch_id="$(get_drg_rpc_attch_id "$drg_2_id")"
+
+    if [ -z "$drg_2_rpc_attch_id" ]; then
+        echo "Slepping..."
+        sleep 3s
+        continue
+    else
+        break
+    fi
+done
+
+drg_2_rpc_rt_id=""
+
+while true; do
+    drg_2_rpc_rt_id="$(get_drg_rt_id "$DRG_RT_RPC_NAME" "$drg_2_id" "$drg_2_imprt_rpc_id")"
+
+    if [ -z "$drg_2_rpc_rt_id" ]; then
+        echo "Slepping..."
+        sleep 3s
+        continue
+    else
+        break
+    fi
+done
 
 oci network drg-attachment update \
     --display-name "$DRG_RPC_NAME" \

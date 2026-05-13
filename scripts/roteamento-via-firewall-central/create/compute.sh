@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/subnet.sh"
-source "../lib/ad.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/subnet.sh"
+source "../../lib/ad.sh"
 
 ad_name="$(get_availability_domain)"
 
@@ -28,7 +28,7 @@ oci compute instance launch \
     --private-ip "$VM_A_IP" \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
-    --user-data-file "cloud-init/vm-a.sh" \
+    --user-data-file "../../cloud-init/vm-init.sh" \
     --wait-for-state "PROVISIONING"
 
 #--------------#
@@ -52,7 +52,7 @@ oci compute instance launch \
     --private-ip "$VM_B_IP" \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
-    --user-data-file "cloud-init/vm-b.sh" \
+    --user-data-file "../../cloud-init/vm-init.sh" \
     --wait-for-state "PROVISIONING"
 
 #-------------------------#
@@ -63,7 +63,7 @@ vcn_firewall_subnprv_id="$(get_subnet_id "$VCN_FIREWALL_SUBNPRV_NAME" "$vcn_fire
 
 oci compute instance launch \
     --compartment-id "$COMPARTMENT_ID" \
-    --display-name "$FIREWALL_NAME" \
+    --display-name "$VM_FIREWALL_NAME" \
     --subnet-id "$vcn_firewall_subnprv_id" \
     --availability-domain "$ad_name" \
     --hostname-label "$FIREWALL_HOSTNAME" \

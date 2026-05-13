@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/subnet.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/subnet.sh"
 
 #----------------#
 # VCN-A / SUBNET #

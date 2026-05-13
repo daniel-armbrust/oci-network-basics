@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/drg.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/drg.sh"
 
 drg_id="$(get_drg_id "$DRG_NAME")"
 

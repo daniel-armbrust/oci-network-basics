@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/gateway.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/gateway.sh"
 
 # Service Gateway - ALL SERVICES
 sgw_all_services_id="$(get_sgw_all_services_id)"

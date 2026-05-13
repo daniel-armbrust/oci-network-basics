@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/dhcp_options.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/dhcp_options.sh"
 
 #----------------------#
 # VCN-A / DHCP_OPTIONS #

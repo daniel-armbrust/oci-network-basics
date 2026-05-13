@@ -22,13 +22,13 @@ set -euo pipefail
 # LPG
 ./lpg.sh
 
-# # Compute Instance
-# ./compute.sh
+# Compute Instance
+./compute.sh
 
 # DRG
 ./drg.sh
 
-# # Route Rules
-# ./route_rules.sh
+# Route Rules
+./route_rules.sh
 
 exit 0

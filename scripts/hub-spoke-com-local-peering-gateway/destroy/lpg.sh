@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "../network.env"
+source "../data.env"
 source "../../lib/vcn.sh"
 source "../../lib/route_table.sh"
 source "../../lib/lpg.sh"
@@ -14,7 +14,8 @@ vcn_hub_vcn_firewall_lpg_rt_id="$(get_route_table_id "$VCN_HUB_VCN_FIREWALL_LPG_
 
 oci network local-peering-gateway delete \
     --local-peering-gateway-id "$vcn_hub_vcn_firewall_lpg_id" \
-    --force
+    --force \
+    --wait-for-state "TERMINATED"
 
 oci network route-table delete \
     --rt-id "$vcn_hub_vcn_firewall_lpg_rt_id" \

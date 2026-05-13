@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/subnet.sh"
-source "../lib/ad.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/subnet.sh"
+source "../../lib/ad.sh"
 
 ad_name="$(get_availability_domain)"
 
@@ -28,7 +28,31 @@ oci compute instance launch \
     --private-ip "$VM_A_IP" \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
-    --user-data-file "cloud-init/vm-a.sh" \
+    --user-data-file "../../cloud-init/vm-init.sh" \
+    --wait-for-state "PROVISIONING"
+
+#------------------#
+# VCN-HUB / VM-HUB #
+#------------------#
+vcn_hub_id="$(get_vcn_id "$VCN_HUB_NAME" "$VCN_HUB_CIDR")"
+vcn_hub_subnprv_id="$(get_subnet_id "$VCN_HUB_SUBNPRV_NAME" "$vcn_hub_id" "$VCN_HUB_SUBNPRV_CIDR")"
+
+oci compute instance launch \
+    --compartment-id "$COMPARTMENT_ID" \
+    --display-name "$VM_HUB_NAME" \
+    --subnet-id "$vcn_hub_subnprv_id" \
+    --availability-domain "$ad_name" \
+    --hostname-label "$VM_HUB_HOSTNAME" \
+    --vnic-display-name "$VM_HUB_VNIC_NAME" \
+    --boot-volume-size-in-gbs "100" \
+    --image-id "$ORL10_ARM_ID" \
+    --shape "$VM_HUB_SHAPE" \
+    --shape-config "{\"ocpus\":$VM_HUB_OCPU,\"memoryInGBs\":$VM_HUB_MEM}" \
+    --assign-public-ip "false" \
+    --private-ip "$VM_HUB_IP" \
+    --skip-source-dest-check "true" \
+    --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
+    --user-data-file "../../cloud-init/vm-init.sh" \
     --wait-for-state "PROVISIONING"
 
 #--------------#
@@ -52,7 +76,7 @@ oci compute instance launch \
     --private-ip "$VM_B_IP" \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
-    --user-data-file "cloud-init/vm-b.sh" \
+    --user-data-file "../../cloud-init/vm-init.sh" \
     --wait-for-state "PROVISIONING"
 
 #-------------------------#
@@ -78,4 +102,3 @@ oci compute instance launch \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
     --user-data-file "cloud-init/firewall.sh" \
     --wait-for-state "RUNNING"
-

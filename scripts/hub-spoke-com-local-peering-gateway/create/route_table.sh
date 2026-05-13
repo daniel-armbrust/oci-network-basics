@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "../network.env"
+source "../data.env"
 source "../../lib/vcn.sh"
 
 #-------------------------------#
@@ -27,6 +27,14 @@ oci network route-table create \
     --route-rules '[]' \
     --wait-for-state "AVAILABLE"
 
+# TO-FIREWALL-LPG
+oci network route-table create \
+    --compartment-id "$COMPARTMENT_ID" \
+    --vcn-id "$vcn_hub_id" \
+    --display-name "$VCN_HUB_RT_DRG_NAME" \
+    --route-rules '[]' \
+    --wait-for-state "AVAILABLE"
+
 #--------------------------------------#
 # VCN-FIREWALL / SUBNPRV - Route Table #
 #--------------------------------------#
@@ -38,14 +46,6 @@ oci network route-table create \
     --display-name "$VCN_FIREWALL_SUBNPRV_RT_NAME" \
     --route-rules '[]' \
     --wait-for-state "AVAILABLE"
-
-# # TO-FIREWALL-IP
-# oci network route-table create \
-#     --compartment-id "$COMPARTMENT_ID" \
-#     --vcn-id "$vcn_firewall_id" \
-#     --display-name "$VCN_FIREWALL_TO_FIREWALL_IP_RT_NAME" \
-#     --route-rules '[]' \
-#     --wait-for-state "AVAILABLE"
 
 #-------------------------------#
 # VCN-B / SUBNPRV - Route Table #

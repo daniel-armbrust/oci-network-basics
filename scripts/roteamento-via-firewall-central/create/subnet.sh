@@ -1,10 +1,10 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/route_table.sh"
-source "../lib/security_list.sh"
-source "../lib/dhcp_options.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/route_table.sh"
+source "../../lib/security_list.sh"
+source "../../lib/dhcp_options.sh"
 
 #----------------#
 # VCN-A / SUBNET #

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
 
 #-------#
 # VCN-A #

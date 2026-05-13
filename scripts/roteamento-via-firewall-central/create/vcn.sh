@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "../network.env"
+source "../data.env"
 
 #-------#
 # VCN-A #

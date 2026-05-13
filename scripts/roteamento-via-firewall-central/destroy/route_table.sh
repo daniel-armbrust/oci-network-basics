@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/route_table.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/route_table.sh"
 
 #-------------------------------#
 # VCN-A / SUBNPRV - Route Table #

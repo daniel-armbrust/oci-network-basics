@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source "../network.env"
-source "../lib/vcn.sh"
-source "../lib/route_table.sh"
-source "../lib/drg.sh"
+source "../data.env"
+source "../../lib/vcn.sh"
+source "../../lib/route_table.sh"
+source "../../lib/drg.sh"
 
 oci network drg create \
     --compartment-id "$COMPARTMENT_ID" \
@@ -30,9 +30,9 @@ oci network drg-route-distribution create \
     --display-name "$DRG_IMPRT_FROM_FIREWALL_NAME" \
     --wait-for-state "AVAILABLE"
 
-# #------------------# 
-# # DRG Route Table  #
-# #------------------#
+#------------------# 
+# DRG Route Table  #
+#------------------#
 imprtdst_to_firewall_id="$(get_drg_imprtdst_id "$DRG_IMPRT_TO_FIREWALL_NAME" "$drg_id")"
 imprtdst_from_firewall_id="$(get_drg_imprtdst_id "$DRG_IMPRT_FROM_FIREWALL_NAME" "$drg_id")"
 

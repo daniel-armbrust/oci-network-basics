@@ -1,11 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-# # Compute Instance
-# ./compute.sh
+# Compute Instance
+./compute.sh
 
 # DRG
 ./drg.sh
+
+# Route Rules
+./route_rules.sh
 
 # LPG
 ./lpg.sh

@@ -19,16 +19,16 @@ oci compute instance terminate \
     --preserve-boot-volume "false" \
     --wait-for-state "TERMINATED"
 
-#--------------#
-# VCN-B / VM-B #
-#--------------#
-vcn_b_id="$(get_vcn_id "$VCN_B_NAME" "$VCN_B_CIDR")"
-vcn_b_subnprv_id="$(get_subnet_id "$VCN_B_SUBNPRV_NAME" "$vcn_b_id" "$VCN_B_SUBNPRV_CIDR")"
-vm_b_vnic_id="$(get_vnic_id "$VM_B_IP" "$vcn_b_subnprv_id")"
-vm_b_instance_id="$(get_instance_id "$vm_b_vnic_id")"
+#------------------#
+# VCN-HUB / VM-HUB #
+#------------------#
+vcn_hub_id="$(get_vcn_id "$VCN_HUB_NAME" "$VCN_HUB_CIDR")"
+vcn_hub_subnprv_id="$(get_subnet_id "$VCN_HUB_SUBNPRV_NAME" "$vcn_hub_id" "$VCN_HUB_SUBNPRV_CIDR")"
+vm_hub_vnic_id="$(get_vnic_id "$VM_HUB_IP" "$vcn_hub_subnprv_id")"
+vm_hub_instance_id="$(get_instance_id "$vm_hub_vnic_id")"
 
 oci compute instance terminate \
-    --instance-id "$vm_b_instance_id" \
+    --instance-id "$vm_hub_instance_id" \
     --force \
     --preserve-boot-volume "false" \
     --wait-for-state "TERMINATED"
@@ -43,6 +43,20 @@ firewall_instance_id="$(get_instance_id "$firewall_vnic_id")"
 
 oci compute instance terminate \
     --instance-id "$firewall_instance_id" \
+    --force \
+    --preserve-boot-volume "false" \
+    --wait-for-state "TERMINATED"
+
+#--------------#
+# VCN-B / VM-B #
+#--------------#
+vcn_b_id="$(get_vcn_id "$VCN_B_NAME" "$VCN_B_CIDR")"
+vcn_b_subnprv_id="$(get_subnet_id "$VCN_B_SUBNPRV_NAME" "$vcn_b_id" "$VCN_B_SUBNPRV_CIDR")"
+vm_b_vnic_id="$(get_vnic_id "$VM_B_IP" "$vcn_b_subnprv_id")"
+vm_b_instance_id="$(get_instance_id "$vm_b_vnic_id")"
+
+oci compute instance terminate \
+    --instance-id "$vm_b_instance_id" \
     --force \
     --preserve-boot-volume "false" \
     --wait-for-state "TERMINATED"
