@@ -20,9 +20,16 @@ oci network route-table delete \
 #---------------------------------#
 vcn_hub_id="$(get_vcn_id "$VCN_HUB_NAME" "$VCN_HUB_CIDR")"
 vcn_hub_subnprv_rt_id="$(get_route_table_id "$VCN_HUB_SUBNPRV_RT_NAME" "$vcn_hub_id")"
+vcn_hub_rt_id="$(get_route_table_id "$VCN_HUB_RT_DRG_NAME" "$vcn_hub_id")"
 
 oci network route-table delete \
     --rt-id "$vcn_hub_subnprv_rt_id" \
+    --force \
+    --wait-for-state "TERMINATED"
+
+# TO-FIREWALL-LPG
+oci network route-table delete \
+    --rt-id "$vcn_hub_rt_id" \
     --force \
     --wait-for-state "TERMINATED"
 
@@ -31,18 +38,11 @@ oci network route-table delete \
 #--------------------------------------#
 vcn_firewall_id="$(get_vcn_id "$VCN_FIREWALL_NAME" "$VCN_FIREWALL_CIDR")"
 vcn_firewall_subnprv_rt_id="$(get_route_table_id "$VCN_FIREWALL_SUBNPRV_RT_NAME" "$vcn_firewall_id")"
-vcn_firewall_to_firewall_ip_rt_id="$(get_route_table_id "$VCN_FIREWALL_TO_FIREWALL_IP_RT_NAME" "$vcn_firewall_id")"
 
 oci network route-table delete \
     --rt-id "$vcn_firewall_subnprv_rt_id" \
     --force \
     --wait-for-state "TERMINATED"
-
-# # TO-FIREWALL-IP
-# oci network route-table delete \
-#     --rt-id "$vcn_firewall_to_firewall_ip_rt_id" \
-#     --force \
-#     --wait-for-state "TERMINATED"
 
 #-------------------------------#
 # VCN-B / SUBNPRV - Route Table #

@@ -124,6 +124,11 @@ oci network route-table update \
              "destination": "'"$VCN_A_SUBNPRV_CIDR"'"
          },
          {
+             "networkEntityId": "'"$vcn_firewall_vcn_hub_lpg_id"'",
+             "destinationType": "CIDR_BLOCK",
+             "destination": "'"$VCN_B_SUBNPRV_CIDR"'"
+         },
+         {
              "networkEntityId": "'"$vcn_firewall_ngw_id"'",
              "destinationType": "CIDR_BLOCK",
              "destination":  "0.0.0.0/0"
