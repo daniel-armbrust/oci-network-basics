@@ -21,7 +21,7 @@ oci compute instance launch \
     --hostname-label "$VM_A_HOSTNAME" \
     --vnic-display-name "$VM_A_VNIC_NAME" \
     --boot-volume-size-in-gbs "100" \
-    --image-id "$ORL10_ARM_ID" \
+    --image-id "$ORL8_ARM_ID" \
     --shape "$VM_A_SHAPE" \
     --shape-config "{\"ocpus\":$VM_A_OCPU,\"memoryInGBs\":$VM_A_MEM}" \
     --assign-public-ip "false" \
@@ -29,6 +29,16 @@ oci compute instance launch \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
     --user-data-file "../../cloud-init/vm-init.sh" \
+    --agent-config '{
+        "isManagementDisabled": false,
+        "isMonitoringDisabled": false,
+        "pluginsConfig": [
+            {
+                "name": "Bastion",
+                "desiredState": "ENABLED"
+            }
+        ]
+    }' \
     --wait-for-state "PROVISIONING"
 
 #------------------#
@@ -45,7 +55,7 @@ oci compute instance launch \
     --hostname-label "$VM_HUB_HOSTNAME" \
     --vnic-display-name "$VM_HUB_VNIC_NAME" \
     --boot-volume-size-in-gbs "100" \
-    --image-id "$ORL10_ARM_ID" \
+    --image-id "$ORL8_ARM_ID" \
     --shape "$VM_HUB_SHAPE" \
     --shape-config "{\"ocpus\":$VM_HUB_OCPU,\"memoryInGBs\":$VM_HUB_MEM}" \
     --assign-public-ip "false" \
@@ -53,6 +63,16 @@ oci compute instance launch \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
     --user-data-file "../../cloud-init/vm-init.sh" \
+    --agent-config '{
+        "isManagementDisabled": false,
+        "isMonitoringDisabled": false,
+        "pluginsConfig": [
+            {
+                "name": "Bastion",
+                "desiredState": "ENABLED"
+            }
+        ]
+    }' \
     --wait-for-state "PROVISIONING"
 
 #--------------#
@@ -69,7 +89,7 @@ oci compute instance launch \
     --hostname-label "$VM_B_HOSTNAME" \
     --vnic-display-name "$VM_B_VNIC_NAME" \
     --boot-volume-size-in-gbs "100" \
-    --image-id "$ORL10_ARM_ID" \
+    --image-id "$ORL8_ARM_ID" \
     --shape "$VM_B_SHAPE" \
     --shape-config "{\"ocpus\":$VM_B_OCPU,\"memoryInGBs\":$VM_B_MEM}" \
     --assign-public-ip "false" \
@@ -77,6 +97,16 @@ oci compute instance launch \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
     --user-data-file "../../cloud-init/vm-init.sh" \
+    --agent-config '{
+        "isManagementDisabled": false,
+        "isMonitoringDisabled": false,
+        "pluginsConfig": [
+            {
+                "name": "Bastion",
+                "desiredState": "ENABLED"
+            }
+        ]
+    }' \
     --wait-for-state "PROVISIONING"
 
 #-------------------------#
@@ -93,7 +123,7 @@ oci compute instance launch \
     --hostname-label "$FIREWALL_HOSTNAME" \
     --vnic-display-name "$FIREWALL_VNIC_NAME" \
     --boot-volume-size-in-gbs "100" \
-    --image-id "$ORL10_ARM_ID" \
+    --image-id "$ORL8_ARM_ID" \
     --shape "$FIREWALL_SHAPE" \
     --shape-config "{\"ocpus\":$FIREWALL_OCPU,\"memoryInGBs\":$FIREWALL_MEM}" \
     --assign-public-ip "false" \
@@ -101,4 +131,14 @@ oci compute instance launch \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
     --user-data-file "cloud-init/firewall.sh" \
+    --agent-config '{
+        "isManagementDisabled": false,
+        "isMonitoringDisabled": false,
+        "pluginsConfig": [
+            {
+                "name": "Bastion",
+                "desiredState": "ENABLED"
+            }
+        ]
+    }' \
     --wait-for-state "RUNNING"

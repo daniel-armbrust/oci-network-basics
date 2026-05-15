@@ -41,6 +41,7 @@ oci network route-table update \
 #------------------#
 vcn_hub_id="$(get_vcn_id "$VCN_HUB_NAME" "$VCN_HUB_CIDR")"
 vcn_hub_subnprv_rt_id="$(get_route_table_id "$VCN_HUB_SUBNPRV_RT_NAME" "$vcn_hub_id")"
+vcn_hub_vcn_firewall_lpg_id="$(get_lpg_id "$VCN_HUB_VCN_FIREWALL_LPG_NAME" "$vcn_hub_id")"
 vcn_hub_sgw_id="$(get_sgw_id "$SGW_NAME" "$vcn_hub_id")"
 
 oci network route-table update \
@@ -49,7 +50,12 @@ oci network route-table update \
     --wait-for-state "AVAILABLE" \
     --route-rules '[
          {
-             "networkEntityId": "'"$drg_2_id"'",
+            "networkEntityId": "'"$drg_2_id"'",
+            "destinationType": "CIDR_BLOCK",
+            "destination": "'"$VCN_A_SUBNPRV_CIDR"'"
+         },
+         {
+            "networkEntityId": "'"$vcn_hub_vcn_firewall_lpg_id"'",
              "destinationType": "CIDR_BLOCK",
              "destination": "0.0.0.0/0"
          },
@@ -64,7 +70,6 @@ oci network route-table update \
 # VCN-HUB / LPG #
 #---------------#
 vcn_hub_vcn_firewall_lpg_rt_id="$(get_route_table_id "$VCN_HUB_VCN_FIREWALL_LPG_RT_NAME" "$vcn_hub_id")"
-vcn_hub_vcn_firewall_lpg_id="$(get_lpg_id "$VCN_HUB_VCN_FIREWALL_LPG_NAME" "$vcn_hub_id")"
 
 vcn_hub_subnprv_id="$(get_subnet_id "$VCN_HUB_SUBNPRV_NAME" "$vcn_hub_id" "$VCN_HUB_SUBNPRV_CIDR")"
 vm_hub_vnic_id="$(get_vnic_id "$VM_HUB_IP" "$vcn_hub_subnprv_id")"
@@ -106,7 +111,9 @@ vcn_firewall_subnprv_rt_id="$(get_route_table_id "$VCN_FIREWALL_SUBNPRV_RT_NAME"
 
 vcn_firewall_sgw_id="$(get_sgw_id "$SGW_NAME" "$vcn_firewall_id")"
 vcn_firewall_ngw_id="$(get_ngw_id "$NGW_NAME" "$vcn_firewall_id")"
+
 vcn_firewall_vcn_hub_lpg_id="$(get_lpg_id "$VCN_FIREWALL_VCN_HUB_LPG_NAME" "$vcn_firewall_id")"
+vcn_firewall_vcn_b_lpg_id="$(get_lpg_id "$VCN_FIREWALL_VCN_B_LPG_NAME" "$vcn_firewall_id")"
 
 oci network route-table update \
     --rt-id "$vcn_firewall_subnprv_rt_id" \
@@ -124,7 +131,7 @@ oci network route-table update \
              "destination": "'"$VCN_A_SUBNPRV_CIDR"'"
          },
          {
-             "networkEntityId": "'"$vcn_firewall_vcn_hub_lpg_id"'",
+             "networkEntityId": "'"$vcn_firewall_vcn_b_lpg_id"'",
              "destinationType": "CIDR_BLOCK",
              "destination": "'"$VCN_B_SUBNPRV_CIDR"'"
          },

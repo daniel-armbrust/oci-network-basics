@@ -12,4 +12,8 @@ setenforce 0
 # Aumenta o tamanho do boot volume
 /usr/libexec/oci-growfs -y
 
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+iptables -t nat -A POSTROUTING -j MASQUERADE
+
 exit 0
