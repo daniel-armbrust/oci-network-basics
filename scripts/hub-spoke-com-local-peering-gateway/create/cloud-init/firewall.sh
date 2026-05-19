@@ -1,19 +1,13 @@
 #!/bin/bash
 
-/usr/bin/dnf -y install traceroute net-tools tcpdump
+/usr/bin/dnf install -y git jq
 
-# Desabilita o SELinux
-setenforce 0
-/usr/bin/sed -i 's/^SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+# Retorna a interface primária
+mac="$(curl -s -H 'Authorization: Bearer Oracle' http://169.254.169.254/opc/v2/vnics/ | jq -r '.[0].macAddr' | tr '[:upper:]' '[:lower:]')" 
+primary_iface="$([ -n "$mac" ] && ip -o link show | awk -v mac="$mac" 'tolower($0) ~ mac {gsub(":", "", $2); print $2; exit}')"
 
-# Desabilita o Firewall do Sistema Operacional
-/usr/bin/systemctl disable --now firewalld
-
-# Aumenta o tamanho do boot volume
-/usr/libexec/oci-growfs -y
-
-echo 1 > /proc/sys/net/ipv4/ip_forward
-
-iptables -t nat -A POSTROUTING -j MASQUERADE
+# ArmFirewall deployment 
+cd /opt && git clone https://github.com/daniel-armbrust/armfirewall-proj.git && cd armfirewall-proj/bin
+./install.sh --lan-iface $primary_iface --wan-iface $primary_iface --router-mode
 
 exit 0
