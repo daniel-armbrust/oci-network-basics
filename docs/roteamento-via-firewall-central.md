@@ -59,12 +59,11 @@ No diretório `scripts/roteamento-via-firewall-central` há um conjunto de scrip
 ```bash
 $ ls -1F
 create/
+data.env
 destroy/
-lib/
-network.env
 ```
 
-O arquivo `network.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
+O arquivo `data.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
 
 Antes de executar os scripts, crie e exporte as seguintes variáveis de ambiente:
 

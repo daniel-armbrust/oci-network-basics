@@ -50,3 +50,69 @@ Suponha que a compute instance `vm-a` (`10.100.20.5`) precise se comunicar com a
 9. Por fim, o pacote entra na compute instance `vm-b` onde é processado pela aplicação de destino. Após o processamento, o tráfego de resposta é encaminhado ao gateway da sua respectiva sub-rede (`10.200.20.1`) para iniciar o caminho de retorno até a origem.
 
 O tráfego de retorno, ou seja, a resposta da compute instance `vm-b` (`10.200.20.15`) para `vm-a` (`10.100.20.5`), segue o mesmo fluxo de decisões de roteamento descrito anteriormente, em sentido inverso.
+
+## Comandos de Exemplo
+
+No diretório `scripts/hub-spoke-com-local-peering-gateway/` há um conjunto de scripts para criar a topologia apresentada através do OCI CLI. 
+
+```bash
+$ ls -1F
+create/
+data.env
+destroy/
+```
+
+O arquivo `data.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
+
+Antes de executar os scripts, crie e exporte as seguintes variáveis de ambiente:
+
+- **COMPARTMENT_ID**
+    - ID do compartment onde os recursos serão criados no seu tenancy. 
+
+- **SSH_PUB_KEY_PATH**
+    - Caminho para a chave pública SSH que será usada pelas três compute instances (VM-A, VM-B e FIREWALL).
+
+```bash
+$ export COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaa"
+$ export SSH_PUB_KEY_PATH="/caminho/chave-publica-ssh.key"
+```
+
+Para criar os recursos, execute o script `create.sh` a partir do diretório `create/`:
+
+```bash
+$ cd create/
+$ ./create.sh
+```
+
+Para excluir os recursos, execute o script `destroy.sh` a partir do diretório `destroy/`:
+
+```bash
+$ cd destroy/
+$ ./destroy.sh
+```
+
+## ArmFirewall
+
+O processo de criação da compute instance `firewall` (`192.168.200.160`) já realiza automaticamente a instalação do [ArmFirewall](https://github.com/daniel-armbrust/armfirewall-proj), uma aplicação web desenvolvida para gerenciar funcionalidades de roteamento e firewall em ambientes Linux.
+
+```bash
+$ cd create/cloud-init/
+$ cat cloud-init/firewall.sh
+#!/bin/bash
+
+/usr/bin/dnf install -y git jq
+
+# Retorna a interface primária
+mac="$(curl -s -H 'Authorization: Bearer Oracle' http://169.254.169.254/opc/v2/vnics/ | jq -r '.[0].macAddr' | tr '[:upper:]' '[:lower:]')"
+primary_iface="$([ -n "$mac" ] && ip -o link show | awk -v mac="$mac" 'tolower($0) ~ mac {gsub(":", "", $2); print $2; exit}')"
+
+# ArmFirewall deployment
+cd /opt && git clone https://github.com/daniel-armbrust/armfirewall-proj.git && cd armfirewall-proj/bin
+./install.sh --lan-iface $primary_iface --wan-iface $primary_iface --router-mode
+
+exit 0
+```
+
+Após a instalação, a console web pode ser acessada através do endereço `https://192.168.200.160:8000` utilizando o usuário `admin` e a senha inicial `admin`.
+
+Vale lembrar que todas as sub-redes desta topologia de exemplo são privadas, o que impede o acesso direto a partir da Internet à console web do [ArmFirewall](https://github.com/daniel-armbrust/armfirewall-proj). Neste caso, o acesso pode ser realizado utilizando o recurso [OCI Bastion](https://docs.oracle.com/en-us/iaas/Content/Bastion/Concepts/bastionoverview.htm).
