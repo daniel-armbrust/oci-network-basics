@@ -2,13 +2,13 @@
 
 ## Local Peering Gateway (LPG)
 
-O _[Local Peering Gateway (LPG)](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/localVCNpeering.htm)_ é utilizado para conectar duas VCNs diretamente. 
+O [Local Peering Gateway (LPG)](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/localVCNpeering.htm) é utilizado para conectar duas VCNs diretamente. 
 
-Hoje, já não é mais recomendado utilizar LPGs para conectar VCNs pois, a função que o LPG desempenha foi substituída pelo _[DRG](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingDRGs.htm)_, que é o modo atualmente recomendado para se construír topologias de redes no OCI.
+Hoje, já não é mais recomendado utilizar LPGs para conectar VCNs pois, a função que o LPG desempenha foi substituída pelo [DRG](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingDRGs.htm), que é o modo atualmente recomendado para se construír topologias de redes no OCI.
 
-EU particularmente, ainda vejo diversas topologias que utilizam LPGs para interconectar VCNs. Por esse motivo, considero importante compreender como o roteamento funciona quando existe um LPG realizando a comunicação entre as VCNs.
+Eu particularmente, ainda vejo diversas topologias que utilizam LPGs para interconectar VCNs. Por esse motivo, considero importante compreender como o roteamento funciona quando existe um LPG realizando a comunicação entre as VCNs.
 
-## DRG vs. LPG
+## DRG vs LPG
 
 Além da forma utilizada para estabelecer a conectividade, as decisões de roteamento realizadas através do DRG diferem das utilizadas em cenários com LPG. Observe o diagrama abaixo:
 
@@ -62,7 +62,7 @@ data.env
 destroy/
 ```
 
-O arquivo `data.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
+O arquivo `data.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, regras de roteamento, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
 
 Antes de executar os scripts, crie e exporte as seguintes variáveis de ambiente:
 
@@ -70,7 +70,7 @@ Antes de executar os scripts, crie e exporte as seguintes variáveis de ambiente
     - ID do compartment onde os recursos serão criados no seu tenancy. 
 
 - **SSH_PUB_KEY_PATH**
-    - Caminho para a chave pública SSH que será usada pelas três compute instances (VM-A, VM-B e FIREWALL).
+    - Caminho para a chave pública SSH que será usada pelas três compute instances (`vm-a`, `vm-b` e `firewall`).
 
 ```bash
 $ export COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaa"
@@ -96,8 +96,7 @@ $ ./destroy.sh
 O processo de criação da compute instance `firewall` (`192.168.200.160`) já realiza automaticamente a instalação do [ArmFirewall](https://github.com/daniel-armbrust/armfirewall-proj), uma aplicação web desenvolvida para gerenciar funcionalidades de roteamento e firewall em ambientes Linux.
 
 ```bash
-$ cd create/cloud-init/
-$ cat cloud-init/firewall.sh
+$ cat create/cloud-init/cloud-init/firewall.sh
 #!/bin/bash
 
 /usr/bin/dnf install -y git jq

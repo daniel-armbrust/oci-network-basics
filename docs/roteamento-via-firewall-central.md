@@ -63,7 +63,7 @@ data.env
 destroy/
 ```
 
-O arquivo `data.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
+O arquivo `data.env` define variáveis globais usadas pelos scripts. Elas specificam nomes dos recursos, endereços IP, regras de roteamento, IDs das imagens Linux, tipo de shape e quantidades de OCPU e memória para as compute instances.
 
 Antes de executar os scripts, crie e exporte as seguintes variáveis de ambiente:
 
@@ -71,7 +71,7 @@ Antes de executar os scripts, crie e exporte as seguintes variáveis de ambiente
     - ID do compartment onde os recursos serão criados no seu tenancy. 
 
 - **SSH_PUB_KEY_PATH**
-    - Caminho para a chave pública SSH que será usada pelas três compute instances (VM-A, VM-B e FIREWALL).
+    - Caminho para a chave pública SSH que será usada pelas três compute instances (`VM-A`, `VM-B` e `FIREWALL`).
 
 ```bash
 $ export COMPARTMENT_ID="ocid1.compartment.oc1..aaaaaaaa"
