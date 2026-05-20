@@ -32,25 +32,25 @@ Falando das tabelas de roteamento, temos as que seguem:
 
 ### Fluxo de Roteamento
 
-Suponha que a compute instance 10.100.20.5 da VCN-A (Spoke) queira se comunicar com o compute instance 172.16.50.100 da VCN-B (Spoke). As decisões de roteamento da origem para o destino, que fazem o tráfego passar pelo firewall 192.168.100.50 na VCN‑FIREWALL (Hub), são:
+Suponha que a compute instance `VM-A` (`10.100.20.5`) da `VCN-A` (Spoke) queira se comunicar com a compute instance `VM-B` (`172.16.50.100`) da `VCN-B` (Spoke). As decisões de roteamento da origem para o destino, que fazem o tráfego passar pelo `firewall` (`192.168.100.50`) na `VCN‑FIREWALL` (Hub), são:
 
-1. A primeira decisão de roteamento ocorre no próprio host (10.100.20.5). Nessa etapa o host determina o endereço IP e a interface de rede que será usada para enviar o tráfego. Normalmente existe uma **rota default** apontando para o gateway da sub‑rede (10.100.20.1).
+1. A primeira decisão de roteamento ocorre no próprio host `10.100.20.5`. Nessa etapa o host determina o endereço IP e a interface de rede que será usada para enviar o tráfego. Normalmente existe uma **rota default** apontando para o gateway da sub‑rede (`10.100.20.1`).
 
-2. A segunda decisão de roteamento ocorre no gateway da sub‑rede (10.100.20.1). O gateway consulta sua própria tabela de rotas para determinar o next‑hop (tabela de rotas da sub-rede). No exemplo, tudo deve ser encaminhado para o DRG (0.0.0.0/0).
+2. A segunda decisão de roteamento ocorre no gateway da sub‑rede (`10.100.20.1`). O gateway consulta sua própria tabela de rotas para determinar o next‑hop (tabela de rotas da sub-rede). No exemplo, tudo deve ser encaminhado para o `DRG` (`0.0.0.0/0`).
 
-3. A terceira decisão de roteamento ocorre quando o tráfego entra no DRG, que consulta a tabela de rotas **TO‑FIREWALL** para determinar o qual é o próximo anexo a seguir. Esta tabela contém uma regra estática que encaminha todo o tráfego (0.0.0.0/0) para o anexo **DRG-ATTCH_VCN-FIREWALL**, onde está a VCN‑FIREWALL e o compute instance do firewall (192.168.100.50).
+3. A terceira decisão de roteamento ocorre quando o tráfego entra no `DRG`, que consulta a tabela de rotas **TO‑FIREWALL** para determinar qual é o próximo anexo a seguir. Esta tabela contém uma regra estática que encaminha todo o tráfego (`0.0.0.0/0`) para o anexo **DRG-ATTCH_VCN-FIREWALL**, onde está a compute instance `firewall` (`192.168.100.50`) na `VCN‑FIREWALL`.
 
-4. A quarta decisão de roteamento ocorre quando o tráfego sai do DRG e passa a entrar na VCN-FIREWALL. O anexo **DRG-ATTCH_VCN-FIREWALL** possui uma tabela de rotas de sub-rede chamada **TO-FIREWALL-IP**, que contém uma única rota estática (0.0.0.0/0) que encaminha todo o tráfego para o endereço IP do firewall 192.168.100.50.
+4. A quarta decisão de roteamento ocorre quando o tráfego sai do `DRG` e passa a entrar na `VCN-FIREWALL`. O anexo **DRG-ATTCH_VCN-FIREWALL** possui uma tabela de rotas de sub-rede chamada **TO-FIREWALL-IP**, que contém uma única rota estática (`0.0.0.0/0`) que encaminha todo o tráfego para o endereço IP do firewall `192.168.100.50`.
 
-5. Na quinta etapa o tráfego atinge o compute instance firewall (192.168.100.50), que realiza a inspeção e, caso permita a passagem, consulta sua tabela de rotas do host para devolver o tráfego para o DRG. Normalmente há uma **rota default** apontando para o gateway da sub‑rede (192.168.100.1).
+5. Na quinta etapa o tráfego atinge a compute instance `firewall` (`192.168.100.50`), que realiza a inspeção e, caso permita a passagem, consulta sua tabela de rotas do host para devolver o tráfego para o `DRG`. Normalmente há uma **rota default** apontando para o gateway da sub‑rede (`192.168.100.1`).
 
-6. A sexta decisão de roteamento ocorre no gateway da sub‑rede (192.168.100.1). A tabela de rotas da sub‑rede contém as rotas para as redes da VCN‑A e VCN‑B (ambas apontando para o DRG) e uma **rota default** que permite ao firewall acessar a Internet via **NAT Gateway**.
+6. A sexta decisão de roteamento ocorre no gateway da sub‑rede (`192.168.100.1`). A tabela de rotas da sub‑rede contém as rotas para as redes da `VCN‑A` e `VCN‑B` (ambas apontando para o DRG) e uma **rota default** que permite ao firewall acessar a Internet via **NAT Gateway**.
 
-7. Na sétima etapa o tráfego sai da VCN‑FIREWALL e, ao entrar no DRG, a tabela **FROM‑FIREWALL** é consultada. Essa tabela contém apenas rotas dinâmicas importadas automaticamente pela **Import Route Distribution** através da instrução **Match All**, de forma que ela passa a conhecer todas as redes conectadas ao DRG.
+7. Na sétima etapa o tráfego sai da `VCN‑FIREWALL` e, ao entrar no `DRG`, a tabela **FROM‑FIREWALL** é consultada. Essa tabela contém apenas rotas dinâmicas importadas automaticamente pela **Import Route Distribution** através da instrução **Match All**, de forma que ela passa a "conhecer" todas as redes conectadas ao `DRG`.
 
-8. Por fim, o tráfego sai do DRG e chega à instância de destino 172.16.50.100.
+8. Por fim, o tráfego sai do `DRG` e chega ao compute instance de destino `172.16.50.100`.
 
-O tráfego de retorno, ou seja, a resposta da instância 172.16.50.100 para 10.100.20.5, segue o mesmo fluxo de decisões de roteamento descrito anteriormente, em sentido inverso.
+O tráfego de retorno, ou seja, a resposta da compute instance `VM-B` (`172.16.50.100`) para `VM-A` (`10.100.20.5`), segue o mesmo fluxo de decisões de roteamento descrito anteriormente, em sentido inverso.
 
 ## Comandos de Exemplo
 
