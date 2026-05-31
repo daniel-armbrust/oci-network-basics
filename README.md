@@ -20,12 +20,11 @@ O objetivo deste repositório é fornecer um entendimento geral sobre o funciona
 6. [Funcionamento do Roteamento no DRG](./docs/funcionamento-do-roteamento-no-drg.md)
 7. [Roteamento via Firewall Central (hub & spoke)](./docs/roteamento-via-firewall-central.md)
 8. [Hub & Spoke com Local Peering Gateway (LPG)](./docs/hub-spoke-com-local-peering-gateway.md)
-9. [IPSec BGP](./docs/ipsec-bgp.md)
-10. [Network Visualizer](./docs/network-visualizer.md)
-11. [Policy Routing](./docs/policy-routing.md)
-12. [TOS e QoS](./docs/tos-e-qos.md)
-13. [DNS](./docs/dns.md)
-14. [Monitoração e Throubleshoot](./docs/monitoracao-e-throubleshoot.md)
+9. [Network Visualizer](./docs/network-visualizer.md)
+10. [Policy Routing](./docs/policy-routing.md)
+11. [DNS](./docs/dns.md)
+12. [Roteamento Dinâmico](./docs/roteamento-dinamico.md)
+13. [TOS e QoS](./docs/tos-e-qos.md)
 
 ## Terraform Quick Setup
 

@@ -1,1 +1,0 @@
-# Monitoração e Throubleshoot
