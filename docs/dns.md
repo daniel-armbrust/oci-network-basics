@@ -53,7 +53,7 @@ Em conjunto com todo esse processo, que possibilita o registro e a resolução d
 Quando a VCN foi criada, com a opção `Use DNS hostnames in this VCN` habilitada, também foram criados os seguintes recursos que fazem parte do DNS Privado:
 
 - **Zona DNS**
-    - Uma Zona DNS é o local onde são armazenados os [Registros de Recursos](https://docs.oracle.com/pt-br/iaas/Content/DNS/Tasks/privatedns.htm#privatedns_topic_supported_resource_records).
+    - Uma Zona DNS é o local onde são armazenados os _[Registros de Recursos](https://docs.oracle.com/pt-br/iaas/Content/DNS/Tasks/privatedns.htm#privatedns_topic_supported_resource_records)_.
 
 - **View**
     - Usado para agrupar diferentes Zonas. Ou seja, dentro de uma View podem existir diferentes Zonas de diferentes nomes (os nomes devem ser exclusivos). Porém, uma Zona pode estar associada a diferentes Views.
@@ -65,7 +65,7 @@ Vamos entender a relação dos recursos que foram citados para assim, entender m
 
 ### Zona DNS
 
-Uma das características do [DNS](https://docs.oracle.com/pt-br/iaas/Content/DNS/Tasks/privatedns.htm) é ser um banco de dados de uso mais específico. Quando eu digo "mais específico", quero dizer basicamente que o serviço só é capaz de manipular as informações referente ao nome dos hosts e endereços IPs. Além de que, no DNS, NÃO organizamos os dados em Tabelas como é feito em um banco de dados tradicional. No DNS, os dados são criados e organizados dentro do que chamamos de Zona DNS.
+Uma das características do _[DNS](https://docs.oracle.com/pt-br/iaas/Content/DNS/Tasks/privatedns.htm)_ é ser um banco de dados de uso mais específico. Quando eu digo "mais específico", quero dizer basicamente que o serviço só é capaz de manipular as informações referente ao nome dos hosts e endereços IPs. Além de que, no DNS, NÃO organizamos os dados em Tabelas como é feito em um banco de dados tradicional. No DNS, os dados são criados e organizados dentro do que chamamos de Zona DNS.
 
 No OCI, uma Zona DNS pode ser _Pública_ ou _Privada_:
 
@@ -111,9 +111,9 @@ Sabemos que os dispositivos em uma rede de computadores usam o endereço IP para
 
 Assim, quando usamos um nome para encontrar um recurso, usamos também um DNS Resolver para realizar essa tradução de nome para endereço IP, ou vice-versa.
 
-Para você saber, o OCI utiliza a rede `169.254.0.0/16` para disponibilizar parte de seus serviços. Os endereços dessa rede são acessíveis somente pelos recursos da sub-rede. Alguns desses endereços são usados em [conexões do tipo iSCSI](https://docs.oracle.com/pt-br/iaas/Content/Block/Tasks/connectingtoavolume.htm#Connecting_to_a_Volume) (usado pelo serviço de [Block Volume](https://docs.oracle.com/pt-br/iaas/Content/Block/Concepts/overview.htm)), para visualizar os [metadados de uma instância](https://docs.oracle.com/pt-br/iaas/Content/Compute/Tasks/gettingmetadata.htm) e também para o DNS Resolver.
+Para você saber, o OCI utiliza a rede `169.254.0.0/16` para disponibilizar parte de seus serviços. Os endereços dessa rede são acessíveis somente pelos recursos da sub-rede. Alguns desses endereços são usados em _[conexões do tipo iSCSI](https://docs.oracle.com/pt-br/iaas/Content/Block/Tasks/connectingtoavolume.htm#Connecting_to_a_Volume)_ (usado pelo serviço de _[Block Volume](https://docs.oracle.com/pt-br/iaas/Content/Block/Concepts/overview.htm)_), para visualizar os _[metadados de uma instância](https://docs.oracle.com/pt-br/iaas/Content/Compute/Tasks/gettingmetadata.htm)_ e também para o DNS Resolver.
 
-Os endereços que fazem parte da rede `169.254.0.0/16` são acessíveis somente pelos recursos existentes em uma sub-rede. O OCI disponibiliza alguns serviços, de maneira interna à sub-rede, através dos IPs disponíveis nesta rede. Essa rede de endereços possui o nome de [Link-Local Addresses](https://en.wikipedia.org/wiki/Link-local_address).
+Os endereços que fazem parte da rede `169.254.0.0/16` são acessíveis somente pelos recursos existentes em uma sub-rede. O OCI disponibiliza alguns serviços, de maneira interna à sub-rede, através dos IPs disponíveis nesta rede. Essa rede de endereços possui o nome de _[Link-Local Addresses](https://en.wikipedia.org/wiki/Link-local_address)_.
 
 Por padrão, o DNS Resolver é disponibilizado no endereço IP `169.254.169.254`, e usado pelas instâncias que forem criadas, caso não seja especificado o contrário. Veja abaixo, o conteúdo do arquivo /etc/resolv.conf que faz uso deste resolver em um Oracle Linux:
 
@@ -187,13 +187,13 @@ Uma das ações ao interligarmos cloud e on-premises, é possibilitar a correta 
 
 Como é possível verificar, a criação do endpoint exige uma sub-rede. Dessa sub-rede, será usado um endereço IP no qual você pode especificar ou deixar o OCI escolher um que esteja livre para utilização. Também é possível especificar um _Network Security Group (NSG)_ para filtrar o tráfego (firewall), se este for o caso.
 
-Pelo endpoint, que agora pode ser acessado diretamente (`10.0.2.5`), é possível configurar o servidor DNS localizado no on-premises e este passar a resolver também, qualquer nome que termine em `oraclevcn.com`. Essa técnica é chamada de ["conditional forwarding"](https://social.technet.microsoft.com/wiki/contents/articles/2517.dns-conditional-forwarding-ou-encaminhadores-condicionais-pt-br.aspx):
+Pelo endpoint, que agora pode ser acessado diretamente (`10.0.2.5`), é possível configurar o servidor DNS localizado no on-premises e este passar a resolver também, qualquer nome que termine em `oraclevcn.com`. Essa técnica é chamada de _["conditional forwarding"](https://social.technet.microsoft.com/wiki/contents/articles/2517.dns-conditional-forwarding-ou-encaminhadores-condicionais-pt-br.aspx)_:
 
 ![DNS Resolver #5](img/dns-resolver_arch-2.png)
 
 No DNS Resolver, um endpoint pode ser do tipo Listening ou Forwarding. Já vimos que o modo Listening, irá disponibilizar um IP da sub-rede que pode ser usado para responder às consultas DNS externas (Internet) e também das Zonas associadas pelas Private Views.
 
-Já o modo Forwarding permite encaminhar as consultas para um outro servidor DNS externo. Sim, ele também implementa a técnica de ["conditional forwarding"](https://social.technet.microsoft.com/wiki/contents/articles/2517.dns-conditional-forwarding-ou-encaminhadores-condicionais-pt-br.aspx) que acabamos de descrever. A criação de um endpoint do tipo Forwarding segue o mesmo padrão:
+Já o modo Forwarding permite encaminhar as consultas para um outro servidor DNS externo. Sim, ele também implementa a técnica de _["conditional forwarding"](https://social.technet.microsoft.com/wiki/contents/articles/2517.dns-conditional-forwarding-ou-encaminhadores-condicionais-pt-br.aspx)_ que acabamos de descrever. A criação de um endpoint do tipo Forwarding segue o mesmo padrão:
 
 ![DNS Resolver #6](img/NEW_forwarding-endpoint-1.png)
 
@@ -221,7 +221,7 @@ Observe o desenho abaixo:
 
 Do lado do OCI, há um servidor DNS secundário (winad-1) que necessita também de resolver os nomes da cloud. Através da configuração do "conditional forwarding", é possível direcionar as consultas do domínio `oraclevcn.com` para o DNS Resolver `169.254.169.254`:
 
-![Casos de Uso #2](img/winad-conditional-forward-1)
+![Casos de Uso #2](img/winad-conditional-forward-1.png)
 
 Após essa configuração, o servidor DNS `10.0.4.2` já consegue resolver os nomes contidos na cloud:
 
@@ -247,7 +247,7 @@ Observe a imagem de exemplo abaixo:
 
 Este é um cenário típico onde já existe um servidor DNS Master (primário) do lado do on-premises, e um servidor DNS Slave (secundário) no OCI. O objetivo final é possibilitar a resolução de nomes de ambos os ambientes (cloud e on-premises), até porque existem aplicações no on-premises que necessitam acessar o banco de dados (dbcs-1) existente na cloud.
 
-Um detalhe importante. Para obter alta disponibilidade e escalabilidade, todo acesso ao banco de dados que é formado por um ou mais servidores ([RAC – Real Application Clusters](https://www.oracle.com/br/database/real-application-clusters/)), deve ser via nome [SCAN (Single Client Access Names)](https://docs.oracle.com/database/121/JJDBC/scan.htm#JJDBC29151) e nunca diretamente por um endereço IP:
+Um detalhe importante. Para obter alta disponibilidade e escalabilidade, todo acesso ao banco de dados que é formado por um ou mais servidores (_[RAC – Real Application Clusters](https://www.oracle.com/br/database/real-application-clusters/)_), deve ser via nome _[SCAN (Single Client Access Names)](https://docs.oracle.com/database/121/JJDBC/scan.htm#JJDBC29151)_ e nunca diretamente por um endereço IP:
 
 ![Casos de Uso #4](img/NEW_scan-1.png)
 
@@ -333,9 +333,9 @@ Observe a imagem abaixo e note que a região de Vinhedo (`sa-vinhedo-1`) foi esc
 
 ![Casos de Uso #10](img/dns_dr-1.png)
 
-No exemplo, temos duas VCNs em cada região. Um banco de dados primário (dbcs-primary) em São Paulo (`sa-saopaulo-1`) e sua versão standby (dbcs-standby) em Vinhedo (`sa-vinhedo-1`). Há um [Data Guard](https://docs.oracle.com/pt-br/iaas/dbcs/doc/use-oracle-data-guard-db-system.html) configurado entre os bancos que garante a alta disponibilidade e recuperação rápida, caso exista qualquer problema na região de São Paulo.
+No exemplo, temos duas VCNs em cada região. Um banco de dados primário (dbcs-primary) em São Paulo (`sa-saopaulo-1`) e sua versão standby (dbcs-standby) em Vinhedo (`sa-vinhedo-1`). Há um _[Data Guard](https://docs.oracle.com/pt-br/iaas/dbcs/doc/use-oracle-data-guard-db-system.html)_ configurado entre os bancos que garante a alta disponibilidade e recuperação rápida, caso exista qualquer problema na região de São Paulo.
 
-O objetivo final é poder, de maneira correta, resolver os nomes dos recursos existentes em ambas as [regiões](https://docs.oracle.com/pt-br/iaas/Content/General/Concepts/regions.htm).
+O objetivo final é poder, de maneira correta, resolver os nomes dos recursos existentes em ambas as _[regiões](https://docs.oracle.com/pt-br/iaas/Content/General/Concepts/regions.htm)_.
 
 A VCN-SP existente na região de São Paulo (`sa-saopaulo-1`), possui o domínio `vcnsp.oraclevcn.com` para os seus recursos. Já a VCN-DR em Vinhedo (`sa-vinhedo-1`), possui o domínio `vcndr.oraclevcn.com`.
 
