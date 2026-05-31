@@ -277,7 +277,7 @@ Addresses: 10.1.1.51
 10.1.1.101
 ```
 
-No DNS Master, o "conditional forwarding" para o domínio oraclevcn.com, deve usar o endereço IP do DNS Slave (`10.0.4.2`):
+No DNS Master, o "conditional forwarding" para o domínio `oraclevcn.com`, deve usar o endereço IP do DNS Slave (`10.0.4.2`):
 
 ![Casos de Uso #7](img/NEW_forward-2.png)
 
