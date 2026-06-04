@@ -5,6 +5,7 @@ README.txt
 
 $ export COMPARTMENT_ID=""
 $ export SSH_PUB_KEY_PATH=""
+$ export TENANCY_ID=""
 
 2. Para criar a infraestrutura, acesse o diretório "create" e execute o script "./create.sh":
 

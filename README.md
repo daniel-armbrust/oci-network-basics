@@ -24,7 +24,7 @@ O objetivo deste repositório é fornecer um entendimento geral sobre o funciona
 10. [Policy Routing](./docs/policy-routing.md)
 11. [DNS](./docs/dns.md)
 12. [Roteamento Dinâmico](./docs/roteamento-dinamico.md)
-13. [TOS e QoS](./docs/tos-e-qos.md)
+13. [ToS e QoS](./docs/tos-e-qos.md)
 
 ## Terraform Quick Setup
 
