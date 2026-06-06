@@ -32,7 +32,7 @@ oci compute instance launch \
     --private-ip "$VM_A_1_IP" \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
-    --user-data-file "cloud-init/vma1-init.sh" \
+    --user-data-file "cloud-init/armfw-init.sh" \
     --agent-config '{
         "isManagementDisabled": false,
         "isMonitoringDisabled": false,
@@ -107,7 +107,7 @@ oci compute instance launch \
     --private-ip "$VM_B_1_IP" \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
-    --user-data-file "cloud-init/vmb1-init.sh" \
+    --user-data-file "cloud-init/armfw-init.sh" \
     --agent-config '{
         "isManagementDisabled": false,
         "isMonitoringDisabled": false,
@@ -182,7 +182,7 @@ oci compute instance launch \
     --private-ip "$VM_C_1_IP" \
     --skip-source-dest-check "true" \
     --ssh-authorized-keys-file "$SSH_PUB_KEY_PATH" \
-    --user-data-file "cloud-init/vmc1-init.sh" \
+    --user-data-file "cloud-init/armfw-init.sh" \
     --agent-config '{
         "isManagementDisabled": false,
         "isMonitoringDisabled": false,
