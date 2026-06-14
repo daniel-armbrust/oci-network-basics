@@ -21,6 +21,17 @@ get_private_ip_id() {
         --raw-output
 }
 
+get_private_ip() {
+    local instance_id="$1"
+
+    oci compute instance list-vnics \
+        --compartment-id "$COMPARTMENT_ID" \
+        --instance-id "$instance_id" \
+        --all \
+        --query "data[0].\"private-ip\"" \
+        --raw-output
+}
+
 get_instance_id() {
     # Retorna o instance_id a partir do vnic_id
     local vnic_id="$1"

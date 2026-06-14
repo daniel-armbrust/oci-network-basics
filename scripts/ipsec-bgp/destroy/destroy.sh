@@ -7,6 +7,12 @@ set -euo pipefail
 # Compute Instance
 ./compute.sh
 
+# VPN Site-To-Site
+./vpn.sh
+
+# DRG
+./drg.sh
+
 # Sub-redes
 ./subnet.sh
 

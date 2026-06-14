@@ -34,18 +34,22 @@ cd armfirewall-proj/bin && ./install.sh --lan-iface "$lan_iface"
 ./firewall.sh filter add --chain INPUT --protocol-name udp --dst-port 500 \
     --action ACCEPT --conntrack-mode new
 
+# RIP
+./firewall.sh filter add --chain INPUT --protocol-name udp --dst-port 520 \
+    --action ACCEPT --conntrack-mode new
+
 ./firewall.sh filter add --chain INPUT --protocol-name udp --dst-port 4500 \
     --action ACCEPT --conntrack-mode new
 
 ./firewall.sh filter add --chain INPUT --protocol-name esp --action ACCEPT
 
-./firewall.sh filter add --chain INPUT --src-addr 169.254.0.0/16 --protocol-name all \
+./firewall.sh filter add --chain INPUT --src-addr 10.255.0.0/16 --protocol-name all \
     --action ACCEPT
 
-./firewall.sh filter add --chain FORWARD --src-addr 169.254.0.0/16 \
+./firewall.sh filter add --chain FORWARD --src-addr 10.255.0.0/16 \
     --protocol-name all --action ACCEPT
 
-./firewall.sh filter add --chain FORWARD --dst-addr 169.254.0.0/16 \
+./firewall.sh filter add --chain FORWARD --dst-addr 10.255.0.0/16 \
     --protocol-name all --action ACCEPT
 
 #-------------#
@@ -91,5 +95,42 @@ grep -v "$(hostname)" /tmp/armfw-data.txt | while IFS= read -r line; do
 done
 
 rm -f /tmp/armfw-data.txt
+
+#----------------#
+# BIRD RIP Setup #
+#----------------#
+dnf -y install bird
+
+cat >/usr/local/etc/bird.conf <<EOF
+log "/var/log/bird.log" { info, remote, warning, error, auth, fatal, bug };
+
+protocol device {
+}
+
+protocol direct {
+    ipv4;
+    interface "*";
+}
+
+protocol kernel {
+    ipv4 {
+        import all;
+        export all;
+    };
+
+    kernel table 254;
+}
+
+protocol rip {
+    ipv4 {
+        import all;
+        export all;
+    };
+
+    interface "*";
+}
+EOF
+
+bird -c /usr/local/etc/bird.conf
 
 exit 0
