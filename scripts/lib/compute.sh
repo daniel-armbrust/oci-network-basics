@@ -33,12 +33,22 @@ get_private_ip() {
 }
 
 get_instance_id() {
-    # Retorna o instance_id a partir do vnic_id
     local vnic_id="$1"
 
     oci compute vnic-attachment list \
         --compartment-id "$COMPARTMENT_ID" \
         --all \
         --query "data[?\"vnic-id\"=='$vnic_id'].\"instance-id\" | [0]" \
+        --raw-output
+}
+
+get_secondary_ip_id() {
+    local vnic_id="$1"
+    local ip="$2"
+
+    oci network private-ip list \
+        --vnic-id "$vnic_id" \
+        --query "data[?\"ip-address\"=='$ip'].id | [0]" \
+        --all \
         --raw-output
 }
