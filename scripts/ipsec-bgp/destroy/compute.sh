@@ -19,4 +19,4 @@ oci compute instance terminate \
     --instance-id "$vm_a_1_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"

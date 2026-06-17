@@ -17,7 +17,7 @@ oci compute instance terminate \
     --instance-id "$vm_a_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
 
 #--------------#
 # VCN-B / VM-B #
@@ -31,7 +31,7 @@ oci compute instance terminate \
     --instance-id "$vm_b_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
 
 #-------------------------#
 # VCN-FIREWALL / FIREWALL #
@@ -45,4 +45,4 @@ oci compute instance terminate \
     --instance-id "$firewall_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"

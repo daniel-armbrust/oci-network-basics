@@ -60,34 +60,38 @@ my_prv_ip="$(hostname -I)"
 my_pub_ip="$(grep "$my_hostname" /tmp/armfw-data.txt | cut -f2 -d ':')"
 
 # Tunnel-1
-vti_1_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_1_IP" | cut -f2 -d " ")"
-oci_1_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_1_IP" | cut -f3 -d " ")"
-tunnel_1_pub_ip="$(cat /tmp/armfw-data.txt | grep "TUNNEL_1" | cut -f2 -d " ")"
-tunnel_1_psk="$(cat /tmp/armfw-data.txt | grep "TUNNEL_1" | cut -f3 -d " ")"
+vti_1_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_1_IP" | cut -f2 -d ':')"
+oci_1_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_1_IP" | cut -f3 -d ':')"
+tunnel_1_pub_ip="$(cat /tmp/armfw-data.txt | grep "TUNNEL_1" | cut -f2 -d ':')"
+tunnel_1_psk="$(cat /tmp/armfw-data.txt | grep "TUNNEL_1" | cut -f3 -d ':')"
 
 ./libreswan.sh add \
     --conn-name "oci-1" \
     --left "$my_prv_ip" \
-    --left-id "$my_pub_ip" \
+    --left-id "$my_prv_ip" \
     --right "$tunnel_1_pub_ip" \
     --shared-secret "$tunnel_1_psk" \
     --ikev2 insist \
+    --ike "aes_cbc256-sha2_384;modp1536" \
+    --phase2alg "aes256-sha2_256" \
     --vti-addr "$vti_1_ip_mask" \
     --vti-mtu 1400
 
 # Tunnel-2
-vti_2_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_2_IP" | cut -f2 -d " ")"
-oci_2_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_2_IP" | cut -f3 -d " ")"
-tunnel_2_pub_ip="$(cat /tmp/armfw-data.txt | grep "TUNNEL_2" | cut -f2 -d " ")"
-tunnel_2_psk="$(cat /tmp/armfw-data.txt | grep "TUNNEL_2" | cut -f3 -d " ")"
+vti_2_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_2_IP" | cut -f2 -d ':')"
+oci_2_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_2_IP" | cut -f3 -d ':')"
+tunnel_2_pub_ip="$(cat /tmp/armfw-data.txt | grep "TUNNEL_2" | cut -f2 -d ':')"
+tunnel_2_psk="$(cat /tmp/armfw-data.txt | grep "TUNNEL_2" | cut -f3 -d ':')"
 
 ./libreswan.sh add \
     --conn-name "oci-2" \
     --left "$my_prv_ip" \
-    --left-id "$my_pub_ip" \
+    --left-id "$my_prv_ip" \
     --right "$tunnel_2_pub_ip" \
     --shared-secret "$tunnel_2_psk" \
     --ikev2 insist \
+    --ike "aes_cbc256-sha2_384;modp1536" \
+    --phase2alg "aes256-sha2_256" \
     --vti-addr "$vti_2_ip_mask" \
     --vti-mtu 1400
 

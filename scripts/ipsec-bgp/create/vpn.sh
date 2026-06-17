@@ -36,6 +36,7 @@ oci network ip-sec-connection create \
     --tunnel-configuration "[
         {
            \"displayName\":\"tunnel-1\",
+           \"ikeVersion\":\"V2\",
            \"routing\":\"BGP\",
            \"bgpSessionConfig\":{
                 \"customerBgpAsn\":$BGP_ASN,
@@ -45,6 +46,7 @@ oci network ip-sec-connection create \
         },
         {
            \"displayName\":\"tunnel-2\",
+           \"ikeVersion\":\"V2\",
            \"routing\":\"BGP\",
            \"bgpSessionConfig\":{
                 \"customerBgpAsn\":$BGP_ASN,

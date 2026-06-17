@@ -24,7 +24,7 @@ ipsec_tunnel_1_ip="$(get_ipsec_tunnel_ip "$ipsec_id" "$ipsec_tunnel_1_id")"
 ipsec_tunnel_1_psk="$(get_ipsec_tunnel_psk "$ipsec_id" "$ipsec_tunnel_1_id")"
 
 # Tunnel-2
-ipsec_tunnel_2_id="$(get_ipsec_tunnel_1_id "$ipsec_id")"
+ipsec_tunnel_2_id="$(get_ipsec_tunnel_2_id "$ipsec_id")"
 ipsec_tunnel_2_ip="$(get_ipsec_tunnel_ip "$ipsec_id" "$ipsec_tunnel_2_id")"
 ipsec_tunnel_2_psk="$(get_ipsec_tunnel_psk "$ipsec_id" "$ipsec_tunnel_2_id")"
 

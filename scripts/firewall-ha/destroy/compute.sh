@@ -16,7 +16,7 @@ oci compute instance terminate \
     --instance-id "$fw_1_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "ACCEPTED"
+    --wait-for-state "SUCCEEDED"
 
 # FW-2
 fw_2_vnic_id="$(get_vnic_id "$FW_2_IP" "$vcn_subnprv_id")"
@@ -26,4 +26,4 @@ oci compute instance terminate \
     --instance-id "$fw_2_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "ACCEPTED"
+    --wait-for-state "SUCCEEDED"

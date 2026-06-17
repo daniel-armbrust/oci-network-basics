@@ -19,7 +19,7 @@ oci compute instance terminate \
     --instance-id "$vm_a_1_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
 
 # VM-A-2
 vcn_a_subnprv_id="$(get_subnet_id "$VCN_A_SUBNPRV_NAME" "$vcn_a_id" "$VCN_A_SUBNPRV_CIDR")"
@@ -30,7 +30,7 @@ oci compute instance terminate \
     --instance-id "$vm_a_2_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
 
 #-------#
 # VCN-B #
@@ -46,7 +46,7 @@ oci compute instance terminate \
     --instance-id "$vm_b_1_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
 
 # VM-B-2
 vcn_b_subnprv_id="$(get_subnet_id "$VCN_B_SUBNPRV_NAME" "$vcn_b_id" "$VCN_B_SUBNPRV_CIDR")"
@@ -57,7 +57,7 @@ oci compute instance terminate \
     --instance-id "$vm_b_2_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
 
 #-------#
 # VCN-C #
@@ -73,7 +73,7 @@ oci compute instance terminate \
     --instance-id "$vm_c_1_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
 
 # VM-C-2
 vcn_c_subnprv_id="$(get_subnet_id "$VCN_C_SUBNPRV_NAME" "$vcn_c_id" "$VCN_C_SUBNPRV_CIDR")"
@@ -84,4 +84,4 @@ oci compute instance terminate \
     --instance-id "$vm_c_2_instance_id" \
     --force \
     --preserve-boot-volume "false" \
-    --wait-for-state "TERMINATED"
+    --wait-for-state "SUCCEEDED"
