@@ -22,10 +22,12 @@ cd armfirewall-proj/bin && ./install.sh --lan-iface "$lan_iface"
 /root/bin/oci os object get --bucket-name armfw-data --name armfw-data.txt \
     --file /tmp/armfw-data.txt --auth instance_principal
 
-#-------------------#
-# Libreswan Service #
-#-------------------#
+#------------------------#
+# Libreswan/Bird Service #
+#------------------------#
 ./services.sh install libreswan
+./services.sh install bird
+
 ./services.sh start libreswan
 
 #----------------#
@@ -52,12 +54,13 @@ cd armfirewall-proj/bin && ./install.sh --lan-iface "$lan_iface"
 ./firewall.sh filter add --chain FORWARD --dst-addr 10.255.255.0/24 \
     --protocol-name all --action ACCEPT
 
-#-------------#
-# IPSec Setup #
-#-------------#
+#-------#
+# IPSec #
+#-------#
 my_hostname="$(hostname)"
 my_prv_ip="$(hostname -I)"
 my_pub_ip="$(grep "$my_hostname" /tmp/armfw-data.txt | cut -f2 -d ':')"
+bgp_asn="$(cat /tmp/armfw-data.txt | grep "BGP_ASN" | cut -f2 -d ':')"
 
 # Tunnel-1
 vti_1_ip_mask="$(cat /tmp/armfw-data.txt | grep "IPSEC_BGP_1_IP" | cut -f2 -d ':')"
@@ -95,6 +98,43 @@ tunnel_2_psk="$(cat /tmp/armfw-data.txt | grep "TUNNEL_2" | cut -f3 -d ':')"
     --vti-addr "$vti_2_ip_mask" \
     --vti-mtu 1400
 
-#rm -f /tmp/armfw-data.txt
+#-----#
+# BGP #
+#-----#
+
+# Aguarda as interfaces ficarem UP
+while true; do
+    for iface in vti1 vti2; do
+        if ip link show "$iface" 2>/dev/null | grep "UP"; then
+            if [ "$iface" == "vti1" ]; then
+                ./bird.sh bgp add \
+                    --enabled yes \
+                    --source-address "$vti_1_ip_mask" \
+                    --local-as "$bgp_asn" \
+                    --neighbor-ip "$oci_1_ip_mask" \
+                    --neighbor-as 31898 \
+                    --iface-name "vti1" \
+                    --import-policy ipv4 \
+                    --export-policy none
+            else
+                ./bird.sh bgp add \
+                    --enabled yes \
+                    --source-address "$vti_2_ip_mask" \
+                    --local-as "$bgp_asn" \
+                    --neighbor-ip "$oci_2_ip_mask" \
+                    --neighbor-as 31898 \
+                    --iface-name "vti2" \
+                    --import-policy ipv4 \
+                    --export-policy none
+            fi
+        fi
+    done
+
+    sleep 5
+done
+
+./services.sh start bird
+
+rm -f /tmp/armfw-data.txt
 
 exit 0

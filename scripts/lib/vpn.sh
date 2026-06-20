@@ -27,7 +27,7 @@ get_ipsec_tunnel_1_id() {
     oci network ip-sec-tunnel list \
         --ipsc-id "$ipsec_id" \
         --all \
-        --query 'data[0].id' \
+        --query "data[?\"display-name\"=='tunnel-1'].id | [0]" \
         --raw-output
 }
 
@@ -37,7 +37,7 @@ get_ipsec_tunnel_2_id() {
     oci network ip-sec-tunnel list \
         --ipsc-id "$ipsec_id" \
         --all \
-        --query 'data[1].id' \
+        --query "data[?\"display-name\"=='tunnel-2'].id | [0]" \
         --raw-output
 }
 

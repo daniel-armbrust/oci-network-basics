@@ -33,6 +33,8 @@ ipsec_tunnel_2_psk="$(get_ipsec_tunnel_psk "$ipsec_id" "$ipsec_tunnel_2_id")"
 #-------------#
 echo "$VM_A_1_HOSTNAME:$vm_a_1_pub_ip" >> $TMP_FILE
 
+echo "BGP_ASN:$BGP_ASN" >> $TMP_FILE
+
 echo "TUNNEL_1:$ipsec_tunnel_1_ip:$ipsec_tunnel_1_psk" >> $TMP_FILE
 echo "TUNNEL_2:$ipsec_tunnel_2_ip:$ipsec_tunnel_2_psk" >> $TMP_FILE
 
