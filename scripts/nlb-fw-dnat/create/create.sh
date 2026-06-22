@@ -4,9 +4,6 @@ set -euo pipefail
 # IAM
 ./iam.sh
 
-# Reserva de IPv4 Público
-./reserved_pub_ip.sh
-
 # VCN
 ./vcn.sh
 
@@ -28,22 +25,22 @@ set -euo pipefail
 # DRG
 ./drg.sh
 
-# Compute Instance
-./compute.sh
-
-# VPN Site-To-Site
-./vpn.sh
-
-# Route Rules
-./route_rules.sh
-
-# Security Rules
-./security_rules.sh
+# Reserva de IPv4 Público
+./reserved_pub_ip.sh
 
 # Object Storage
 ./objectstorage.sh
 
-# Object File (Public IPs)
+# Object File
 ./objectfile.sh
+
+# Compute Instance
+./compute.sh
+
+# Network Load Balancer
+./nlb.sh
+
+# Route Rules
+./route_rules.sh
 
 exit 0
