@@ -18,7 +18,6 @@ oci network route-table delete \
     --wait-for-state "TERMINATED"
 
 # TO-FIREWALL-IP
-vcn_frontend_subnpub_rt_id="$(get_route_table_id "$VCN_FRONTEND_SUBNPUB_RT_NAME" "$vcn_frontend_id")"
 vcn_frontend_to_firewall_ip_rt_id="$(get_route_table_id "$VCN_FRONTEND_TO_FIREWALL_IP_RT_NAME" "$vcn_frontend_id")"
 
 oci network route-table delete \

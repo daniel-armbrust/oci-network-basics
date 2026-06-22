@@ -7,9 +7,6 @@ set -euo pipefail
 # NLB
 ./nlb.sh
 
-# Reserva de IPv4 Público
-./reserved_pub_ip.sh
-
 # Compute Instance
 ./compute.sh
 
@@ -33,6 +30,9 @@ set -euo pipefail
 
 # VCN
 ./vcn.sh
+
+# Reserva de IPv4 Público
+./reserved_pub_ip.sh
 
 # Object Storage
 ./objectstorage.sh

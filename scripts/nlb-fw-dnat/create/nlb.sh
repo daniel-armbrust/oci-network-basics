@@ -65,7 +65,7 @@ oci nlb backend-set create \
             \"weight\": 1
         },
         {
-            \"isBackup\": false,
+            \"isBackup\": true,
             \"isDrain\": false,
             \"isOffline\": false,
             \"name\": \"$FW_2_NAME\",
@@ -133,7 +133,7 @@ oci nlb backend-set create \
             \"weight\": 1
         },
         {
-            \"isBackup\": false,
+            \"isBackup\": true,
             \"isDrain\": false,
             \"isOffline\": false,
             \"name\": \"$FW_2_NAME\",
@@ -201,7 +201,7 @@ oci nlb backend-set create \
             \"weight\": 1
         },
         {
-            \"isBackup\": false,
+            \"isBackup\": true,
             \"isDrain\": false,
             \"isOffline\": false,
             \"name\": \"$FW_2_NAME\",
